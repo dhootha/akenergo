@@ -1,0 +1,26 @@
+{% extends "base_nomenu.html" %}
+{% load i18n staticfiles tags %}
+
+
+{% block title %}{% trans 'Receipt' %}{% endblock %}
+{% block page_title %}{% trans 'Receipt' %}{% endblock %}
+
+{% block page_content %}
+
+       {{ kvitanciya }}
+
+    {#    <a style="margin-left: 10px;" class="btn btn-success" href="{% url 'print_kvit' %}" target="_blank">#}
+    {#        <i class="icon-download"></i> {% trans 'Download receipt' %}#}
+    {#    </a>#}
+    <a style="margin-left: 10px; margin-top: 10px" class="btn btn-success" target="_blank" href="{% url 'print_kvit' %}">
+        <i class="icon-download"></i> {% trans 'Print' %}
+    </a>
+
+
+{% endblock %}
+
+{% block show_breadcrumbs %}
+    <ul class="breadcrumb" style="margin-bottom: 5px;">
+        <li><a href="{% url 'home' %}"><i class="icon-home"></i> {% trans 'Home' %}</a></li>
+    </ul>
+{% endblock %}

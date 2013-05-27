@@ -1,0 +1,899 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-05-08 16:11+0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+
+#: forms.py:17 forms.py:137
+msgid "Incorrect personal number"
+msgstr "Неправильный лицевой счёт"
+
+#: forms.py:22 forms.py:74 models.py:149 models.py:331
+#: templates/data/view_debtors.html:42
+#: templates/load_data/meter_reading.html:26
+#: templates/search/search_abonent.html:15
+#: templates/search/search_results.html:13
+msgid "Personal number"
+msgstr "Лицевой счёт"
+
+#: forms.py:23 forms.py:75
+msgid "Home phone"
+msgstr "Домашний телефон"
+
+#: forms.py:24 forms.py:76
+msgid "Mobile phone"
+msgstr "Сотовый телефон"
+
+#: forms.py:25 forms.py:77
+msgid "I agree to receive newsletter"
+msgstr "Я согласен получать рассылки"
+
+#: forms.py:47 forms.py:56 forms.py:89 forms.py:98 forms.py:179 forms.py:186
+msgid "Incorrect information"
+msgstr "Неправильные данные"
+
+#: forms.py:78 forms.py:171 forms.py:223
+msgid "Captcha"
+msgstr "Символы"
+
+#: forms.py:130
+msgid "one-tariff"
+msgstr "одно-тарифный"
+
+#: forms.py:130
+msgid "two-tariff"
+msgstr "двух-тарифный"
+
+#: forms.py:131
+msgid "Counter type"
+msgstr "Тип счётчика"
+
+#: forms.py:139 views.py:325
+msgid "You don't have permission's"
+msgstr "Извините, но у вас нет прав"
+
+#: forms.py:151 forms.py:159
+msgid "Department"
+msgstr "Отделение"
+
+#: forms.py:152
+msgid "Street"
+msgstr "Улица"
+
+#: forms.py:153
+msgid "House number"
+msgstr "Номер дома"
+
+#: forms.py:154
+msgid "Corps"
+msgstr "Корпус"
+
+#: forms.py:155
+msgid "Apartment"
+msgstr "Квартира"
+
+#: forms.py:160 models.py:150 templates/load_data/meter_reading.html:51
+#: templates/profile/edit_profile.html:18
+#: templates/search/search_abonent.html:17
+#: templates/search/search_results.html:15
+msgid "Client name"
+msgstr "Имя"
+
+#: forms.py:169
+msgid "Subject"
+msgstr "Тема"
+
+#: forms.py:170
+msgid "Message"
+msgstr "Сообщение"
+
+#: forms.py:222
+msgid "E-mail"
+msgstr "Адрес электронной почты"
+
+#: models.py:151 templates/data/view_debtors.html:43
+#: templates/load_data/meter_reading.html:64
+#: templates/profile/edit_profile.html:19
+msgid "Address"
+msgstr "Адрес"
+
+#: models.py:152 templates/load_data/meter_reading.html:96
+msgid "Day reading"
+msgstr "Дневное показание"
+
+#: models.py:153 templates/load_data/meter_reading.html:110
+msgid "Night reading"
+msgstr "Ночное показание"
+
+#: models.py:154
+msgid "Evening reading"
+msgstr "Вечернее показание"
+
+#: views.py:96 templates/posts/news_list.html:5
+#: templates/posts/news_list.html.py:10 templates/tags/recent_news_list.html:8
+msgid "Site news"
+msgstr "Новости сайта"
+
+#: views.py:309
+msgid "Your profile was saved"
+msgstr "Ваш профиль сохранён"
+
+#: views.py:346
+msgid "Thank you!"
+msgstr "Спасибо!"
+
+#: views.py:492 templates/blocks/standard_form.html:36
+#: templates/load_data/meter_reading.html:42
+#: templates/profile/edit_profile.html:46
+#: templates/registration/registration_form.html:147
+msgid "Search by address"
+msgstr "Поиск по адресу"
+
+#: views.py:512 templates/blocks/standard_form.html:33
+#: templates/load_data/meter_reading.html:39
+#: templates/profile/edit_profile.html:43
+#: templates/registration/registration_form.html:144
+msgid "Search by surname"
+msgstr "Поиск по фамилии/наименованию"
+
+#: views.py:664 templates/data/new_recrep_shablon.html:80
+#: templates/data/recon_rep_shablon.html:40 templates/data/view_debtors.html:6
+#: templates/data/view_debtors.html:19 templates/posts/base_post.html:9
+#: templates/posts/base_post.html.py:19 templates/posts/list_submenus.html:11
+#: templates/search/search_abonent.html:35
+#: templates/tags/recent_news_list.html:21
+msgid "Not found"
+msgstr "Не найдено"
+
+#: views.py:695
+msgid "Message was sent. Thank you!"
+msgstr "Сообщение отправлено. Спасибо!"
+
+#: views.py:697
+msgid "Error sending mail"
+msgstr "Ошибка отправки почты"
+
+#: views.py:832
+msgid "Account for email address is not registered or already activated."
+msgstr "Пользователь с этим email не зарегистрирован или уже активирован."
+
+#: views.py:844
+msgid "Resend activation link done"
+msgstr "Ссылка активации отправлена"
+
+#: views.py:862
+msgid "This account is inactive."
+msgstr "Этот пользователь отключен"
+
+#: templates/404.html:4 templates/404.html.py:6
+msgid "Page not found"
+msgstr "Страница не найдена"
+
+#: templates/404.html:10
+msgid "We're sorry, but the requested page could not be found."
+msgstr "Извините, но страница не найдена."
+
+#: templates/404.html:12 templates/500.html:10
+#: templates/data/kvit_page.html:159 templates/data/view_recon_rep.html:29
+#: templates/load_data/data_error.html:11 templates/registration/login.html:19
+#: templates/registration/login.html:97
+#: templates/registration/registration_form.html:29
+#: templates/tags/breadcrumbs.html:6 templates/tags/top_menu.html:20
+msgid "Home"
+msgstr "Начало"
+
+#: templates/500.html:4
+msgid "Server error (500)"
+msgstr "Ошибка сервера (500)"
+
+#: templates/500.html:5
+msgid "Server Error <em>(500)</em>"
+msgstr "Ошибка сервера <em>(500)</em>"
+
+#: templates/500.html:8
+msgid ""
+"There's been an error. It's been reported to the site administrators via e-"
+"mail and should be fixed shortly. Thanks for your patience."
+msgstr ""
+"Произошла ошибка. Код ошибки отправлен админиистратору и она будет "
+"исправлена. Спасибо за терпение."
+
+#: templates/base.html:8 templates/base.html.py:91
+#: templates/blocks/informers.html:7 templates/contact/contact_form.html:56
+msgid "LLP Aktobeenergosnab"
+msgstr "ТОО Актобеэнергоснаб"
+
+#: templates/base.html:94
+msgid "Welcome to our site!"
+msgstr "Добро пожаловать на наш сайт!"
+
+#: templates/base.html:99 templates/registration/login.html:88
+#: templates/registration/login_.html:5 templates/registration/login_.html:8
+#: templates/registration/login_.html:57
+#: templates/registration/password_reset_complete.html:12
+msgid "Log in"
+msgstr "Вход"
+
+#: templates/base.html:101 templates/registration/login.html:101
+msgid "Registration"
+msgstr "Регистрация"
+
+#: templates/base.html:182
+msgid "Go top"
+msgstr "Наверх"
+
+#: templates/base.html:213
+msgid "Site development and support"
+msgstr "Разработка и поддержка"
+
+#: templates/blocks/informers.html:5 templates/contact/contact_form.html:33
+#: templates/contact/contact_form.html:54
+msgid "Find Us"
+msgstr "Как найти нас"
+
+#: templates/blocks/informers.html:8 templates/contact/contact_form.html:57
+msgid "Kazakhstan, Aktobe, <br> 312 Infantry Division 44-B"
+msgstr "Казахстан, г. Актобе, <br> пр. 312 Стрелковой дивизии 44-В"
+
+#: templates/blocks/informers.html:11 templates/contact/contact_form.html:32
+msgid "Contact form"
+msgstr "Контактная форма"
+
+#: templates/blocks/informers.html:16
+msgid "Weather"
+msgstr "Погода"
+
+#: templates/blocks/informers.html:21
+msgid "Partners"
+msgstr "Партнёры"
+
+#: templates/blocks/login_block.html:17
+msgid "Hello"
+msgstr "Здравствуйте"
+
+#: templates/blocks/login_block.html:20
+#: templates/registration/password_change_form.html:3
+#: templates/registration/password_change_form.html:4
+#: templates/tags/top_menu.html:60
+msgid "Password change"
+msgstr "Смена пароля"
+
+#: templates/blocks/login_block.html:23 templates/tags/top_menu.html:65
+msgid "Log out"
+msgstr "Выход"
+
+#: templates/blocks/menu_block.html:20
+msgid "User menu"
+msgstr "Меню пользователя"
+
+#: templates/blocks/menu_block.html:22 templates/profile/edit_profile.html:5
+#: templates/profile/edit_profile.html:6 templates/tags/top_menu.html:55
+msgid "Edit profile"
+msgstr "Редактировать профиль"
+
+#: templates/blocks/menu_block.html:27 templates/data/kvit_page.html:55
+#: templates/data/kvit_page.html.py:56
+msgid "Receipt"
+msgstr "Квитанция"
+
+#: templates/blocks/menu_block.html:34 templates/data/save_recon_rep.html:14
+#: templates/data/view_recon_rep.html:7 templates/data/view_recon_rep.html:10
+msgid "Reconciliation report"
+msgstr "Движение расчёта"
+
+#: templates/blocks/menu_block.html:40
+msgid "View payment and debt"
+msgstr "Просмотр оплаты и долга"
+
+#: templates/blocks/menu_block.html:45
+#: templates/load_data/meter_reading.html:4
+#: templates/load_data/meter_reading.html:6
+msgid "Readings input"
+msgstr "Ввод показаний счётчика"
+
+#: templates/contact/comments.html:4 templates/contact/comments.html.py:13
+msgid "Comments"
+msgstr "Комментарии"
+
+#: templates/contact/contact_form.html:4 templates/contact/contact_form.html:7
+msgid "Contact us"
+msgstr "Связаться с нами"
+
+#: templates/contact/contact_form.html:38
+msgid "Send message"
+msgstr "Послать сообщение"
+
+#: templates/data/kvit_page.html:152 templates/data/view_recon_rep.html:22
+msgid "Print"
+msgstr "Распечатать"
+
+#: templates/data/new_recrep_shablon.html:7
+#: templates/data/recon_rep_shablon.html:7
+msgid "Month"
+msgstr "Месяц"
+
+#: templates/data/new_recrep_shablon.html:8
+msgid "Tariff type"
+msgstr "Тип тарифа"
+
+#: templates/data/new_recrep_shablon.html:9
+msgid "Registered"
+msgstr "Прописано"
+
+#: templates/data/new_recrep_shablon.html:10
+#: templates/data/recon_rep_shablon.html:9
+msgid "Initial reading, kW/h"
+msgstr "Начал. показ."
+
+#: templates/data/new_recrep_shablon.html:11
+#: templates/data/recon_rep_shablon.html:10
+msgid "Final reading, kW/h"
+msgstr "Конеч. показ."
+
+#: templates/data/new_recrep_shablon.html:12
+msgid "Total consumption, kW/h"
+msgstr "Общий расход <br> кВт/ч"
+
+#: templates/data/new_recrep_shablon.html:13
+msgid "Consumption, kW/h"
+msgstr "Расход эл.эн. <br> по лимитам / день-ночь <br> кВт/ч"
+
+#: templates/data/new_recrep_shablon.html:14
+msgid "Tariff, KZT"
+msgstr "Тариф <br> тг"
+
+#: templates/data/new_recrep_shablon.html:15
+#: templates/data/recon_rep_shablon.html:12
+msgid "Amount, KZT"
+msgstr "Начислено <br> тг"
+
+#: templates/data/new_recrep_shablon.html:16
+msgid "Total amount, KZT"
+msgstr "Всего начисл. <br> тг"
+
+#: templates/data/new_recrep_shablon.html:17
+#: templates/data/recon_rep_shablon.html:13
+msgid "Amount of acts, KZT"
+msgstr "Акты <br> тг"
+
+#: templates/data/new_recrep_shablon.html:18
+#: templates/data/recon_rep_shablon.html:14
+msgid "Payment, KZT"
+msgstr "Оплата <br> тг"
+
+#: templates/data/new_recrep_shablon.html:19
+#: templates/data/recon_rep_shablon.html:15
+msgid "Debt at the end, KZT"
+msgstr "Конечный долг <br> тг"
+
+#: templates/data/new_recrep_shablon.html:37
+msgid "Day/Night"
+msgstr "День/Ночь"
+
+#: templates/data/new_recrep_shablon.html:39
+msgid "By limits"
+msgstr "По лимитам"
+
+#: templates/data/recon_rep_shablon.html:8
+msgid "Debt at the beginning, KZT"
+msgstr "Начальный долг <br> тг"
+
+#: templates/data/recon_rep_shablon.html:11
+msgid "Electricity consumption, kW/h"
+msgstr "Расход эл.эн. <br> кВт/ч"
+
+#: templates/data/view_debtors.html:9 templates/data/view_debtors.html:22
+msgid "List of debtors of legal entities"
+msgstr "Список должников - юридических лиц"
+
+#: templates/data/view_debtors.html:11 templates/data/view_debtors.html:24
+msgid "List of debtors transferred to off"
+msgstr "Список дебиторов, переданных на отключение"
+
+#: templates/data/view_debtors.html:38
+msgid "Сontract"
+msgstr "Договор"
+
+#: templates/data/view_debtors.html:39
+msgid "Name of debtor"
+msgstr "Наименование"
+
+#: templates/data/view_debtors.html:40
+msgid "Debt over a month"
+msgstr "Задолженность более месяца"
+
+#: templates/data/view_debtors.html:45
+#, python-format
+msgid "Remainder of a debt at %(data_debt)s"
+msgstr "Остаток долга на %(data_debt)s"
+
+#: templates/data/view_payment.html:5 templates/data/view_payment.html.py:8
+msgid "View your payment and debt"
+msgstr "Просмотр Вашей оплаты и долга"
+
+#: templates/data/view_payment.html:21
+msgid "Payment"
+msgstr "Оплата"
+
+#: templates/data/view_payment.html:22
+msgid "Date of payment"
+msgstr "Дата оплаты"
+
+#: templates/data/view_payment.html:35
+msgid "Payment not found"
+msgstr "Оплата не найдена"
+
+#: templates/data/view_payment.html:44
+msgid "Actual date"
+msgstr "Актуальная дата"
+
+#: templates/data/view_payment.html:48
+msgid "Debt"
+msgstr "Долг"
+
+#: templates/load_data/meter_reading.html:10
+msgid "Transfer readings from the 20 th to 31 th"
+msgstr "Передача показаний с 20-го по 31-е"
+
+#: templates/load_data/meter_reading.html:78
+msgid "Meter readings"
+msgstr "Показания счётчика"
+
+#: templates/load_data/meter_reading.html:142
+#: templates/profile/edit_profile.html:116
+msgid "Save"
+msgstr "Сохранить"
+
+#: templates/load_data/meter_reading.html:144
+msgid "Add another electric meter readings"
+msgstr "Добавить показания другого счётчика"
+
+#: templates/load_data/meter_reading.html:145
+msgid "Another electric meter"
+msgstr "Другой счётчик"
+
+#: templates/posts/news_list.html:33 templates/tags/recent_news_list.html:7
+msgid "More..."
+msgstr "Подробнее..."
+
+#: templates/profile/edit_profile.html:16
+msgid "Information"
+msgstr "Информация"
+
+#: templates/registration/activate.html:4
+#: templates/registration/activate.html:7
+msgid "Error"
+msgstr "Ошибка"
+
+#: templates/registration/activate.html:11
+msgid "key is invalid"
+msgstr "ключ некорректен"
+
+#: templates/registration/activation_complete.html:4
+msgid "Activation complete"
+msgstr "Активация завершена"
+
+#: templates/registration/activation_complete.html:5
+msgid "Congratulations!"
+msgstr "Поздравляем!"
+
+#: templates/registration/activation_complete.html:7
+msgid "Your registration is now complete. Go to the site and start having fun!"
+msgstr "Регистрация завершена. Вы можете зайти на сайт!"
+
+#: templates/registration/activation_email.txt:2
+msgid ""
+"To activate and use your account, click the link below or copy and paste it "
+"into your web browser's address bar:"
+msgstr ""
+"Для активации аккаунта щелкните ссылку или скопируйте ее и вставьте в "
+"адресную строку браузера:"
+
+#: templates/registration/activation_email_subject.txt:1
+msgid "Activate your account on"
+msgstr "Активация вашего аккаунта на"
+
+#: templates/registration/activation_email_subject.txt:1
+msgid "you have days"
+msgstr "у вас есть (дней)"
+
+#: templates/registration/login.html:4 templates/registration/login.html:5
+msgid "Authorization for the site"
+msgstr "Вход на сайт"
+
+#: templates/registration/login.html:5
+msgid "Aktobeenergosnab"
+msgstr "Актобеэнергоснаб"
+
+#: templates/registration/login.html:27
+msgid "To access the data you need to log in"
+msgstr "Для доступа к данным вы должны авторизоваться"
+
+#: templates/registration/login.html:42 templates/registration/login.html:119
+msgid "Username"
+msgstr "Имя пользователя"
+
+#: templates/registration/login.html:56 templates/registration/login.html:120
+msgid "Password"
+msgstr "Пароль"
+
+#: templates/registration/login.html:77
+#: templates/registration/resend_activation_email_form.html:4
+#: templates/registration/resend_activation_email_form.html:5
+msgid "Resend activation link"
+msgstr "Переотправить ссылку активации"
+
+#: templates/registration/login.html:89
+msgid "Cancel"
+msgstr "Отмена"
+
+#: templates/registration/login.html:105
+#: templates/registration/password_reset_confirm.html:4
+#: templates/registration/password_reset_confirm.html:5
+#: templates/registration/password_reset_form.html:4
+#: templates/registration/password_reset_form.html:5
+msgid "Password reset"
+msgstr "Восстановление пароля"
+
+#: templates/registration/login_.html:25
+msgid "Please correct the error below."
+msgid_plural "Please correct the errors below."
+msgstr[0] "Пожалуйста, исправьте ошибку ниже."
+msgstr[1] "Пожалуйста, исправьте ошибки ниже."
+msgstr[2] "Пожалуйста, исправьте ошибки ниже."
+
+#: templates/registration/login_.html:42
+msgid "Username:"
+msgstr "Имя пользователя:"
+
+#: templates/registration/login_.html:46
+msgid "Password:"
+msgstr "Пароль:"
+
+#: templates/registration/login_.html:53
+msgid "Forgotten your password or username?"
+msgstr "Забыли пароль или имя пользователя?"
+
+#: templates/registration/logout.html:5 templates/registration/logout.html:9
+msgid "Thanks for spending some quality time with the Web site today."
+msgstr "Спасибо за время, проведённое на нашем сайте!"
+
+#: templates/registration/logout.html:15
+msgid "Log in again"
+msgstr "Войти снова"
+
+#: templates/registration/password_change_done.html:4
+#: templates/registration/password_change_done.html:5
+msgid "Password change successful"
+msgstr "Ваш пароль изменён успешно"
+
+#: templates/registration/password_change_done.html:9
+msgid "Your password was changed."
+msgstr "Ваш пароль был изменён."
+
+#: templates/registration/password_change_form.html:9
+msgid ""
+"Please enter your old password, for security's sake, and then enter your new "
+"password twice so we can verify you typed it in correctly."
+msgstr ""
+"Пожалуйста, введите свой старый пароль, затем новый пароль дважды, чтобы "
+"проверить его правильность."
+
+#: templates/registration/password_change_form.html:23
+msgid "Old password"
+msgstr "Старый пароль"
+
+#: templates/registration/password_change_form.html:37
+msgid "New password"
+msgstr "Новый пароль"
+
+#: templates/registration/password_change_form.html:50
+msgid "Password (again)"
+msgstr "Пароль (снова)"
+
+#: templates/registration/password_change_form.html:76
+#: templates/registration/password_reset_confirm.html:57
+msgid "Change my password"
+msgstr "Сменить мой пароль"
+
+#: templates/registration/password_reset_complete.html:4
+#: templates/registration/password_reset_complete.html:5
+msgid "Password reset complete"
+msgstr "Пароль успешно сброшен"
+
+#: templates/registration/password_reset_complete.html:8
+msgid "Your password has been set. You may go ahead and log in now."
+msgstr "Ваш пароль сброшен. Можете войти на сайт."
+
+#: templates/registration/password_reset_confirm.html:10
+msgid ""
+"Please enter your new password twice so we can verify you typed it in "
+"correctly."
+msgstr ""
+"Пожалуйста, введите новый пароль дважды, чтобы проверить его правильность."
+
+#: templates/registration/password_reset_confirm.html:17
+msgid "New password:"
+msgstr "Новый пароль:"
+
+#: templates/registration/password_reset_confirm.html:30
+msgid "Confirm password:"
+msgstr "Подтвердите пароль:"
+
+#: templates/registration/password_reset_confirm.html:66
+msgid ""
+"The password reset link was invalid, possibly because it has already been "
+"used. Please request a new password reset."
+msgstr ""
+"Ссылка восстановления пароля является недействительной, возможно потому, что "
+"уже использовалась. Пожалуйста, запросите восстановление пароля снова."
+
+#: templates/registration/password_reset_done.html:4
+#: templates/registration/password_reset_done.html:5
+msgid "Password reset successful"
+msgstr "Пароль создан"
+
+#: templates/registration/password_reset_done.html:9
+msgid ""
+"We've e-mailed you instructions for setting your password to the e-mail "
+"address you submitted. You should be receiving it shortly."
+msgstr ""
+"Мы отправили инструкцию по установке пароля на ваш электронный адрес. Вы "
+"должны получить её в ближайшее время."
+
+#: templates/registration/password_reset_email.html:3
+#, python-format
+msgid ""
+"You're receiving this e-mail because you requested a password reset for your "
+"user account at %(site_name)s."
+msgstr ""
+"Вы получили это письмо, потому что запросили сброс пароля для учётной записи "
+"на %(site_name)s."
+
+#: templates/registration/password_reset_email.html:5
+msgid "Please go to the following page and choose a new password:"
+msgstr "Пожалуйста, перейдите на следующую страницу и установите новый пароль:"
+
+#: templates/registration/password_reset_email.html:9
+msgid "Your username, in case you've forgotten:"
+msgstr "Ваше имя пользователя (если забыли):"
+
+#: templates/registration/password_reset_email.html:11
+msgid "Thanks for using our site!"
+msgstr "Спасибо за использование нашего сайта!"
+
+#: templates/registration/password_reset_email.html:13
+#, python-format
+msgid "The %(site_name)s team"
+msgstr "Команда сайта %(site_name)s"
+
+#: templates/registration/password_reset_form.html:10
+msgid ""
+"Forgotten your password? Enter your e-mail address below, and we'll e-mail "
+"instructions for setting a new one."
+msgstr ""
+"Забыли пароль? Введите ваш адрес электронной почты ниже, и мы пришлём вам "
+"инструкцию по установке нового пароля."
+
+#: templates/registration/password_reset_form.html:42
+msgid "Reset my password"
+msgstr "Восстановить мой пароль"
+
+#: templates/registration/registration_closed.html:4
+#: templates/registration/registration_closed.html:5
+msgid "Registration closed"
+msgstr "Регистрация закрыта"
+
+#: templates/registration/registration_complete.html:3
+#: templates/registration/registration_complete.html:4
+msgid "Registration complete"
+msgstr "Регистрация завершена"
+
+#: templates/registration/registration_complete.html:8
+msgid ""
+"An activation link has been sent to the email address you supplied, along "
+"with instructions for activating your account"
+msgstr ""
+"Ссылка с инструкцией по активации учетной записи была отправлена на ваш "
+"адрес электронной почты "
+
+#: templates/registration/registration_form.html:5
+#: templates/registration/registration_form.html:12
+#: templates/registration/registration_form.html:234
+msgid "Create an account"
+msgstr "Создать учётную запись"
+
+#: templates/registration/registration_form.html:40
+msgid "How to register?"
+msgstr "Как зарегистрироваться?"
+
+#: templates/registration/registration_form.html:57
+#: templates/search/search_abonent.html:8
+msgid "OK"
+msgstr "Хорошо"
+
+#: templates/registration/registration_form.html:85
+msgid "English letters only"
+msgstr "Только латинские буквы"
+
+#: templates/registration/resend_activation_email_form.html:53
+msgid "Send"
+msgstr "Отправить"
+
+#: templates/search/google_search.html:4 templates/search/google_search.html:7
+msgid "Search results"
+msgstr "Результаты поиска"
+
+#: templates/tags/top_menu.html:43
+msgid "Type here..."
+msgstr "Поиск..."
+
+#~ msgid "Download receipt"
+#~ msgstr "Скачать квитанцию"
+
+#~ msgid "Download"
+#~ msgstr "Скачать"
+
+#~ msgid "(Message from {0} contact form, sender: {1} ({2}))"
+#~ msgstr "(Сообщение контактной формы сайта {0}, отправитель: {1} ({2}))"
+
+#~ msgid "Please correct the errors below"
+#~ msgstr "Пожалуйста, исправьте ошибки ниже"
+
+#~ msgid "E-mail address"
+#~ msgstr "Адрес электронной почты"
+
+#~ msgid "Limit of sending mail exhausted"
+#~ msgstr "Лимит отправки сообщений исчерпан"
+
+#~ msgid "News from Kazakhstan"
+#~ msgstr "Новости Казахстана"
+
+#~ msgid "First page"
+#~ msgstr "Первая страница"
+
+#~ msgid "Previous page"
+#~ msgstr "Предыдущая страница"
+
+#~ msgid "Next page"
+#~ msgstr "Следующая страница"
+
+#~ msgid "Last page"
+#~ msgstr "Последняя страница"
+
+#~ msgid "Date"
+#~ msgstr "Дата"
+
+#~ msgid "Menu"
+#~ msgstr "Меню"
+
+#~ msgid "Page"
+#~ msgstr "Страница"
+
+#~ msgid "Your payment"
+#~ msgstr "Ваша оплата"
+
+#~ msgid ""
+#~ "Page\n"
+#~ "                    %(p_num)s/%(p_nums)s"
+#~ msgstr "Страница %(p_num)s/%(p_nums)s"
+
+#~ msgid "Page %(p_num)s/%(p_nums)s"
+#~ msgstr "Страница %(p_num)s/%(p_nums)s"
+
+#~ msgid "Debtors higher %(summa)s tg"
+#~ msgstr "Дебеторы с долгом более %(summa)s тг."
+
+#~ msgid "Your payment for %(year_p)s year"
+#~ msgstr "Ваша оплата за %(year_p)s год"
+
+#~ msgid "Question"
+#~ msgstr "Вопрос"
+
+#~ msgid "Proposal"
+#~ msgstr "Предложение"
+
+#~ msgid "Gratitude"
+#~ msgstr "Благодарность"
+
+#~ msgid "First name"
+#~ msgstr "Имя"
+
+#~ msgid "Last name"
+#~ msgstr "Фамилия"
+
+#~ msgid "Change your locale"
+#~ msgstr "Выбор языка"
+
+#~ msgid "Page %(p_num)s of "
+#~ msgstr "Страница %(p_num)s из "
+
+#~ msgid "About us"
+#~ msgstr "О сайте"
+
+#~ msgid "Urban contacts"
+#~ msgstr "Контакты (город)"
+
+#~ msgid "Regional contacts"
+#~ msgstr "Контакты (районы)"
+
+#~ msgid "Current password"
+#~ msgstr "Текущий пароль"
+
+#~ msgid "Password incorrect"
+#~ msgstr "Неправильный пароль"
+
+#~ msgid "Site log in"
+#~ msgstr "Вход на сайт"
+
+#~ msgid "For individuals"
+#~ msgstr "Для частных лиц"
+
+#~ msgid "Leave comments"
+#~ msgstr "Оставить комментарий"
+
+#~ msgid "News"
+#~ msgstr "Новости"
+
+#~ msgid "Debtors list"
+#~ msgstr "Список дебеторов"
+
+#~ msgid "Policies and goals"
+#~ msgstr "Политика и цели"
+
+#~ msgid "History"
+#~ msgstr "История"
+
+#~ msgid "Company management"
+#~ msgstr "Руководство организации"
+
+#~ msgid "Legal entities contacts"
+#~ msgstr "Контакты (юр. лица)"
+
+#~ msgid "Legal base"
+#~ msgstr "Законы"
+
+#~ msgid "Principles of"
+#~ msgstr "Принципы формирования"
+
+#~ msgid "Calculation procedure"
+#~ msgstr "Процедура вычисления"
+
+#~ msgid "Payment for services"
+#~ msgstr "Оплата услуг"
+
+#~ msgid "How to pay (city)"
+#~ msgstr "Как оплатить (город)"
+
+#~ msgid "Consumer guide"
+#~ msgstr "Справочник"
+
+#~ msgid "Templates of applications"
+#~ msgstr "Шаблоны документов"
+
+#~ msgid "Obtaining the certificate of the absence of debt"
+#~ msgstr "Получение справки об отсутствии задолженности"
+
+#~ msgid "Categories of exempts"
+#~ msgstr "Категории льготников"
+
+#~ msgid "List of required documents"
+#~ msgstr "Список требуемых документов"
+
+#~ msgid "Personal number not found"
+#~ msgstr "Лицевой счёт не найден"

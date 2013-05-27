@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load i18n tags %}
+
+
+{% block title %} {{ HI_PAGE.title }}{% endblock %}
+
+{% block page_title %}  {{ HI_PAGE.title }} {% endblock %}
+
+{% block page_content %}
+    {% get_current_language as LANGUAGE_CODE %}
+
+    {{ HI_PAGE.content|safe }}
+
+    <div style="margin-top: 21px;" class="yashare-auto-init" data-yashareL10n="{{ LANGUAGE_CODE|slice:":2" }}"
+         data-yashareType="button"
+         data-yashareQuickServices="odnoklassniki,moimir,vkontakte,yaru,facebook,twitter,gplus"></div>
+
+{% endblock %}

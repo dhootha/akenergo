@@ -1,0 +1,240 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans 'Readings input' %}{% endblock %}
+
+{% block page_title %} {% trans 'Readings input' %} {% endblock %}
+
+{% block page_content %}
+    <div id="label_info" style="margin-left: 15px; margin-bottom: 20px;">
+        <span class="label label-info">{% trans 'Transfer readings from the 20 th to 31 th' %}</span>
+    </div>
+
+
+    {#    {% if form.errors %}#}
+    {#        <div class="alert alert-error">#}
+    {#            <button type="button" class="close" data-dismiss="alert">&times;</button>#}
+    {#            {% trans 'Please correct the errors below' %}#}
+    {#        </div>#}
+    {#    {% endif %}#}
+
+    <form id="mrform" class="form-horizontal" action="" method="post">
+        {% csrf_token %}
+
+
+        <div class="control-group{% if form.nls.errors %} error{% endif %}">
+            <label class="control-label" for="id_nls">{% trans 'Personal number' %}:</label>
+
+            <div class="controls">
+                {{ form.nls }}
+                    <span class="help-inline">
+                        {% for error in form.nls.errors %}
+                            {{ error|escape }} &nbsp;&nbsp;
+                        {% endfor %}
+                    </span>
+
+                <div class="help-block">
+                    <ul class="unstyled" style="margin-bottom: 0">
+                        <li>
+                            <a href="{% url 'search_fio' %}">{% trans 'Search by surname' %}</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'search_address' %}">{% trans 'Search by address' %}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="control-group{% if form.fio.errors %} error{% endif %}">
+            <label class="control-label" for="id_fio">{% trans 'Client name' %}:</label>
+
+            <div class="controls">
+                {{ form.fio }}
+                    <span class="help-inline">
+                        {% for error in form.fio.errors %}
+                            {{ error|escape }} &nbsp;&nbsp;
+                        {% endfor %}
+                    </span>
+            </div>
+        </div>
+
+        <div class="control-group{% if form.address.errors %} error{% endif %}">
+            <label class="control-label" for="id_address">{% trans 'Address' %}:</label>
+
+            <div class="controls">
+                {{ form.address }}
+                    <span class="help-inline">
+                        {% for error in form.address.errors %}
+                            {{ error|escape }} &nbsp;&nbsp;
+                        {% endfor %}
+                    </span>
+            </div>
+        </div>
+
+
+        <fieldset>
+            <legend>{% trans 'Meter readings' %}</legend>
+
+
+            <div class="control-group{% if form.tariff.errors %} error{% endif %}">
+                <label class="control-label" for="id_tariff"> {{ form.tariff.label }}:</label>
+
+                <div class="controls">
+                    {{ form.tariff }}
+                    <span class="help-inline">
+                        {% for error in form.tariff.errors %}
+                            {{ error|escape }} &nbsp;&nbsp;
+                        {% endfor %}
+                    </span>
+                </div>
+            </div>
+
+
+            <div id="day_pok" class="control-group{% if form.pok1.errors %} error{% endif %}">
+                <label class="control-label" for="id_pok1">{% trans 'Day reading' %}:</label>
+
+                <div class="controls">
+                    {{ form.pok1 }}
+                    <span class="help-inline">
+                        {% for error in form.pok1.errors %}
+                            {{ error|escape }} &nbsp;&nbsp;
+                        {% endfor %}
+                    </span>
+                </div>
+            </div>
+
+
+            <div id="night_pok" class="control-group{% if form.pok2.errors %} error{% endif %}">
+                <label class="control-label" for="id_pok2">{% trans 'Night reading' %}:</label>
+
+                <div class="controls">
+                    {{ form.pok2 }}
+                    <span class="help-inline">
+                        {% for error in form.pok2.errors %}
+                            {{ error|escape }} &nbsp;&nbsp;
+                        {% endfor %}
+                    </span>
+                </div>
+            </div>
+
+
+        </fieldset>
+
+        {{ form.date }}
+
+
+        {% if form.non_field_errors %}
+            <div class="alert alert-error">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                {% for error in form.non_field_errors %}
+                    <ol class="unstyled">
+                        <li>{{ error|escape }}</li>
+                    </ol>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-inverse">{% trans 'Save' %}</button>
+            <button id="another_mtr" type="button" data-toggle="popover" data-placement="top"
+                    data-content="{% trans 'Add another electric meter readings' %}" class="btn btn-warning">
+                {% trans 'Another electric meter' %}
+            </button>
+        </div>
+
+
+    </form>
+
+
+    <script>
+        document.getElementById('id_nls').focus();
+        {#        var pok1 = document.getElementById('id_pok1');#}
+        {#        if (pok1.value == 0)#}
+        {#            pok1.value = '';#}
+        {#        var fio = document.getElementById('id_fio');#}
+        {#        if (fio.value == ' ')#}
+        {#            fio.value = '';#}
+        {#        var address = document.getElementById('id_address');#}
+        {#        if (address.value == ' ')#}
+        {#            address.value = '';#}
+        document.getElementById('id_fio').setAttribute('style', 'width: 360px;');
+        document.getElementById('id_address').setAttribute('style', 'width: 360px;');
+
+
+        document.getElementById('id_nls').setAttribute('required', '');
+        document.getElementById('id_fio').setAttribute('required', '');
+        document.getElementById('id_address').setAttribute('required', '');
+        document.getElementById('id_pok1').setAttribute('required', '');
+
+
+        $(document).ready(function () {
+
+            var tar_selector = $("#id_tariff");
+            var tariff = tar_selector.val();
+            if (tariff == 'two-tariff') {
+                $("#night_pok").show();
+            }
+            else {
+                $("#night_pok").hide();
+                $("#id_pok2").val('');
+            }
+
+            tar_selector.change(function () {
+                tariff = $("#id_tariff").val();
+                if (tariff == 'two-tariff') {
+                    $("#night_pok").animate({ opacity: 'show' }, "slow");
+                }
+                else {
+                    $("#night_pok").animate({ opacity: 'hide' }, "slow");
+                    $("#id_pok2").val('');
+                }
+            });
+
+
+            $("#another_mtr").on("click", function () {
+                var $form = $('#mrform');
+                $form.find('input:text, input:password, input:file, textarea').val('');
+                $form.find('input:radio, input:checkbox, select option').removeAttr('checked').removeAttr('selected');
+                $('select option:first', $form).attr('selected', true);
+                $("#night_pok").hide();
+                {#            $(':input', $form).not(':button, :submit, :reset, :hidden').attr('required', false);#}
+                $('input:text:visible:first', $form).focus();
+                $('html, body').animate({scrollTop: $form.offset().top - 70}, 'fast');
+            });
+
+            {#                        jQuery.fn.form_clear = function () {#}
+            {#                            var $form = $(this);#}
+            {#            #}
+            {#                            $form.find('input:text, input:password, input:file, select, textarea').val('');#}
+            {#                            $form.find('input:radio, input:checkbox').removeAttr('checked').removeAttr('selected');#}
+            {#                            $('input:text:visible:first').focus();#}
+            {#                            $("#night_pok").animate({ opacity: 'hide' }, "slow");#}
+            {#            #}
+            {#                            return this;#}
+            {#                        };#}
+        });
+
+
+        {#        function resetForm($form) {#}
+        {#            $form.find('input:text, input:password, input:file, textarea').val('');#}
+        {#            $form.find('input:radio, input:checkbox, select option').removeAttr('checked').removeAttr('selected');#}
+        {#            $('select option:first', $form).attr('selected', true);#}
+        {#            $("#night_pok").hide();#}
+        {#            $(':input', $form).not(':button, :submit, :reset, :hidden').attr('required', false);#}
+        {#            $('input:text:visible:first', $form).focus();#}
+        {#            $('html, body').animate({scrollTop: $("#mrform").offset().top - 60}, 'fast');#}
+        {#            return false;#}
+        {#        }#}
+
+
+
+    </script>
+
+{% endblock %}
+
+
+

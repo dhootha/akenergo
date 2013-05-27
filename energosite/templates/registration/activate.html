@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans 'Error' %}
+{% endblock %}
+
+{% block page_title %}{% trans 'Error' %}
+{% endblock %}
+
+{% block page_content %}
+<p> {{ activation_key }} {% trans 'key is invalid' %} </p>
+{% endblock %}

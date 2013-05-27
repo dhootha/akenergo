@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{#{% block css %}#}
+{#    {{ block.super }}#}
+{#    <style>#}
+{#        td.under {#}
+{#            border-bottom: 1px solid black;#}
+{#            text-align: left;#}
+{#        }#}
+{##}
+{#        td.underbold {#}
+{#            font-weight: bold;#}
+{#            border-bottom: 1px solid black;#}
+{#            text-align: left;#}
+{#        }#}
+{##}
+{#        td.bold {#}
+{#            font-weight: bold;#}
+{#        }#}
+{##}
+{#        table, table td {#}
+{#            padding: 4px;#}
+{#            border: none;#}
+{#            border-collapse: collapse;#}
+{#        }#}
+{##}
+{#    </style>#}
+{##}
+{#{% endblock %}#}
+
+{% block body_style %}onload="PrintWindow();" style="padding-top: 20px; padding-bottom: 20px;"{% endblock %}
+
+{% block body %}
+    <div class="container">
+
+        <div class="page-header">
+            <h3>{% trans 'Receipt' %}</h3>
+        </div>
+        {{ kvitanciya }}
+    </div>
+{% endblock %}
+
+
+
+

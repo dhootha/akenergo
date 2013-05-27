@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}
+    {% trans "Thanks for spending some quality time with the Web site today." %}
+{% endblock %}
+
+{% block page_title %}
+    {% trans "Thanks for spending some quality time with the Web site today." %}
+{% endblock %}
+
+{% block page_content %}
+    <ul class="nav nav-list">
+        <li>
+            <a href="{% url 'auth_login' %}"><i class="icon-lock"></i> {% trans 'Log in again' %}</a>
+        </li>
+    </ul>
+
+{% endblock %}

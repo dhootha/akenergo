@@ -1,0 +1,85 @@
+{% load i18n tags %}
+
+
+<table class="table table-bordered table-condensed" style="font-size: 12px;">
+    <thead>
+    <tr>
+        <th class="middle_vertical">{% trans 'Month' %}</th>
+        <th class="middle_vertical">{% trans 'Tariff type' %}</th>
+        <th class="middle_vertical">{% trans 'Registered' %}</th>
+        <th class="middle_vertical">{% trans 'Initial reading, kW/h' %}</th>
+        <th class="middle_vertical">{% trans 'Final reading, kW/h' %}</th>
+        <th class="middle_vertical">{% trans 'Total consumption, kW/h' %}</th>
+        <th class="middle_vertical">{% trans 'Consumption, kW/h' %}</th>
+        <th class="middle_vertical">{% trans 'Tariff, KZT' %}</th>
+        <th class="middle_vertical">{% trans 'Amount, KZT' %}</th>
+        <th class="middle_vertical">{% trans 'Total amount, KZT' %}</th>
+        <th class="middle_vertical">{% trans 'Amount of acts, KZT' %}</th>
+        <th class="middle_vertical">{% trans 'Payment, KZT' %}</th>
+        <th class="middle_vertical">{% trans 'Debt at the end, KZT' %}</th>
+    </tr>
+    </thead>
+
+
+    <tbody>
+    {% for report in reports %}
+
+        {% ifchanged report.god %}
+            <tr>
+                <th class="center_text" style="background-color: #F5F5F5;" colspan="13">{{ report.god }}</th>
+            </tr>
+        {% endifchanged %}
+
+        <tr>
+            <td class="center_middle" rowspan="3"> {{ report.nmes|month_name }}</td>
+            <td class="center_middle" rowspan="3">
+                {% if report.tar >= 2  or report.k_pok2 %}
+                    {% trans 'Day/Night' %}
+                {% else %}
+                    {% trans 'By limits' %}
+                {% endif %}
+            </td>
+            <td class="center_middle" rowspan="3"> {{ report.kol_lim|none2zero }}</td>
+            {% if report.tar >= 2  or report.k_pok2 %}
+                <td class="center_text"> {{ report.n_pok|none2zero }}</td>
+                <td class="center_text"> {{ report.k_pok|none2zero }} </td>
+            {% else %}
+                <td class="center_middle" rowspan="3"> {{ report.n_pok|none2zero }}</td>
+                <td class="center_middle" rowspan="3"> {{ report.k_pok|none2zero }} </td>
+            {% endif %}
+            <td class="center_middle" rowspan="3"> {{ report.potr|none2zero }} </td>
+            <td class="center_text"> {{ report.potr1|none2zero }} </td>
+            <td class="center_text"> {{ report.tar1|none2zero }} </td>
+            <td class="center_text"> {{ report.sum_nach1|none2zero }} </td>
+            <td class="center_middle" rowspan="3"> {{ report.sum_nach|none2zero }} </td>
+            <td class="center_middle" rowspan="3"> {{ report.sum_act|none2zero }} </td>
+            <td class="center_middle" rowspan="3"> {{ report.opl|none2zero }} </td>
+            <td class="center_middle" rowspan="3"> {{ report.saldo_k|none2zero }} </td>
+        </tr>
+        <tr>
+            {% if report.tar >= 2  or report.k_pok2 %}
+                <td class="center_text"> {{ report.n_pok2|none2zero }}</td>
+                <td class="center_text"> {{ report.k_pok2|none2zero }}</td>
+            {% endif %}
+            <td class="center_text"> {{ report.potr2|none2zero }}</td>
+            <td class="center_text">{{ report.tar2|none2zero }}</td>
+            <td class="center_text"> {{ report.sum_nach2|none2zero }} </td>
+        </tr>
+        <tr>
+            {% if report.tar >= 2  or report.k_pok2 %}
+                <td class="center_text"> {{ report.n_pok3|none2zero }}</td>
+                <td class="center_text"> {{ report.k_pok3|none2zero }}</td>
+            {% endif %}
+            <td class="center_text"> {{ report.potr3|none2zero }}</td>
+            <td class="center_text">{{ report.tar3|none2zero }}</td>
+            <td class="center_text"> {{ report.sum_nach3|none2zero }} </td>
+        </tr>
+    {% empty %}
+        <tr>
+            <td colspan="13">
+                {% trans 'Not found' %}
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

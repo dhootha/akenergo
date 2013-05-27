@@ -1,0 +1,123 @@
+{% extends "base_nomenu.html" %}
+{% load i18n tags %}
+
+{% block title %}
+    {% if not debtors_pages %}
+        {% trans 'Not found' %}
+    {% else %}
+        {% if ur_lica %}
+            {% trans 'List of debtors of legal entities' %}
+        {% else %}
+            {% trans 'List of debtors transferred to off' %}
+        {% endif %}
+    {% endif %}
+{% endblock %}
+
+
+{% block page_title %}
+    {% if not debtors_pages %}
+        {% trans 'Not found' %}
+    {% else %}
+        {% if ur_lica %}
+            {% trans 'List of debtors of legal entities' %}
+        {% else %}
+            {% trans 'List of debtors transferred to off' %} ({{ today|date:'F Y'|lower }})
+        {% endif %}
+    {% endif %}
+{% endblock %}
+
+{% block page_content %}
+    {#    {% if perms.energosite.view_debuch %}#}
+
+    {% if debtors_pages %}
+        <table class="table table-striped table-bordered table-hover table-condensed">
+            <thead>
+            <tr>
+                <th>№</th>
+                {% if ur_lica %}
+                    <th>{% trans 'Сontract' %}</th>
+                    <th>{% trans 'Name of debtor' %}</th>
+                    <th>{% trans 'Debt over a month' %}</th>
+                {% else %}
+                    <th>{% trans 'Personal number' %}</th>
+                    <th>{% trans 'Address' %}</th>
+                    <th>
+                        {% blocktrans with data_debt=today|date:"01.m.Y" %}Remainder of a debt at {{ data_debt }}{% endblocktrans %}
+                    </th>
+                {% endif %}
+            </tr>
+            </thead>
+
+            <tbody>
+            {% for deb in debtors_pages.object_list %}
+                <tr>
+                    <td> {{ deb.nomer }}</td>
+                    <td> {{ deb.nls }}</td>
+                    {% if ur_lica %}
+                        <td> {{ deb.fio }}</td>
+                    {% else %}
+                        <td> {{ deb.address }}</td>
+                    {% endif %}
+                    <td> {{ deb.dolg|currency }} </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+
+        <div class="pagination">
+            <ul>
+                {% if debtors_pages.has_previous %}
+                    <li>
+                        <a href="?page={{ debtors_pages.previous_page_number }}">&laquo;</a>
+                    </li>
+                    <li>
+                        <a href="?page=1">1</a>
+                    </li>
+                {% endif %}
+
+
+                {% for pagran in page_limitr %}
+                    {% if debtors_pages.number|add:pagran  > 1 %}
+                        <li>
+                            <a href="?page={{ debtors_pages.number|add:pagran }}">{{ debtors_pages.number|add:pagran }}</a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+
+
+                <li class="active">
+                    <a href="#">{{ debtors_pages.number }}</a>
+                </li>
+
+                {% for pagran in page_limit %}
+                    {% if debtors_pages.number|add:pagran  < debtors_pages.paginator.num_pages %}
+                        <li>
+                            <a href="?page={{ debtors_pages.number|add:pagran }}">{{ debtors_pages.number|add:pagran }}</a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+
+
+                {% if debtors_pages.has_next %}
+                    <li>
+                        <a href="?page={{ debtors_pages.paginator.num_pages }}">{{ debtors_pages.paginator.num_pages }}</a>
+                    </li>
+                    <li>
+                        <a href="?page={{ debtors_pages.next_page_number }}">&raquo;</a>
+                    </li>
+                {% endif %}
+
+            </ul>
+        </div>
+
+
+
+    {% endif %}
+
+    {#    {% else %}#}
+    {#        {% trans "You don't have permission's" %}#}
+    {#    {% endif %}#}
+
+
+{% endblock %}

@@ -1,0 +1,52 @@
+{% load i18n  staticfiles %}
+
+<div class="row">
+    <div class="span3" style="text-align: left">
+        <h5>{% trans 'Find Us' %}</h5>
+        <address>
+            <strong>{% trans 'LLP Aktobeenergosnab' %}</strong><br>
+            {% trans 'Kazakhstan, Aktobe, <br> 312 Infantry Division 44-B' %}<br>
+            <strong>Телефон:</strong> +7 7132 700-230<br>
+            <strong>Факс</strong> +7 7132 773-920<br>
+            <a href="{% url 'contact_form' %}" title="{% trans 'Contact form' %}">{% trans 'Contact form' %}</a>
+        </address>
+    </div>
+
+    <div class="span3">
+        <h5>{% trans 'Weather' %}</h5>
+        {% include 'blocks/whether.html' %}
+    </div>
+
+    <div class="span3">
+        <h5>{% trans 'Partners' %}</h5>
+        <a href="http://www.osmp.kz" target="_blank">
+            <img class="img-rounded" src="{% static "banners/qiwi.png" %}" title="Qiwi" alt="Qiwi">
+        </a>
+    </div>
+
+{#    <div class="span8 offset1">#}
+{#        <h5 style="text-align: left;">{% trans 'Partners' %}</h5>#}
+{##}
+{#        <div class="row">#}
+{#            <div class="span1">#}
+{#                <a href="http://www.osmp.kz" target="_blank">#}
+{#                    <img src="{{ STATIC_URL }}banners/qiwi.png" title="Qiwi" alt="Qiwi">#}
+{#                </a>#}
+{#            </div>#}
+
+            {#            <div class="span1">#}
+{#                <a href="http://www.osmp.kz" target="_blank">#}
+{#                    <img src="{{ STATIC_URL }}banners/qiwi.png" title="Qiwi" alt="Qiwi">#}
+{#                </a>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+</div>
+
+
+
+
+
+
+
+

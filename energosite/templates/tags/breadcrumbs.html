@@ -1,0 +1,16 @@
+{% load i18n %}
+{% if trail %}
+    <ul class="breadcrumb" style="margin-bottom: 5px;">
+        {% if show_home %}
+            <li>
+                <a href="{% url 'home' %}"><i class="icon-home"></i> {% trans 'Home' %}</a>
+                <span class="divider">/</span>
+            </li>
+        {% endif %}
+        {% for url, title in trail %}
+            <li><a href="{{ url }}">{{ title }}</a>
+                {% if not forloop.last %} <span class="divider">/</span> {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}

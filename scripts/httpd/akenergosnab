@@ -1,0 +1,62 @@
+
+#NameVirtualHost *:80
+
+WSGISocketPrefix /var/run/apache2/wsgi
+#WSGIPythonPath  /opt/akenergosnab:/opt/akenergosnab/akenergosnab
+
+<VirtualHost *:80>
+
+
+ServerAdmin webmaster@localhost
+ServerName www.akenergosnab.kz
+
+	DocumentRoot /var/www
+	<Directory />
+		Options FollowSymLinks
+		AllowOverride None
+	</Directory>
+	<Directory /var/www/>
+		Options Indexes FollowSymLinks MultiViews
+		AllowOverride None
+		Order allow,deny
+		allow from all
+	</Directory>
+
+
+
+Alias /robots.txt /opt/akenergosnab/static/robots.txt
+
+#Alias /media/ /opt/akenergosnab/media/
+#<Directory /opt/akenergosnab/media>
+#Order deny,allow
+#Allow from all
+#</Directory>
+
+
+Alias /static/ /opt/akenergosnab/static/
+<Directory /opt/akenergosnab/static>
+Order deny,allow
+Allow from all
+</Directory>
+
+WSGIScriptReloading On
+
+#WSGIDaemonProcess mysite  processes=6 threads=1 maximum-requests=1000  user=user group=user 
+WSGIDaemonProcess mysite  threads=2 processes=8 maximum-requests=1000  user=user group=user 
+WSGIProcessGroup mysite
+WSGIScriptAlias / /opt/akenergosnab/akenergosnab/wsgi.py
+
+
+
+ErrorLog ${APACHE_LOG_DIR}/akenergosnab-error.log
+# Possible values include: debug, info, notice, warn, error, crit,
+# alert, emerg.
+LogLevel warn
+CustomLog ${APACHE_LOG_DIR}/akenergo-access.log combined
+
+
+
+</VirtualHost>
+
+
+

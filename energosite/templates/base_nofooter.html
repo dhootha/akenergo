@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{#{% block header %}#}
+{#{% endblock %}#}
+
+{% block left_menu %}
+    <div class="span3">
+
+        {% block login %}
+            {% include "blocks/login_block.html" %}
+        {% endblock %}
+
+        {% block menu_block %}
+            {% include "blocks/menu_block.html" %}
+        {% endblock %}
+
+
+    </div>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

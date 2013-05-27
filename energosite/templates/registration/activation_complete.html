@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans 'Activation complete' %}{% endblock %}
+{% block page_title %}{% trans 'Congratulations!' %}{% endblock %}
+{% block page_content %}
+<p>{% trans 'Your registration is now complete. Go to the site and start having fun!' %}</p>
+{#<p>#}
+{#    <a href="{% url 'home' %}" title="{% trans 'Home' %}">{% trans 'Home' %}</a>#}
+{#</p>#}
+{% endblock %}

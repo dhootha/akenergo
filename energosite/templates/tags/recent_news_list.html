@@ -1,0 +1,25 @@
+{% load i18n tags %}
+{% url 'news_list' as news_url %}
+
+<div class="well sidebar-nav">
+    <ul class="nav nav-list">
+        <li class="nav-header">
+            <a title="{% trans 'More...' %}" href="{{ news_url }}" data-toggle="tooltip" data-placement="top">
+                {% trans "Site news" %}
+            </a>
+        </li>
+        {% if news_list %}
+            {% for news in news_list %}
+                <li class="{% current_nav news.get_absolute_url %}">
+                    <a title="{{ news.title }}" href="{{ news.get_absolute_url }}">
+                        <i class="icon-list-alt"></i> {{ news.title|truncatewords:3 }}
+                    </a>
+                </li>
+            {% endfor %}
+
+        {% else %}
+            <li><a title="{% trans 'Not found' %}" href="#">{% trans 'Not found' %}</a></li>
+        {% endif %}
+    </ul>
+</div>
+

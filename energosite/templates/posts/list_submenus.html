@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load mptt_tags %}
+
+{% block title %}{{ menu_title }}{% endblock %}
+
+{% block page_title %}
+    {% if submenus %}
+        {{ menu_title }}
+    {% else %}
+        {% trans 'Not found' %}
+    {% endif %}
+{% endblock %}
+
+{% block page_content %}
+    {% if submenus %}
+        <ul class="nav nav-list">
+            {% recursetree submenus %}
+                {% if node.published %}
+                    <li>
+                        {% if node.is_leaf_node %}
+                            <a href="{{ node.get_absolute_url }}"><i class="icon-hand-right"></i>
+                                {{ node.title }}
+                            </a>
+                        {% else %}
+                            <a href="{% url 'list_submenus' node.id %}"><i class="icon-chevron-right"></i>
+                              <strong> {{ node.title }} </strong>
+                            </a>
+                        {% endif %}
+                        {% if not node.is_leaf_node %}
+                            <ul class="nav nav-list">
+                                {{ children }}
+                            </ul>
+                        {% endif %}
+                    </li>
+                {% endif %}
+            {% endrecursetree %}
+        </ul>
+    {% endif %}
+
+
+{% endblock %}

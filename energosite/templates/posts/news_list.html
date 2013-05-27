@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% load i18n staticfiles %}
+
+{% block title %}
+    {% trans 'Site news' %}
+{% endblock %}
+
+
+{% block page_title %}
+    {% trans 'Site news' %}
+{% endblock %}
+
+{% block page_content %}
+
+    {% for news in news_list %}
+
+        <div class="media">
+            <a class="pull-left" href="#">
+                <img class="media-object" src="{% static "img/icon-rss.png" %}">
+            </a>
+
+            <div class="media-body">
+                <h4 class="media-heading">{{ news.title }}</h4>
+                {#                {% if news.summary %}#}
+                {% autoescape off %}
+                    {{ news.summary }}
+                {% endautoescape %}
+                <p>
+                    <em>{{ news.date|date:"d.m.y H:i" }}</em>
+                </p>
+
+                <p>
+                    <a class="btn btn-large btn-primary" href="{{ news.get_absolute_url }}">{% trans 'More...' %}</a>
+                </p>
+                {#                {% endif %}#}
+            </div>
+        </div>
+        {% if not forloop.last %}
+            <hr style="margin: 10px 0 0">
+        {% endif %}
+
+
+        {% comment %} <h3>
+            <a href="{{ news.get_absolute_url }}">
+                {{ news.title }}
+            </a>
+        </h3>
+
+        {% if news.summary %}
+            {% autoescape off %}
+                <img src="{{ STATIC_URL }}img/icon-rss.png" alt="" class="img-rounded"
+                     style="float: left; margin: 7px 10px 0 0">
+                {{ news.summary }}
+            {% endautoescape %}
+            <div class="clearfix"></div>
+            <div style="margin-left:  10px">
+                <em>{{ news.date|date:"d.m.y H:i" }}</em>
+
+                <div style="margin-top: 5px">
+                    <a class="btn btn-info" href="{{ news.get_absolute_url }}">{% trans 'More...' %}</a>
+                </div>
+            </div>
+            <hr style="margin: 15px 0 0">
+        {% endif %}{% endcomment %}
+
+    {% endfor %}
+
+    <div class="pagination">
+        <ul>
+            {% if news_list.has_previous %}
+                <li>
+                    <a href="?page={{ news_list.previous_page_number }}">&laquo;</a>
+                </li>
+                <li>
+                    <a href="?page=1">1</a>
+                </li>
+            {% endif %}
+
+
+            {% for pagran in page_limitr %}
+                {% if news_list.number|add:pagran  > 1 %}
+                    <li>
+                        <a href="?page={{ news_list.number|add:pagran }}">{{ news_list.number|add:pagran }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+
+
+            <li class="active">
+                <a href="#">{{ news_list.number }}</a>
+            </li>
+
+            {% for pagran in page_limit %}
+                {% if news_list.number|add:pagran  < news_list.paginator.num_pages %}
+                    <li>
+                        <a href="?page={{ news_list.number|add:pagran }}">{{ news_list.number|add:pagran }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+
+
+            {% if news_list.has_next %}
+                <li>
+                    <a href="?page={{ news_list.paginator.num_pages }}">{{ news_list.paginator.num_pages }}</a>
+                </li>
+                <li>
+                    <a href="?page={{ news_list.next_page_number }}">&raquo;</a>
+                </li>
+            {% endif %}
+
+        </ul>
+    </div>
+
+
+
+{% endblock %}

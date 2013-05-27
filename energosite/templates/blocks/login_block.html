@@ -1,0 +1,38 @@
+{% load i18n %}
+{% load tags %}
+
+{% url 'auth_password_change' as auth_password_change %}
+{% url 'auth_logout' as auth_logout %}
+{% url 'auth_login' as auth_login %}
+{% url 'registration_register' as registration_register %}
+{% url 'auth_password_reset' as auth_password_reset %}
+{% url 'home' as home %}
+
+{% if user.is_authenticated %}
+    <div class="well sidebar-nav">
+        <ul class="nav nav-list">
+
+
+            <li class="nav-header">
+                {% trans 'Hello' %}, <span style="text-transform: lowercase">{{ user.username }}</span>
+            </li>
+            <li class="{% current_nav auth_password_change %}">
+                <a href="{{ auth_password_change }}"><i class="icon-pencil"></i> {% trans 'Password change' %}</a>
+            </li>
+            <li>
+                <a href="{{ auth_logout }}"><i class="icon-off"></i> {% trans 'Log out' %}</a>
+            </li>
+
+            {#        {% else %}#}
+            {##}
+            {#            <li class="{% current_nav auth_login %}">#}
+            {#                <a href="{{ auth_login }}"><i class="icon-lock"></i> {% trans 'Log in' %}</a>#}
+            {#            </li>#}
+            {#            <li class="{% current_nav registration_register %}">#}
+            {#                <a href="{{ registration_register }}"><i class="icon-plus-sign"></i> {% trans 'Registration' %}</a>#}
+            {#            </li>#}
+        </ul>
+    </div>
+{% endif %}
+
+

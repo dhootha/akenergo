@@ -1,0 +1,21 @@
+{% extends "base_nomenu.html" %}
+{% load i18n %}
+{% load usertags %}
+
+{% block title %}Статистика пользователей{% endblock %}
+
+{% block page_title %}Статистика пользователей{% endblock %}
+
+{% block page_content %}
+
+    {% if user.is_staff %}
+
+        {% online_users 25 %}
+        {% last_logins 25 %}
+        {% last_registers 25 %}
+
+    {% else %}
+        <p>У вас нет прав просмотра статистики</p>
+    {% endif %}
+
+{% endblock %}

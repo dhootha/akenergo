@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% load i18n tags %}
+
+{% block title %}
+    {% trans 'View your payment and debt' %}
+{% endblock %}
+{% block page_title %}
+    {% trans 'View your payment and debt' %}
+{% endblock %}
+{% block page_content %}
+
+
+
+    {#    <strong>{% blocktrans with year_p=year_pay %}Your payment for {{ year_p }} year{% endblocktrans %}</strong>:#}
+    {#    <strong>{% trans 'Your payment' %}</strong>:#}
+    <div class="row" style="margin-left: -10px;">
+        <div class="span5">
+            <table class="table table-striped table-bordered table-hover table-condensed">
+                <thead>
+                <tr>
+                    <th> {% trans 'Payment' %}</th>
+                    <th>{% trans 'Date of payment' %}</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                {% for pay in payments %}
+                    <tr>
+                        <td> {{ pay.opl|currency }}</td>
+                        <td> {{ pay.dat_kv|date:"d.m.y" }}</td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="2">
+                            {% trans 'Payment not found' %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            {% if actual_pay_date %}
+                <p>
+                    <strong>{% trans 'Actual date' %}: </strong> {{ actual_pay_date }}
+                </p>
+            {% endif %}
+            <p>
+                <strong>{% trans 'Debt' %}
+                    {% if actual_kvit_date %}
+                        {% if urlica %}
+                            ({{ actual_kvit_date|date:'F Y' }}):
+                        {% else %}
+                            ({{ actual_kvit_date|date:'на 01.m.Y' }}):
+                        {% endif %}
+                    {% endif %}
+                </strong>
+                &nbsp;{{ dolg|currency }} тг.
+            </p>
+        </div>
+    </div>
+
+    {% if fizlica %}
+        {% get_page 'internet-banking' as PAGE %}
+        <div style="margin-top: 12px">
+            {{ PAGE.content|safe }}
+        </div>
+    {% endif %}
+
+{% endblock %}

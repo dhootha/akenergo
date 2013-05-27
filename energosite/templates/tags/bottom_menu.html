@@ -1,0 +1,20 @@
+{% load tags %}
+
+{% if  bottom_menu_nodes %}
+    <ul class="footer-links">
+        {% for menu in bottom_menu_nodes %}
+            <li>
+                {% if menu.is_leaf_node %}
+                    <a href="{{ menu.get_absolute_url }}">{{ menu.title }}</a>
+                {% else %}
+                    {% url 'list_submenus' menu.id as submenu_url %}
+                    <a href="{{ submenu_url }}">{{ menu.title }}</a>
+                {% endif %}
+            </li>
+            {% if not forloop.last %}
+{#                <li class="muted">&middot;</li>#}
+                <li class="muted">|</li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+{% endif %}

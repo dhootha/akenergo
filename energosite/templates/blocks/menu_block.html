@@ -1,0 +1,71 @@
+{% load i18n %}
+{% load tags %}
+
+{% url 'edit_profile' as edit_profile %}
+{% url 'meter_reading' as meter_reading %}
+{% url 'view_payment' as view_payment %}
+{% url 'kvit_page' as kvit_page %}
+
+
+{% url 'upload_data' as upload_data %}
+{% url 'load_reading' as load_reading %}
+{% url 'recon_rep_page' as view_recon_rep %}
+
+
+
+{% if user.is_authenticated %}
+
+    <div class="well sidebar-nav">
+        <ul class="nav nav-list">
+            <li class="nav-header">{% trans 'User menu' %}</li>
+            <li class="{% current_nav edit_profile %}">
+                <a href="{{ edit_profile }}"><i class="icon-edit"></i> {% trans 'Edit profile' %}</a>
+            </li>
+            <li class="divider"></li>
+
+            <li class="{% current_nav kvit_page %}">
+                <a href="{{ kvit_page }}"><i class="icon-file"></i> {% trans 'Receipt' %}</a>
+            </li>
+
+            {% get_department as depid %}
+
+            {% if depid == 1 or depid == 3 %}
+                <li class="{% current_nav view_recon_rep %}">
+                    <a href="{{ view_recon_rep }}"><i class="icon-eye-open"></i> {% trans 'Reconciliation report' %}</a>
+                </li>
+            {% endif %}
+
+
+            <li class="{% current_nav view_payment %}">
+                <a href="{{ view_payment }}"><i class="icon-eye-open"></i> {% trans 'View payment and debt' %}</a>
+            </li>
+
+
+            {% if depid == 1 or depid == 3 %}
+                <li class="{% current_nav meter_reading %}">
+                    <a href="{{ meter_reading }}"><i class="icon-arrow-down"></i> {% trans 'Readings input' %}</a>
+                </li>
+            {% endif %}
+
+            {% if perms.energosite %}
+                {% if perms.energosite.add_tables %}
+                    <li class="divider"></li>
+                    <li class="{% current_nav upload_data %}">
+                        <a href="{{ upload_data }}"><i class="icon-download-alt"></i> Загрузка данных по абонентам </a>
+                    </li>
+                {% endif %}
+
+                {% if perms.energosite.view_meter_reading %}
+                    <li class="divider"></li>
+                    <li class="{% current_nav load_reading %}">
+                        <a href="{{ load_reading }}"><i class="icon-download-alt"></i> Скачать показания </a>
+                    </li>
+                {% endif %}
+            {% endif %}
+
+
+        </ul>
+    </div>
+
+{% endif %}
+

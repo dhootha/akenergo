@@ -1,0 +1,79 @@
+{% for title in titles %}
+    <table class="table table-bordered table-condensed">
+        <tr>
+            <td style="font-weight: bold; font-size: 110%; vertical-align: middle; width: 34%">
+                "Ақтөбеэнергоснаб" ЖШС <br/> ТОО "Актобеэнергоснаб"
+            </td>
+            <td colspan="2"
+                style="font-weight: bold; font-size: 130%; vertical-align: middle; text-align: center; width: 66%">
+                {{ title }}
+            </td>
+        </tr>
+
+        <tr>
+            <td style="vertical-align: top; width: 34%" rowspan="{% if ur_lica %}7{% else %}5{% endif %}">
+                е/шот / р/счёт
+                KZ1494803KZT22030050 <br/>
+                Евразиялық банк АҚ АФ Ақтөбе қ. <br/>
+                АФ АО Евразийский банк г.Актобе <br/>
+                БИК EURIKZKA <br/> <br/>
+                СТН / РНН 061800235251<br/>
+                БСН / БИН 040940005515
+            </td>
+
+            <td style="width: 25%">
+                {% if ur_lica %}Шарттың № / Договор №{% else %}Жеке шот / Лицевой счёт{% endif %}
+            </td>
+            <td style="width: 41%">{{ nls }}</td>
+        </tr>
+
+        {% if ur_lica %}
+            <tr>
+                <td>СТН / РНН</td>
+                <td>{% if iin %} {{ iin }} {% endif %}</td>
+            </tr>
+            <tr>
+                <td>БСН / БИН</td>
+                <td>{% if kpp %}{{ kpp }} {% endif %}</td>
+            </tr>
+            {#        {% else %}#}
+            {#            <tr>#}
+            {#                <td></td>#}
+            {#                <td></td>#}
+            {#            </tr>#}
+            {#            <tr>#}
+            {#                <td></td>#}
+            {#                <td></td>#}
+            {#            </tr>#}
+        {% endif %}
+
+        <tr>
+            <td>Аты-жөні / Ф.И.О.</td>
+            <td>{{ fio }}</td>
+        </tr>
+        <tr>
+            <td>Мекен-жайы / Адрес</td>
+            <td>{{ address }}</td>
+        </tr>
+        <tr>
+            {% if ur_lica %}
+                <td>Төлеуге / Итого к оплате</td>
+            {% else %}
+                <td>Бережақ / Задолженность</td>
+            {% endif %}
+            <td>
+                {% if not ur_lica %}
+                    на {{ kvit_date|date:"01.m.Y" }}
+                {% else %}
+                    {{ kvit_date|date:"F Y" }}
+                {% endif %}
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                {{ dolg|currency }}&nbsp;тг.
+            </td>
+        </tr>
+        <tr>
+            <td>Төлеймін / Оплачиваю, тг</td>
+            <td></td>
+        </tr>
+    </table>
+{% endfor %}

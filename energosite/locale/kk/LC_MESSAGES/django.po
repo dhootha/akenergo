@@ -1,0 +1,823 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-05-08 16:11+0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+
+#: forms.py:17 forms.py:137
+msgid "Incorrect personal number"
+msgstr "Жеке есеп шот дұрыс емес"
+
+#: forms.py:22 forms.py:74 models.py:149 models.py:331
+#: templates/data/view_debtors.html:42
+#: templates/load_data/meter_reading.html:26
+#: templates/search/search_abonent.html:15
+#: templates/search/search_results.html:13
+msgid "Personal number"
+msgstr "Жеке есеп шот"
+
+#: forms.py:23 forms.py:75
+msgid "Home phone"
+msgstr "Үй телефоны"
+
+#: forms.py:24 forms.py:76
+msgid "Mobile phone"
+msgstr "Ұялы телефон"
+
+#: forms.py:25 forms.py:77
+msgid "I agree to receive newsletter"
+msgstr "Таратпа ақпарат алуға келісемін"
+
+#: forms.py:47 forms.py:56 forms.py:89 forms.py:98 forms.py:179 forms.py:186
+msgid "Incorrect information"
+msgstr "Теріс мәліметтер"
+
+#: forms.py:78 forms.py:171 forms.py:223
+msgid "Captcha"
+msgstr "Каптча"
+
+#: forms.py:130
+msgid "one-tariff"
+msgstr "бiр-тарифтi"
+
+#: forms.py:130
+msgid "two-tariff"
+msgstr "екi-тарифтi"
+
+#: forms.py:131
+msgid "Counter type"
+msgstr "Есептеуiштiң түрi"
+
+#: forms.py:139 views.py:325
+msgid "You don't have permission's"
+msgstr "Кешіріңіз, сіздің құқығыңыз жоқ"
+
+#: forms.py:151 forms.py:159
+msgid "Department"
+msgstr "Бөлімше"
+
+#: forms.py:152
+msgid "Street"
+msgstr "Көше"
+
+#: forms.py:153
+msgid "House number"
+msgstr "Үй номері"
+
+#: forms.py:154
+msgid "Corps"
+msgstr "Корпус"
+
+#: forms.py:155
+msgid "Apartment"
+msgstr "Пәтер"
+
+#: forms.py:160 models.py:150 templates/load_data/meter_reading.html:51
+#: templates/profile/edit_profile.html:18
+#: templates/search/search_abonent.html:17
+#: templates/search/search_results.html:15
+msgid "Client name"
+msgstr "Аты"
+
+#: forms.py:169
+msgid "Subject"
+msgstr "Тақырып"
+
+#: forms.py:170
+msgid "Message"
+msgstr "Хабарлама"
+
+#: forms.py:222
+msgid "E-mail"
+msgstr "E-mail"
+
+#: models.py:151 templates/data/view_debtors.html:43
+#: templates/load_data/meter_reading.html:64
+#: templates/profile/edit_profile.html:19
+msgid "Address"
+msgstr "Мекен-жайы"
+
+#: models.py:152 templates/load_data/meter_reading.html:96
+msgid "Day reading"
+msgstr "Күндізгі көрсеткіш"
+
+#: models.py:153 templates/load_data/meter_reading.html:110
+msgid "Night reading"
+msgstr "Түнгі көрсеткіш"
+
+#: models.py:154
+msgid "Evening reading"
+msgstr "Кешкі көрсеткіш"
+
+#: views.py:96 templates/posts/news_list.html:5
+#: templates/posts/news_list.html.py:10 templates/tags/recent_news_list.html:8
+msgid "Site news"
+msgstr "Сайттың жаңалықтары"
+
+#: views.py:309
+msgid "Your profile was saved"
+msgstr "Сіздің мәліметтеріңіз сақталды"
+
+#: views.py:346
+msgid "Thank you!"
+msgstr "Рахмет!"
+
+#: views.py:492 templates/blocks/standard_form.html:36
+#: templates/load_data/meter_reading.html:42
+#: templates/profile/edit_profile.html:46
+#: templates/registration/registration_form.html:147
+msgid "Search by address"
+msgstr "Мекен-жайы бойынша іздеу"
+
+#: views.py:512 templates/blocks/standard_form.html:33
+#: templates/load_data/meter_reading.html:39
+#: templates/profile/edit_profile.html:43
+#: templates/registration/registration_form.html:144
+msgid "Search by surname"
+msgstr "Аты бойынша іздеу"
+
+#: views.py:664 templates/data/new_recrep_shablon.html:80
+#: templates/data/recon_rep_shablon.html:40 templates/data/view_debtors.html:6
+#: templates/data/view_debtors.html:19 templates/posts/base_post.html:9
+#: templates/posts/base_post.html.py:19 templates/posts/list_submenus.html:11
+#: templates/search/search_abonent.html:35
+#: templates/tags/recent_news_list.html:21
+msgid "Not found"
+msgstr "Табылған жоқ"
+
+#: views.py:695
+msgid "Message was sent. Thank you!"
+msgstr "Хабарлама жіберілді. Рахмет!"
+
+#: views.py:697
+msgid "Error sending mail"
+msgstr "Поштаның жiберуiн қате"
+
+#: views.py:832
+msgid "Account for email address is not registered or already activated."
+msgstr ""
+"Бұл e-mail мекен-жайдың тіркеу жазбасы тіркелмеген немесе іске қосылған."
+
+#: views.py:844
+msgid "Resend activation link done"
+msgstr "Іске қосу сілтемесі жіберілді"
+
+#: views.py:862
+msgid "This account is inactive."
+msgstr "Бұл тіркеу жазбасы сөндірілген."
+
+#: templates/404.html:4 templates/404.html.py:6
+msgid "Page not found"
+msgstr "Парақ табылмады"
+
+#: templates/404.html:10
+msgid "We're sorry, but the requested page could not be found."
+msgstr "Кешіріңіз, парақ табылмады."
+
+#: templates/404.html:12 templates/500.html:10
+#: templates/data/kvit_page.html:159 templates/data/view_recon_rep.html:29
+#: templates/load_data/data_error.html:11 templates/registration/login.html:19
+#: templates/registration/login.html:97
+#: templates/registration/registration_form.html:29
+#: templates/tags/breadcrumbs.html:6 templates/tags/top_menu.html:20
+msgid "Home"
+msgstr "Негізгі"
+
+#: templates/500.html:4
+msgid "Server error (500)"
+msgstr "Сервердің қателігі (500)"
+
+#: templates/500.html:5
+msgid "Server Error <em>(500)</em>"
+msgstr "Сервердің қателігі <em>(500)</em>"
+
+#: templates/500.html:8
+msgid ""
+"There's been an error. It's been reported to the site administrators via e-"
+"mail and should be fixed shortly. Thanks for your patience."
+msgstr ""
+"Қателік кетті. Қателік коды администраторға жіберілді, қателік жойылады. "
+"Күткеніңізге рахмет."
+
+#: templates/base.html:8 templates/base.html.py:91
+#: templates/blocks/informers.html:7 templates/contact/contact_form.html:56
+msgid "LLP Aktobeenergosnab"
+msgstr "Ақтөбеэнергоснаб ЖШС"
+
+#: templates/base.html:94
+msgid "Welcome to our site!"
+msgstr "Бiздiң сайтқа қош келдiнiздер!"
+
+#: templates/base.html:99 templates/registration/login.html:88
+#: templates/registration/login_.html:5 templates/registration/login_.html:8
+#: templates/registration/login_.html:57
+#: templates/registration/password_reset_complete.html:12
+msgid "Log in"
+msgstr "Кіру"
+
+#: templates/base.html:101 templates/registration/login.html:101
+msgid "Registration"
+msgstr "Тіркеу"
+
+#: templates/base.html:182
+msgid "Go top"
+msgstr "Жоғары"
+
+#: templates/base.html:213
+msgid "Site development and support"
+msgstr "Сайттың әзірлеуі және қолдауы"
+
+#: templates/blocks/informers.html:5 templates/contact/contact_form.html:33
+#: templates/contact/contact_form.html:54
+msgid "Find Us"
+msgstr "Бізді табу жолдары"
+
+#: templates/blocks/informers.html:8 templates/contact/contact_form.html:57
+msgid "Kazakhstan, Aktobe, <br> 312 Infantry Division 44-B"
+msgstr "Қазақстан, Ақтөбе, <br> 312 Атқыштар дивизиясы 44-В"
+
+#: templates/blocks/informers.html:11 templates/contact/contact_form.html:32
+msgid "Contact form"
+msgstr "Байланыс түрі"
+
+#: templates/blocks/informers.html:16
+msgid "Weather"
+msgstr "Ауа-райы"
+
+#: templates/blocks/informers.html:21
+msgid "Partners"
+msgstr "Серіктестер"
+
+#: templates/blocks/login_block.html:17
+msgid "Hello"
+msgstr "Сәлеметсіз бе"
+
+#: templates/blocks/login_block.html:20
+#: templates/registration/password_change_form.html:3
+#: templates/registration/password_change_form.html:4
+#: templates/tags/top_menu.html:60
+msgid "Password change"
+msgstr "Парольды өзгерту"
+
+#: templates/blocks/login_block.html:23 templates/tags/top_menu.html:65
+msgid "Log out"
+msgstr "Шығу"
+
+#: templates/blocks/menu_block.html:20
+msgid "User menu"
+msgstr "Пайдаланушының мәзiрi"
+
+#: templates/blocks/menu_block.html:22 templates/profile/edit_profile.html:5
+#: templates/profile/edit_profile.html:6 templates/tags/top_menu.html:55
+msgid "Edit profile"
+msgstr "Мәліметтерді өңдеу"
+
+#: templates/blocks/menu_block.html:27 templates/data/kvit_page.html:55
+#: templates/data/kvit_page.html.py:56
+msgid "Receipt"
+msgstr "Түбіртек"
+
+#: templates/blocks/menu_block.html:34 templates/data/save_recon_rep.html:14
+#: templates/data/view_recon_rep.html:7 templates/data/view_recon_rep.html:10
+msgid "Reconciliation report"
+msgstr "Есептің қозғалысы"
+
+#: templates/blocks/menu_block.html:40
+msgid "View payment and debt"
+msgstr "Төлем мен қарызды қарау"
+
+#: templates/blocks/menu_block.html:45
+#: templates/load_data/meter_reading.html:4
+#: templates/load_data/meter_reading.html:6
+msgid "Readings input"
+msgstr "Есептегіштің көрсеткішін енгізу"
+
+#: templates/contact/comments.html:4 templates/contact/comments.html.py:13
+msgid "Comments"
+msgstr "Пікір білдіру"
+
+#: templates/contact/contact_form.html:4 templates/contact/contact_form.html:7
+msgid "Contact us"
+msgstr "Бізбен хабарласу"
+
+#: templates/contact/contact_form.html:38
+msgid "Send message"
+msgstr "Хабарлама жіберу"
+
+#: templates/data/kvit_page.html:152 templates/data/view_recon_rep.html:22
+msgid "Print"
+msgstr "Басып шығару"
+
+#: templates/data/new_recrep_shablon.html:7
+#: templates/data/recon_rep_shablon.html:7
+msgid "Month"
+msgstr "Ай"
+
+#: templates/data/new_recrep_shablon.html:8
+msgid "Tariff type"
+msgstr "Тарифтің түрі"
+
+#: templates/data/new_recrep_shablon.html:9
+msgid "Registered"
+msgstr "Тұрғындар саны"
+
+#: templates/data/new_recrep_shablon.html:10
+#: templates/data/recon_rep_shablon.html:9
+msgid "Initial reading, kW/h"
+msgstr "Алдыңғы көрсеткіш"
+
+#: templates/data/new_recrep_shablon.html:11
+#: templates/data/recon_rep_shablon.html:10
+msgid "Final reading, kW/h"
+msgstr "Соңғы көрсеткіш"
+
+#: templates/data/new_recrep_shablon.html:12
+msgid "Total consumption, kW/h"
+msgstr "Жалпы шығын <br> кВт/сағ"
+
+#: templates/data/new_recrep_shablon.html:13
+msgid "Consumption, kW/h"
+msgstr "Эл/энергиянын шығыны <br> деңгей бойынша / күндізгі-түнгі <br> кВт/сағ"
+
+#: templates/data/new_recrep_shablon.html:14
+msgid "Tariff, KZT"
+msgstr "Тариф <br> тг"
+
+#: templates/data/new_recrep_shablon.html:15
+#: templates/data/recon_rep_shablon.html:12
+msgid "Amount, KZT"
+msgstr "Есептелгені <br> тг"
+
+#: templates/data/new_recrep_shablon.html:16
+msgid "Total amount, KZT"
+msgstr "Жалпы есептелгені <br> тг"
+
+#: templates/data/new_recrep_shablon.html:17
+#: templates/data/recon_rep_shablon.html:13
+msgid "Amount of acts, KZT"
+msgstr "Актілер <br> тг"
+
+#: templates/data/new_recrep_shablon.html:18
+#: templates/data/recon_rep_shablon.html:14
+msgid "Payment, KZT"
+msgstr "Төлем <br> тг"
+
+#: templates/data/new_recrep_shablon.html:19
+#: templates/data/recon_rep_shablon.html:15
+msgid "Debt at the end, KZT"
+msgstr "Ай соңына қарыз <br> тг"
+
+#: templates/data/new_recrep_shablon.html:37
+msgid "Day/Night"
+msgstr "Күндізгі/Түнгі"
+
+#: templates/data/new_recrep_shablon.html:39
+msgid "By limits"
+msgstr "Деңгей бойынша"
+
+#: templates/data/recon_rep_shablon.html:8
+msgid "Debt at the beginning, KZT"
+msgstr "Алдыңғы қарыз ақы <br> тг"
+
+#: templates/data/recon_rep_shablon.html:11
+msgid "Electricity consumption, kW/h"
+msgstr "Эл/энергиянын шығыны <br> кВт/сағ"
+
+#: templates/data/view_debtors.html:9 templates/data/view_debtors.html:22
+msgid "List of debtors of legal entities"
+msgstr "Борышкер заңды тұлғалардың тізімі"
+
+#: templates/data/view_debtors.html:11 templates/data/view_debtors.html:24
+msgid "List of debtors transferred to off"
+msgstr "Электр энергиясынан ажыратуға берілген дебиторлар тізімі"
+
+#: templates/data/view_debtors.html:38
+msgid "Сontract"
+msgstr "Шарт"
+
+#: templates/data/view_debtors.html:39
+msgid "Name of debtor"
+msgstr "Атауы"
+
+#: templates/data/view_debtors.html:40
+msgid "Debt over a month"
+msgstr "Бір айдан астам қарыз"
+
+#: templates/data/view_debtors.html:45
+#, python-format
+msgid "Remainder of a debt at %(data_debt)s"
+msgstr "%(data_debt)s күніне қалған қарызы"
+
+#: templates/data/view_payment.html:5 templates/data/view_payment.html.py:8
+msgid "View your payment and debt"
+msgstr "Сіздің төлем мен қарызыңызды қарау"
+
+#: templates/data/view_payment.html:21
+msgid "Payment"
+msgstr "Төлем"
+
+#: templates/data/view_payment.html:22
+msgid "Date of payment"
+msgstr "Төлемақының күні"
+
+#: templates/data/view_payment.html:35
+msgid "Payment not found"
+msgstr "Төлем табылған жоқ"
+
+#: templates/data/view_payment.html:44
+msgid "Actual date"
+msgstr "Көкейкесті күні"
+
+#: templates/data/view_payment.html:48
+msgid "Debt"
+msgstr "Қарыз"
+
+#: templates/load_data/meter_reading.html:10
+msgid "Transfer readings from the 20 th to 31 th"
+msgstr "Көрсеткішті хабарлау 20-31 аралығында"
+
+#: templates/load_data/meter_reading.html:78
+msgid "Meter readings"
+msgstr "Есептегіштің көрсеткіші"
+
+#: templates/load_data/meter_reading.html:142
+#: templates/profile/edit_profile.html:116
+msgid "Save"
+msgstr "Сақтау"
+
+#: templates/load_data/meter_reading.html:144
+msgid "Add another electric meter readings"
+msgstr "Басқа есептеуіштің көрсетулер қосу керек"
+
+#: templates/load_data/meter_reading.html:145
+msgid "Another electric meter"
+msgstr "Басқа электр есептеуіш"
+
+#: templates/posts/news_list.html:33 templates/tags/recent_news_list.html:7
+msgid "More..."
+msgstr "Толығырақ..."
+
+#: templates/profile/edit_profile.html:16
+msgid "Information"
+msgstr "Ақпарат"
+
+#: templates/registration/activate.html:4
+#: templates/registration/activate.html:7
+msgid "Error"
+msgstr "Қате"
+
+#: templates/registration/activate.html:11
+msgid "key is invalid"
+msgstr "кілт дұрыс емес"
+
+#: templates/registration/activation_complete.html:4
+msgid "Activation complete"
+msgstr "Активация аяқталды"
+
+#: templates/registration/activation_complete.html:5
+msgid "Congratulations!"
+msgstr "Құттықтаймыз!"
+
+#: templates/registration/activation_complete.html:7
+msgid "Your registration is now complete. Go to the site and start having fun!"
+msgstr "Тіркеу аяқталды. Сайтқа кіруіңізге болады!"
+
+#: templates/registration/activation_email.txt:2
+msgid ""
+"To activate and use your account, click the link below or copy and paste it "
+"into your web browser's address bar:"
+msgstr ""
+"Аккаунтты автивациялау үшін сілтемені басыңыз немесе оны көшіріп алып, "
+"браузердің мекен-жай жолына қойыңыз:"
+
+#: templates/registration/activation_email_subject.txt:1
+msgid "Activate your account on"
+msgstr "Сіздің аккаунтыңыздың активациясы"
+
+#: templates/registration/activation_email_subject.txt:1
+msgid "you have days"
+msgstr "сіздің (күніңіз) бар"
+
+#: templates/registration/login.html:4 templates/registration/login.html:5
+msgid "Authorization for the site"
+msgstr "Сайтта авторизация"
+
+#: templates/registration/login.html:5
+msgid "Aktobeenergosnab"
+msgstr "Ақтөбеэнергоснаб"
+
+#: templates/registration/login.html:27
+msgid "To access the data you need to log in"
+msgstr "Ақпаратқа қол жеткізу үшін авторизацияланыңыз"
+
+#: templates/registration/login.html:42 templates/registration/login.html:119
+msgid "Username"
+msgstr "Қолданушының аты"
+
+#: templates/registration/login.html:56 templates/registration/login.html:120
+msgid "Password"
+msgstr "Пароль"
+
+#: templates/registration/login.html:77
+#: templates/registration/resend_activation_email_form.html:4
+#: templates/registration/resend_activation_email_form.html:5
+msgid "Resend activation link"
+msgstr "Іске қосу сілтемесін қайта жіберу"
+
+#: templates/registration/login.html:89
+msgid "Cancel"
+msgstr "Жою"
+
+#: templates/registration/login.html:105
+#: templates/registration/password_reset_confirm.html:4
+#: templates/registration/password_reset_confirm.html:5
+#: templates/registration/password_reset_form.html:4
+#: templates/registration/password_reset_form.html:5
+msgid "Password reset"
+msgstr "Парольды қайта қалпына келтіру"
+
+#: templates/registration/login_.html:25
+msgid "Please correct the error below."
+msgid_plural "Please correct the errors below."
+msgstr[0] "Өтінемін, төмендегі қатені түзеңіз."
+msgstr[1] "Өтінемін, төмендегі қатені түзеңіз."
+msgstr[2] "Өтінемін, төмендегі қатені түзеңіз."
+
+#: templates/registration/login_.html:42
+msgid "Username:"
+msgstr "Қолданушының аты:"
+
+#: templates/registration/login_.html:46
+msgid "Password:"
+msgstr "Пароль:"
+
+#: templates/registration/login_.html:53
+msgid "Forgotten your password or username?"
+msgstr "Пароль немесе қолданушының атын ұмытып қалдыңыз ба?"
+
+#: templates/registration/logout.html:5 templates/registration/logout.html:9
+msgid "Thanks for spending some quality time with the Web site today."
+msgstr "Біздің сайтта өткізген уақытыңызға алғыс білдіреміз!"
+
+#: templates/registration/logout.html:15
+msgid "Log in again"
+msgstr "Қайтадан кіру"
+
+#: templates/registration/password_change_done.html:4
+#: templates/registration/password_change_done.html:5
+msgid "Password change successful"
+msgstr "Сіздің пароль ойдағыдай өзгертілді"
+
+#: templates/registration/password_change_done.html:9
+msgid "Your password was changed."
+msgstr "Сіздің пароль өзгертілген."
+
+#: templates/registration/password_change_form.html:9
+msgid ""
+"Please enter your old password, for security's sake, and then enter your new "
+"password twice so we can verify you typed it in correctly."
+msgstr ""
+"Өтінемін, алдымен бұрынғы парольды, сосын жаңа парольды екі рет енгізіп, "
+"оның дұрыстығын тексеріңіз."
+
+#: templates/registration/password_change_form.html:23
+msgid "Old password"
+msgstr "Бұрынғы пароль"
+
+#: templates/registration/password_change_form.html:37
+msgid "New password"
+msgstr "Жаңа пароль"
+
+#: templates/registration/password_change_form.html:50
+msgid "Password (again)"
+msgstr "Пароль (тағы да)"
+
+#: templates/registration/password_change_form.html:76
+#: templates/registration/password_reset_confirm.html:57
+msgid "Change my password"
+msgstr "Парольды алмастыру"
+
+#: templates/registration/password_reset_complete.html:4
+#: templates/registration/password_reset_complete.html:5
+msgid "Password reset complete"
+msgstr "Пароль ойдағыдай алынып тасталды"
+
+#: templates/registration/password_reset_complete.html:8
+msgid "Your password has been set. You may go ahead and log in now."
+msgstr "Пароль алынып тасталды. Сайтқа кіруге болады."
+
+#: templates/registration/password_reset_confirm.html:10
+msgid ""
+"Please enter your new password twice so we can verify you typed it in "
+"correctly."
+msgstr "Өтінемін, дұрыстығын тексеру үшін, жаңа парольды екі рет енгізіңіз."
+
+#: templates/registration/password_reset_confirm.html:17
+msgid "New password:"
+msgstr "Жаңа пароль:"
+
+#: templates/registration/password_reset_confirm.html:30
+msgid "Confirm password:"
+msgstr "Парольды растаңыз:"
+
+#: templates/registration/password_reset_confirm.html:66
+msgid ""
+"The password reset link was invalid, possibly because it has already been "
+"used. Please request a new password reset."
+msgstr ""
+"Парольды қайта қалпына келтіру сілтемесі жарамсыз, өйткені бұрын "
+"қолданылған. Өтінемін, парольды қалпына келтіруді қайтадан сұраңыз."
+
+#: templates/registration/password_reset_done.html:4
+#: templates/registration/password_reset_done.html:5
+msgid "Password reset successful"
+msgstr "Пароль жасалды"
+
+#: templates/registration/password_reset_done.html:9
+msgid ""
+"We've e-mailed you instructions for setting your password to the e-mail "
+"address you submitted. You should be receiving it shortly."
+msgstr ""
+"Парольды қондыру бойынша нұсқаулықты сіздің электрондық поштаңыздың мекен-"
+"жайына жібердік. Хабарламаны жақын арада алуыңыз қажет."
+
+#: templates/registration/password_reset_email.html:3
+#, python-format
+msgid ""
+"You're receiving this e-mail because you requested a password reset for your "
+"user account at %(site_name)s."
+msgstr ""
+"Бұл хабарлама сізге есеп жазбасы үшін парольды алып тастауды сұрауыңызға "
+"байланысты жіберілді (%(site_name)s)."
+
+#: templates/registration/password_reset_email.html:5
+msgid "Please go to the following page and choose a new password:"
+msgstr "Өтінемін, келесі параққа өтіп, жаңа парольды енгізіңіз:"
+
+#: templates/registration/password_reset_email.html:9
+msgid "Your username, in case you've forgotten:"
+msgstr "Сіздің қолданушы атыңыз (егер ұмытып қалсаңыз):"
+
+#: templates/registration/password_reset_email.html:11
+msgid "Thanks for using our site!"
+msgstr "Біздің сайтты қолданғаныңыз үшн алғыс білдіреміз!"
+
+#: templates/registration/password_reset_email.html:13
+#, python-format
+msgid "The %(site_name)s team"
+msgstr "%(site_name)s сайт командасы"
+
+#: templates/registration/password_reset_form.html:10
+msgid ""
+"Forgotten your password? Enter your e-mail address below, and we'll e-mail "
+"instructions for setting a new one."
+msgstr ""
+"Парольды ұмытып қалдыңыз ба? Төменгі жолға электрондық поштаңыздың мекен-"
+"жайын енгізіңіз, біз сізге парольды қондыру бойынша нұсқаулықты жібереміз."
+
+#: templates/registration/password_reset_form.html:42
+msgid "Reset my password"
+msgstr "Парольды қайта қалпына келтіру"
+
+#: templates/registration/registration_closed.html:4
+#: templates/registration/registration_closed.html:5
+msgid "Registration closed"
+msgstr "Тіркеу жабық"
+
+#: templates/registration/registration_complete.html:3
+#: templates/registration/registration_complete.html:4
+msgid "Registration complete"
+msgstr "Тіркеу аяқталды"
+
+#: templates/registration/registration_complete.html:8
+msgid ""
+"An activation link has been sent to the email address you supplied, along "
+"with instructions for activating your account"
+msgstr ""
+"Есеп жазбасын активизациялау бойынша сілтеме нұсқаулықпен  сіздің "
+"электрондық поштаңыздың мекен-жайына жіберілді."
+
+#: templates/registration/registration_form.html:5
+#: templates/registration/registration_form.html:12
+#: templates/registration/registration_form.html:234
+msgid "Create an account"
+msgstr "Есептік жазба жасау"
+
+#: templates/registration/registration_form.html:40
+msgid "How to register?"
+msgstr "Қалай тіркелуге болады?"
+
+#: templates/registration/registration_form.html:57
+#: templates/search/search_abonent.html:8
+msgid "OK"
+msgstr "Жақсы"
+
+#: templates/registration/registration_form.html:85
+msgid "English letters only"
+msgstr "Тек қана ағылшын әріптері"
+
+#: templates/registration/resend_activation_email_form.html:53
+msgid "Send"
+msgstr "Жіберу"
+
+#: templates/search/google_search.html:4 templates/search/google_search.html:7
+msgid "Search results"
+msgstr "Іздеу нәтижелері"
+
+#: templates/tags/top_menu.html:43
+msgid "Type here..."
+msgstr "Енгізу..."
+
+#~ msgid "Download receipt"
+#~ msgstr "Түбіртекті басып шығару"
+
+#~ msgid "Download"
+#~ msgstr "Басып шығару"
+
+#~ msgid "(Message from {0} contact form, sender: {1} ({2}))"
+#~ msgstr "(Сайттың {0} байланыс нысанының хабарламасы, жіберуші: {1} ({2}))"
+
+#~ msgid "Please correct the errors below"
+#~ msgstr "Өтінемін, төмендегі қателерді түзеңіз"
+
+#~ msgid "E-mail address"
+#~ msgstr "Электрондық поштаның мекен-жайы"
+
+#~ msgid "Limit of sending mail exhausted"
+#~ msgstr "Поштаның жiберуiн лимит бiтiрген"
+
+#~ msgid "News from Kazakhstan"
+#~ msgstr "Қазақстан жаңалықтары"
+
+#~ msgid "First page"
+#~ msgstr "Бірінші парақ"
+
+#~ msgid "Previous page"
+#~ msgstr "Алдыңғы парақ"
+
+#~ msgid "Next page"
+#~ msgstr "Келесі парақ"
+
+#~ msgid "Last page"
+#~ msgstr "Соңғы парақ"
+
+#~ msgid "Date"
+#~ msgstr "Күні"
+
+#~ msgid "Menu"
+#~ msgstr "Мәзір"
+
+#~ msgid "Page"
+#~ msgstr "Парақ"
+
+#~ msgid "Your payment"
+#~ msgstr "Төлемақының күні"
+
+#~ msgid ""
+#~ "Page\n"
+#~ "                    %(p_num)s/%(p_nums)s"
+#~ msgstr "%(p_num)s/%(p_nums)s парақ"
+
+#~ msgid "Page %(p_num)s/%(p_nums)s"
+#~ msgstr "%(p_num)s/%(p_nums)s парақ"
+
+#~ msgid "Debtors higher %(summa)s tg"
+#~ msgstr "%(summa)s теңге  қарызы бар дебиторлар"
+
+#~ msgid "Your payment for %(year_p)s year"
+#~ msgstr "Сіздің бір %(year_p)s жылғы төлеміңіз"
+
+#~ msgid "Question"
+#~ msgstr "Сұрақ"
+
+#~ msgid "Proposal"
+#~ msgstr "Ұсыныс"
+
+#~ msgid "Gratitude"
+#~ msgstr "Алғыс білдіру"
+
+#~ msgid "First name"
+#~ msgstr "Аты"
+
+#~ msgid "Last name"
+#~ msgstr "Тегі"
+
+#~ msgid "Change your locale"
+#~ msgstr "Тілді таңдау"
+
+#~ msgid "Page %(p_num)s of "
+#~ msgstr "%(p_num) парақ /"

@@ -1,0 +1,205 @@
+{% extends "base.html" %}
+
+{% block title %}Загрузка данных по абонентам{% endblock %}
+{% block page_title %}Загрузка данных по абонентам{% endblock %}
+
+{% block page_content %}
+
+
+
+    {#    <form enctype="multipart/form-data" method="post" action="">#}
+    {#        {% csrf_token %}#}
+    {#        <table class="table table-striped table-bordered table-hover table-condensed">#}
+    {#            {% for field in form %}#}
+    {#                <tr class="{{ field.name }}">#}
+    {#                    <th style="width: 30%;">#}
+    {#                        {{ field.label_tag }}:#}
+    {#                    </th>#}
+    {#                    <td>#}
+    {#                        {{ field }}#}
+    {#                        {{ field.errors|escape }}#}
+    {#                    </td>#}
+    {#                </tr>#}
+    {#            {% endfor %}#}
+    {#        </table>#}
+    {##}
+    {#        {% if form.non_field_errors %}#}
+    {#            <div class="alert alert-error">#}
+    {#                <button type="button" class="close" data-dismiss="alert">&times;</button>#}
+    {#                {% for error in form.non_field_errors %}#}
+    {#                    <ol>#}
+    {#                        <li>{{ error|escape }}</li>#}
+    {#                    </ol>#}
+    {#                {% endfor %}#}
+    {#            </div>#}
+    {#        {% endif %}#}
+    {##}
+    {#        <div class="control-group">#}
+    {#            <div class="controls">#}
+    {#                <button type="submit" class="btn btn-inverse">Загрузить файл</button>#}
+    {#            </div>#}
+    {#        </div>#}
+    {#    </form>#}
+
+
+    <form class="form-horizontal" enctype="multipart/form-data" method="post" action="">
+        {% csrf_token %}
+        {% for field in form %}
+            <div id="controls_{{ field.name }}" class="control-group{% if field.errors %} error{% endif %}">
+                <label class="control-label" for="{{ field.auto_id }}">{{ field.label }}:
+                </label>
+
+                <div class="controls {% if field.field.required %}input-required{% endif %}">
+                    {{ field }}
+                    <span class="help-inline">
+                        {% for error in field.errors %}
+                            {{ error|escape }} &nbsp;&nbsp;
+                        {% endfor %}
+                    </span>
+                </div>
+            </div>
+        {% endfor %}
+
+        {% if form.non_field_errors %}
+            <div class="alert alert-error">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                {% for error in form.non_field_errors %}
+                    <ol class="unstyled">
+                        <li>{{ error|escape }}</li>
+                    </ol>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <div class="control-group">
+            <div class="controls">
+                <button type="submit" class="btn btn-inverse">Загрузить файл</button>
+            </div>
+        </div>
+
+    </form>
+
+    <script>
+        $(function () {
+            var currentDate = new Date();
+
+            var day = currentDate.getDate();
+            //     if(day<10) {day='0'+day}
+
+            var month = currentDate.getMonth() + 1;
+            //     if(month<10){month='0'+month}
+
+            var year = currentDate.getFullYear();
+
+            var dbtable_selector = $("#id_dbtable");
+            var dbtable = dbtable_selector.val();
+
+            {#            $("#id_actual_date").val(day + "." + month + "/" + year);#}
+
+            if (dbtable == 'oplbaza' || dbtable == 'kvitbaza') {
+                $("#controls_month").show();
+                $("#controls_year").show();
+            }
+            else {
+                $("#id_month").val(0);
+                $("#id_year").val(0);
+                $("#controls_month").hide();
+                $("#controls_year").hide();
+            }
+            dbtable_selector.change(function () {
+                dbtable = dbtable_selector.val();
+                if (dbtable == 'oplbaza' || dbtable == 'kvitbaza') {
+                    $("#id_month").val(month);
+                    $("#id_year").val(year);
+                    $("#controls_month").animate({ opacity: 'show' }, "slow");
+                    $("#controls_year").animate({ opacity: 'show' }, "slow");
+                }
+                else {
+                    $("#id_month").val(0);
+                    $("#id_year").val(0);
+                    $("#controls_month").animate({ opacity: 'hide' }, "slow");
+                    $("#controls_year").animate({ opacity: 'hide' }, "slow");
+                }
+            });
+        });
+    </script>
+
+    {#    <script>#}
+    {#       $(function() {#}
+    {##}
+    {#            var nowTemp = new Date();#}
+    {#            var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);#}
+    {#            var checkin = $('#id_actual_date').datepicker({#}
+    {#                format: 'dd.mm.yyyy',#}
+    {#                weekStart: 1,#}
+    {#                onRender: function (date) {#}
+    {#                    return date.valueOf() < now.valueOf() ? 'disabled' : '';#}
+    {#                }#}
+    {#            }).on('changeDate',function () {#}
+    {#                        checkin.hide();#}
+    {#                    }).data('datepicker');#}
+    {##}
+    {##}
+    {#        });#}
+    {#    </script>#}
+
+    <script>
+        $(function () {
+            var checkin = $('#id_actual_date').datepicker({
+                format: 'dd.mm.yyyy',
+                weekStart: 1
+            }).on('changeDate',function () {
+                        checkin.hide();
+                    }).data('datepicker');
+        });
+    </script>
+
+    {% if tables %}
+        <h3>Загруженные файлы:</h3>
+        <table class="table table-striped table-bordered table-hover">
+            <tr>
+                <th>
+                    №
+                </th>
+                <th>
+                    Отделение
+                </th>
+                <th>
+                    База
+                </th>
+                <th>
+                    Записей
+                </th>
+                <th>
+                    Месяц
+                </th>
+                <th>
+                    Год
+                </th>
+                <th>
+                    Актуальная дата
+                </th>
+                <th>
+
+                </th>
+            </tr>
+            {% for tab in tables %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ tab.department.name }}</td>
+                    <td>{{ tab.dbtable }}</td>
+                    <td>{{ tab.dbfnumrecs }}</td>
+                    <td>{% if not tab.month %} - {% else %} {{ tab.month }} {% endif %}</td>
+                    <td>{% if not tab.year %} - {% else %} {{ tab.year }} {% endif %}</td>
+                    <td> {{ tab.actual_date|date:"d.m.Y" }}</td>
+                    <td><a onclick="return confirm('Удалить запись?');"
+                           href="{% url 'delete_loaded' tab.id %}">Удалить</a></td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+
+{% endblock %}
+
+
+
