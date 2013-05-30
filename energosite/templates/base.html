@@ -37,7 +37,7 @@
     {% endblock %}
 
     {% block js %}
-        <script src="{% static "js/jquery-2.0.0.min.js" %}"></script>
+        <script src="{% static "js/jquery-2.0.1.min.js" %}"></script>
         <script src="{% static "js/bootstrap.js" %}"></script>
         <script src="//yandex.st/share/share.js" charset="utf-8"></script>
         <script src="{% static "js/bootstrap-datepicker.js" %}"></script>
@@ -45,7 +45,7 @@
 
         <script>
             $(document).ready(function () {
-                $('div.input-required > input, div.input-required > textarea, div.input-required > select').attr('required', '');
+{#                $('div.input-required > input, div.input-required > textarea, div.input-required > select').attr('required', '');#}
                 $('a[data-toggle=tooltip]').tooltip();
                 $("a[data-toggle=popover], button[data-toggle=popover]").popover({ trigger: "hover focus", delay: 100 });
             });
@@ -54,7 +54,7 @@
         <script type="text/javascript">
             function PrintWindow() {
                 window.print();
-                setTimeout("window.close()", 300);
+                setTimeout("window.close();", 300);
             }
         </script>
 
@@ -216,10 +216,10 @@
                     {% bottom_menu %}
                 {% endblock %}
 
-                <p>&copy; 2013, {% trans 'Aktobeenergosnab' %}</p>
-                {#                <p>Created by#}
-                {#                    <a href="{% url 'show_page' 'author' %}">Maydanenko Igor</a> &copy; 2012-2013#}
-                {#                </p>#}
+                {#                <p>&copy; 2013, {% trans 'Aktobeenergosnab' %}</p>#}
+                <p>Created by
+                    <a href="{% url 'show_page' 'author' %}">Maydanenko Igor</a> &copy; 2012-2013
+                </p>
 
                 <div class="pull-right">
                     {% include 'blocks/counter_block.html' %}

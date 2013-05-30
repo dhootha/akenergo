@@ -7,7 +7,7 @@
 {#    </div>#}
 {#{% endif %}#}
 
-<form id="search_form" action="" method="{{ REQ_METHOD|default:'POST' }}">
+<form  id="standard_form"  class="form-horizontal"  action="{{ ACTION|default:'' }}" method="{{ REQ_METHOD|default:'POST' }}">
     {% csrf_token %}
 
     {% for field in form %}
@@ -62,7 +62,7 @@
 
     <div class="control-group">
         <div class="controls">
-            <button type="submit" class="btn btn-inverse">{{ submCaptrans }}</button>
+            <button type="submit" class="btn btn-inverse">{{ submCaptrans|default:'OK' }}</button>
         </div>
     </div>
 

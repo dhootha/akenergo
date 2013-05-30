@@ -5,57 +5,62 @@
 {% block page_title %}{{ ssheader }}{% endblock %}
 {% block page_content %}
 
-    {% trans 'OK' as submCaptrans %}
+    {#    {% trans 'OK' as submCaptrans %}#}
     {% include 'blocks/standard_form.html' %}
 
-    {% if abonents %}
-        <table class="table table-striped table-bordered table-hover table-condensed">
-            <thead>
-            <tr>
-                <th>{% trans 'Personal number' %}</th>
-                {#                <th>{% trans 'Department' %}</th>#}
-                <th> {% trans 'Client name' %}</th>
-            </tr>
-            </thead>
+<div id="results">
 
-            <tbody>
-            {% for abonent in abonents %}
-                <tr>
-                    <td> {{ abonent.nls }}</td>
-                    {#                    <td> {{ abonent.department }}</td>#}
-                    <td> {{ abonent.fio }}</td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-    {% else %}
-        {% if request.GET %}
-            <p>
-                <strong>
-                    {% trans 'Not found' %}
-                </strong>
-            </p>
-        {% endif %}
+</div>
 
-    {% endif %}
 
-{#    <div id="output1">fffffffffff</div>#}
-{#    <script>#}
-{#        $('#search_form').submit(function (event) { // catch the form's submit event#}
-{#            /* stop form from submitting normally */#}
-{#            event.preventDefault();#}
-{#            $.ajax({ // create an AJAX call...#}
-{#                data: $(this).serialize(), // get the form data#}
-{#                type: $(this).attr('method'), // GET or POST#}
-{#                url: $(this).attr('action') // the file to call#}
-{#            }).done(function (msg) {#}
-{#                        alert("Data Saved: " + msg);#}
-{#                        alert(msg);#}
-{#                        alert($(msg).find('#search_form'));#}
-{#                        document.body.innerHTML = msg;#}
-{#                    });#}
-{#            return false; // cancel original event to prevent form submitting#}
-{#        });#}
-{#    </script>#}
+    <script>
+
+        function display_form_errors(errors, $form) {
+            for (var k in errors) {
+                $form.find('input[name=' + k + '], select[name=' + k + ']').closest(".control-group").addClass('error');
+                $form.find('input[name=' + k + '], select[name=' + k + ']').next(".help-inline").html(errors[k]);
+            }
+        }
+
+         function remove_form_errors($form) {
+                $form.find('.control-group').removeClass('error');
+                $form.find('.help-inline').html('');
+        }
+
+        $(document).ready(function () {
+            $('#standard_form').submit(function () { // catch the form's submit event
+                $.ajax({ // create an AJAX call...
+                    context: $('#standard_form'),
+                    data: $(this).serialize(), // get the form data
+                    type: $(this).attr('method'), // GET or POST
+                    url: $(this).attr('action'), // the file to call
+                    dataType: 'json',
+                    beforeSend: function (jqXHR, settings) {
+                        {#                        $(this).next().html('<p>beforeSend-> Отправляю запрос</p>'); // Просто очистим поле, в которое выводим сообщения#}
+                        $(this).find('input, select').attr('disabled', 'disabled'); // запрещаем редактировать инпуты
+                        remove_form_errors($(this));
+                    },
+                    success: function (data) { // on success..
+                        if (data['result'] === 'success') {
+                            alert(data['response']);
+                        }
+                        else if (data['result'] === 'error') {
+                            // Показываем ошибки
+                            {#                            $('#standard_form').html(data['response']);#}
+                            display_form_errors(data['response'], $(this));
+
+                        }
+                    },
+                    complete: function (jqXHR, textStatus) {
+                        {#                        $(this).next().append('<p>complete -> Завершено со статусом: ' + textStatus + '</p>');#}
+                        $(this).find('input, select').removeAttr('disabled'); // разрешаем редактировать инпуты
+
+                    }
+                });
+                return false;
+            });
+        });
+
+    </script>
 
 {% endblock %}

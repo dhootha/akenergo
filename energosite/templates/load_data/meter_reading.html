@@ -23,7 +23,7 @@
 
 
         <div class="control-group{% if form.nls.errors %} error{% endif %}">
-            <label class="control-label" for="id_nls">{% trans 'Personal number' %}:</label>
+            <label class="control-label" for="id_nls">{{ form.nls.label }}:</label>
 
             <div class="controls">
                 {{ form.nls }}
@@ -48,7 +48,7 @@
 
 
         <div class="control-group{% if form.fio.errors %} error{% endif %}">
-            <label class="control-label" for="id_fio">{% trans 'Client name' %}:</label>
+            <label class="control-label" for="id_fio">{{ form.fio.label }}:</label>
 
             <div class="controls">
                 {{ form.fio }}
@@ -61,7 +61,7 @@
         </div>
 
         <div class="control-group{% if form.address.errors %} error{% endif %}">
-            <label class="control-label" for="id_address">{% trans 'Address' %}:</label>
+            <label class="control-label" for="id_address">{{ form.address.label }}:</label>
 
             <div class="controls">
                 {{ form.address }}
@@ -93,7 +93,7 @@
 
 
             <div id="day_pok" class="control-group{% if form.pok1.errors %} error{% endif %}">
-                <label class="control-label" for="id_pok1">{% trans 'Day reading' %}:</label>
+                <label class="control-label" for="id_pok1">{{ form.pok1.label }}:</label>
 
                 <div class="controls">
                     {{ form.pok1 }}
@@ -107,7 +107,7 @@
 
 
             <div id="night_pok" class="control-group{% if form.pok2.errors %} error{% endif %}">
-                <label class="control-label" for="id_pok2">{% trans 'Night reading' %}:</label>
+                <label class="control-label" for="id_pok2">{{ form.pok2.label }}:</label>
 
                 <div class="controls">
                     {{ form.pok2 }}
@@ -203,7 +203,7 @@
                 $("#night_pok").hide();
                 {#            $(':input', $form).not(':button, :submit, :reset, :hidden').attr('required', false);#}
                 $('input:text:visible:first', $form).focus();
-                $('html, body').animate({scrollTop: $form.offset().top - 70}, 'fast');
+                $('html, body').animate({scrollTop: $form.offset().top - 176}, 'fast');
             });
 
             {#                        jQuery.fn.form_clear = function () {#}

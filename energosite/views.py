@@ -1,13 +1,15 @@
 # -*- coding: utf-8 -*-
-from django.shortcuts import render_to_response, HttpResponseRedirect, render
-from django.template import RequestContext
-from energosite.models import *
+from django.shortcuts import HttpResponseRedirect, render, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from energosite.forms import *
 from django.core.urlresolvers import reverse
+
 from django.core.mail import EmailMessage
 from django.contrib.sites.models import Site
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
+
+from energosite.models import *
+from energosite.forms import *
+
 #from django.template import loader, Context
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils.translation import ugettext as _
@@ -23,14 +25,12 @@ from django.contrib.sites.models import RequestSite
 from django.contrib.auth.views import login as django_login
 from django.contrib.auth.forms import AuthenticationForm
 from django.utils.encoding import force_unicode
+import json as simplejson
 
 
 def index(request):
-    HI_PAGE = None
-    pages = Page.objects.filter(link='hi', published=True)
-    if pages.count():
-        HI_PAGE = pages[0]
-    return render_to_response('posts/index.html', {'HI_PAGE': HI_PAGE}, context_instance=RequestContext(request))
+    HI_PAGE = get_object_or_404(Page, link='hi', published=True)
+    return render(request, 'posts/index.html', {'HI_PAGE': HI_PAGE})
 
 #
 # from django.utils.http import is_safe_url
@@ -65,11 +65,7 @@ def index(request):
 
 
 def show_page(request, link):
-    page = None
-    pages = Page.objects.filter(link=link, published=True)
-    if pages.count():
-        page = pages[0]
-
+    page = get_object_or_404(Page, link=link, published=True)
     trail = []
     menus = TopMenu.objects.filter(page__link=link)
     if menus.count():
@@ -78,25 +74,18 @@ def show_page(request, link):
         trail = [(reverse('list_submenus', args=[anc.id]), anc.title) for anc in ancs]
         #        trail.append((reverse('list_submenus', args=[menu.id]), menu.title))
 
-    return render_to_response('posts/base_post.html',
-                              {'post': page, 'show_comments': False, 'trail': trail},
-                              context_instance=RequestContext(request))
+    return render(request, 'posts/base_post.html', {'post': page, 'show_comments': False, 'trail': trail})
 
 
 def show_article(request, link_id):
-    article = None
-    articles = Article.objects.filter(pk=link_id, published=True)
-    if articles.count():
-        article = articles[0]
-
+    article = get_object_or_404(Article, pk=link_id, published=True)
     # trail = []
     # menus = TopMenu.objects.filter(link=reverse('news_list'))
     # if menus.count():
     #     menu = menus[0]
     trail = [(reverse('news_list'), _('Site news'))]
 
-    return render_to_response('posts/base_post.html', {'post': article, 'show_comments': True, 'trail': trail},
-                              context_instance=RequestContext(request))
+    return render(request, 'posts/base_post.html', {'post': article, 'show_comments': True, 'trail': trail})
 
 
 def list_submenus(request, menu_id):
@@ -110,9 +99,7 @@ def list_submenus(request, menu_id):
         submenus = menu.get_descendants()
         ancs = menu.get_ancestors()
         trail = [(reverse('list_submenus', args=[anc.id]), anc.title) for anc in ancs]
-    return render_to_response('posts/list_submenus.html',
-                              {'submenus': submenus, 'menu_title': menu_title, 'trail': trail},
-                              context_instance=RequestContext(request))
+    return render(request, 'posts/list_submenus.html', {'submenus': submenus, 'menu_title': menu_title, 'trail': trail})
 
 
 def news_list(request):
@@ -131,10 +118,8 @@ def news_list(request):
 
     page_limit = [1, 2, 3, 4]
     page_limitr = [-4, -3, -2, -1]
-    return render_to_response('posts/news_list.html',
-                              {"news_list": news_list, 'page_limit': page_limit, 'page_limitr': page_limitr},
-                              context_instance=RequestContext(request))
-
+    return render(request, 'posts/news_list.html',
+                  {"news_list": news_list, 'page_limit': page_limit, 'page_limitr': page_limitr})
 
 # def getLastMonthPayment(nls):
 #     sel = "SELECT nls, sum(opl) as opl FROM oplbaza " \
@@ -179,6 +164,8 @@ def view_debtors(request, kod):
             val = dict(nomer=nomer + 1, address=debtor.address, nls=debtor.nls, dolg=debtor.dolg, fio=debtor.fio)
             debs.append(val)
         cache.set('debs' + str(kod), debs)
+        if not debs:
+            raise Http404
 
     paginator = Paginator(debs, 100)
     page = request.GET.get('page')
@@ -204,11 +191,10 @@ def view_debtors(request, kod):
     page_limit = [1, 2, 3, 4]
     page_limitr = [-4, -3, -2, -1]
 
-    return render_to_response('data/view_debtors.html',
-                              {'debtors_pages': debtors_pages, 'today': today, 'ur_lica': ur_lica, 'trail': trail,
-                               'page_limit': page_limit,
-                               'page_limitr': page_limitr},
-                              RequestContext(request))
+    return render(request, 'data/view_debtors.html',
+                  {'debtors_pages': debtors_pages, 'today': today, 'ur_lica': ur_lica, 'trail': trail,
+                   'page_limit': page_limit,
+                   'page_limitr': page_limitr})
 
 
 def nls_exists(ls):
@@ -299,21 +285,16 @@ def edit_profile(request):
     address = get_address(profile.nls)
 
     if request.method == 'POST':
-        form = EditProfileForm(request.POST)
+        form = EditProfileForm(request.POST, instance=profile)
         if form.is_valid():
-            profile.nls = form.cleaned_data['nls']
-            profile.mailing = form.cleaned_data['mailing']
-            profile.home_phone = form.cleaned_data["home_phone"]
-            profile.mobile_phone = form.cleaned_data["mobile_phone"]
-            profile.save()
+            form.save()
             messages.add_message(request, messages.SUCCESS, _('Your profile was saved'))
             return HttpResponseRedirect(reverse('edit_profile'))
     else:
-        dict_ = {'nls': profile.nls, 'mailing': profile.mailing,
-                 'home_phone': profile.home_phone, 'mobile_phone': profile.mobile_phone}
-        form = EditProfileForm(initial=dict_)
-    return render_to_response('profile/edit_profile.html',
-                              {'form': form, 'fio': fio, 'address': address}, RequestContext(request))
+        # dict_ = {'nls': profile.nls, 'mailing': profile.mailing,
+        #          'home_phone': profile.home_phone, 'mobile_phone': profile.mobile_phone}
+        form = EditProfileForm(instance=profile)
+    return render(request, 'profile/edit_profile.html', {'form': form, 'fio': fio, 'address': address})
 
 
 @login_required
@@ -326,14 +307,15 @@ def meter_reading(request):
         return render(request, 'load_data/data_error.html', {'error': error})
 
     if request.method == 'POST':
-        form = MeterReadingForm(request.POST, request.FILES)
+        form = MeterReadingForm(request.POST)
         if form.is_valid():
             nls = form.cleaned_data['nls']
-            year = datetime.date.today().year
-            month = datetime.date.today().month
+            year = timezone.now().year
+            month = timezone.now().month
             objects = MeterReading.objects.filter(nls=nls, date__year=year, date__month=month)
             if not objects.count():
                 mr = MeterReading(nls=nls)
+                mr.date = timezone.now()
             else:
                 mr = objects[0]
             mr.fio = form.cleaned_data['fio']
@@ -341,7 +323,6 @@ def meter_reading(request):
             mr.pok1 = form.cleaned_data['pok1']
             mr.pok2 = form.cleaned_data['pok2']
             mr.pok3 = form.cleaned_data['pok3']
-            mr.date = timezone.now()
             mr.save()
             messages.add_message(request, messages.SUCCESS, _('Thank you!'))
             return HttpResponseRedirect(reverse('meter_reading'))
@@ -350,7 +331,7 @@ def meter_reading(request):
         address = get_address(profile.nls)
         dict___ = {'nls': profile.nls, 'fio': fio, 'address': address, 'date': timezone.now()}
         form = MeterReadingForm(initial=dict___)
-    return render_to_response('load_data/meter_reading.html', {'form': form}, RequestContext(request))
+    return render(request, 'load_data/meter_reading.html', {'form': form})
 
 
 def encStr(str_, dest):
@@ -451,7 +432,7 @@ def load_reading(request):
         form.fields['month'].choices, form.fields['month'].initial = MONTHS, getMonth()
         form.fields['year'].choices, form.fields['year'].initial = YEARS, getYear()
 
-    return render_to_response('load_data/load_reading.html', {'form': form}, RequestContext(request))
+    return render(request, 'load_data/load_reading.html', {'form': form})
 
 
 def search_address(request):
@@ -489,9 +470,32 @@ def search_address(request):
 
             abonents = Abonbaza.objects.extra(where=condits, params=params).order_by("nls")[:100]
 
-    return render_to_response('search/search_abonent.html', {'ssheader': _('Search by address'),
-                                                             'form': form, 'abonents': abonents, 'REQ_METHOD': 'GET'},
-                              RequestContext(request))
+    return render(request, 'search/search_abonent.html', {'ssheader': _('Search by address'),
+                                                          'form': form, 'abonents': abonents, 'REQ_METHOD': 'GET'})
+
+
+def ajax_search_fio(request):
+    abonents = None
+    if request.method == 'POST' and request.is_ajax():
+        form = SearchFioForm(request.POST)
+        if form.is_valid():
+            # Обработка
+            # ...
+            abonents = Abonbaza.objects.extra(where=["department_id = %s", "upper(fio) like %s"],
+                                        params=[form.cleaned_data['department'],
+                                        force_unicode(form.cleaned_data['fio']).upper() + '%']).order_by("nls")[:100]
+            print force_unicode(abonents)
+            return HttpResponse(
+                simplejson.dumps({'response': render_to_string('search/result_table.html', {'abonents': 'ждужд'}), 'result': 'success'}))
+        else:
+            response = {}
+            for field in form:
+                for err in field.errors:
+                    response[field.name] = err
+
+            return HttpResponse(simplejson.dumps({'response': response, 'result': 'error'}))
+    form = SearchFioForm()
+    return render(request, 'search/search_abonent.html', {'ssheader': _('Search by surname'), 'form': form})
 
 
 def search_fio(request):
@@ -509,9 +513,8 @@ def search_fio(request):
             abonents = Abonbaza.objects.extra(where=["department_id = %s", "upper(fio) like %s"],
                                               params=[department, fio.upper() + '%']).order_by("nls")[:100]
 
-    return render_to_response('search/search_abonent.html', {'ssheader': _('Search by surname'),
-                                                             'form': form, 'abonents': abonents, 'REQ_METHOD': 'GET'},
-                              RequestContext(request))
+    return render(request, 'search/search_abonent.html', {'ssheader': _('Search by surname'),
+                                                          'form': form, 'abonents': abonents, 'REQ_METHOD': 'GET'})
 
 
 def getActualDate(dbtable, department):
@@ -563,10 +566,9 @@ def view_payment(request):
         #     dolg += kvits[0].saldoka
         actual_kvit_date = getActualDate('kvitbaza', kvits[0].department)
 
-    return render_to_response('data/view_payment.html',
-                              {'payments': payments, 'dolg': dolg, 'actual_kvit_date': actual_kvit_date,
-                               'actual_pay_date': actual_pay_date, 'fizlica': fizlica, 'urlica': urlica},
-                              RequestContext(request))
+    return render(request, 'data/view_payment.html',
+                  {'payments': payments, 'dolg': dolg, 'actual_kvit_date': actual_kvit_date,
+                   'actual_pay_date': actual_pay_date, 'fizlica': fizlica, 'urlica': urlica})
 
 
 def render_recon_rep(nls):
@@ -584,7 +586,7 @@ def print_recon_rep(request):
     user = request.user
     nls = get_profile(user).nls
     reports_table = render_recon_rep(nls)
-    return render_to_response('data/print_recon_rep.html', {'reports_table': reports_table, }, RequestContext(request))
+    return render(request, 'data/print_recon_rep.html', {'reports_table': reports_table})
 
 
 @login_required
@@ -592,7 +594,7 @@ def recon_rep_page(request):
     user = request.user
     nls = get_profile(user).nls
     reports_table = render_recon_rep(nls)
-    return render_to_response('data/recon_rep_page.html', {'reports_table': reports_table, }, RequestContext(request))
+    return render(request, 'data/recon_rep_page.html', {'reports_table': reports_table})
 
 
 def render_kvit(nls):
@@ -624,6 +626,7 @@ def render_kvit(nls):
     else:
         return ''
 
+
 @login_required
 def print_kvit(request):
     user = request.user
@@ -636,7 +639,8 @@ def print_kvit(request):
     # response['Content-Disposition'] = 'attachment; filename=kvitanciya.html'
     # response.write(kvitanciya)
     # return response
-    return render_to_response('data/print_kvit.html', {'kvitanciya': kvitanciya}, RequestContext(request))
+    return render(request, 'data/print_kvit.html', {'kvitanciya': kvitanciya})
+
 
 @login_required
 def kvit_page(request):
@@ -644,9 +648,9 @@ def kvit_page(request):
     nls = get_profile(user).nls
     kvitanciya = render_kvit(nls)
     if not kvitanciya:
-          messages.add_message(request, messages.ERROR, _('Not found'))
-          return HttpResponseRedirect(reverse('kvit_page'))
-    return render_to_response('data/kvit_page.html', {'kvitanciya': kvitanciya}, RequestContext(request))
+        messages.add_message(request, messages.ERROR, _('Not found'))
+        return HttpResponseRedirect(reverse('kvit_page'))
+    return render(request, 'data/kvit_page.html', {'kvitanciya': kvitanciya})
 
 
 @login_required
@@ -686,7 +690,7 @@ def contact_form(request):
         menu = menus[0].get_root()
         trail = [(reverse('list_submenus', args=[menu.id]), menu.title)]
 
-    return render_to_response('contact/contact_form.html', {'form': form, 'trail': trail}, RequestContext(request))
+    return render(request, 'contact/contact_form.html', {'form': form, 'trail': trail})
 
 
 def site_comments(request):
@@ -695,7 +699,7 @@ def site_comments(request):
     if menus.count():
         menu = menus[0].get_root()
         trail = [(reverse('list_submenus', args=[menu.id]), menu.title)]
-    return render_to_response('contact/comments.html', {'trail': trail}, RequestContext(request))
+    return render(request, 'contact/comments.html', {'trail': trail})
 
 
 def handle_uploaded_file(f, copyto):

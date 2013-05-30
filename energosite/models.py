@@ -327,7 +327,6 @@ class TopMenu(MPTTModel):
 class UserProfile(models.Model):
 #    user = models.ForeignKey(settings.AUTH_USER_MODEL, unique=True, related_name='profiles')
     user = models.OneToOneField(settings.AUTH_USER_MODEL)
-    # nls = models.IntegerField(_('Personal number'), default=0)
     nls = models.DecimalField(_('Personal number'), max_digits=7, decimal_places=0, default=0)
     mobile_phone = models.CharField(blank=True, null=True, max_length=25)
     home_phone = models.CharField(blank=True, null=True, max_length=25)

@@ -1,15 +1,21 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
-from energosite.forms import MyRegistrationForm
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth.decorators import login_required
+from django.views.generic.base import TemplateView
+from django.contrib.sitemaps import GenericSitemap
+from energosite.models import Page, Article
+from energosite.forms import MyRegistrationForm
+from registration.backends.default.views import RegistrationView
+
+class RegistrationViewUniqueEmail(RegistrationView):
+    form_class = MyRegistrationForm
+
+
 
 admin.autodiscover()
 
-from django.views.generic.base import TemplateView
-from energosite.models import Page, Article
-from django.contrib.sitemaps import GenericSitemap
 
 
 page_dict = {
@@ -38,7 +44,7 @@ urlpatterns = patterns('',
     url(r'^meter_reading/input/$', 'energosite.views.meter_reading', name='meter_reading'),
     url(r'^meter_reading/load/$', 'energosite.views.load_reading', name='load_reading'),
 
-    url(r'^search/fio/$', 'energosite.views.search_fio', name='search_fio'),
+    url(r'^search/fio/$', 'energosite.views.ajax_search_fio', name='search_fio'),
     url(r'^search/address/$', 'energosite.views.search_address', name='search_address'),
 #    url(r'^search/results/$',  TemplateView.as_view(template_name='search/search_results.html'), name='search_results'),
 
@@ -79,9 +85,7 @@ urlpatterns = patterns('',
     url(r'^users/my_profile/$', 'energosite.views.edit_profile', name='edit_profile'),
     url(r'^accounts/login/$', 'energosite.views.login', {'template_name': 'registration/login.html'},
         name='auth_login'),
-    url(r'^accounts/register/$', 'registration.views.register',
-        {'backend': 'registration.backends.default.DefaultBackend', 'form_class': MyRegistrationForm, },
-        name='registration_register'),
+    url(r'^accounts/register/$', RegistrationViewUniqueEmail.as_view(), name='registration_register'),
     url(r'^accounts/activate/resend/$', 'energosite.views.resend_activation_link', name='resend_activation_link'),
     url(r'^accounts/', include('registration.backends.default.urls')),
 
