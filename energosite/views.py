@@ -283,6 +283,7 @@ def edit_profile(request):
     profile = get_profile(user)
     fio = get_fio(profile.nls)
     address = get_address(profile.nls)
+    email = profile.user.email
 
     if request.method == 'POST':
         form = EditProfileForm(request.POST, instance=profile)
@@ -294,7 +295,7 @@ def edit_profile(request):
         # dict_ = {'nls': profile.nls, 'mailing': profile.mailing,
         #          'home_phone': profile.home_phone, 'mobile_phone': profile.mobile_phone}
         form = EditProfileForm(instance=profile)
-    return render(request, 'profile/edit_profile.html', {'form': form, 'fio': fio, 'address': address})
+    return render(request, 'profile/edit_profile.html', {'form': form, 'fio': fio, 'address': address, 'email': email})
 
 
 @login_required
@@ -435,6 +436,46 @@ def load_reading(request):
     return render(request, 'load_data/load_reading.html', {'form': form})
 
 
+def ajax_search_address(request):
+    abonents = None
+    if request.method == 'POST' and request.is_ajax():
+        form = SearchAddressForm(request.POST)
+        if form.is_valid():
+            # Обработка
+            # ...
+            department = request.POST.get('department', 0)
+            ul = request.POST.get('ul', '')
+            nd = request.POST.get('nd', '')
+            nkor = request.POST.get('nkor', '')
+            nkw = request.POST.get('nkw', '')
+
+            condits = ["department_id = %s", "upper(ul) like %s", "upper(nd) = %s"]
+            params = [department, ul.upper() + "%", nd.upper()]
+
+            if nkor:
+                condits.append("upper(nkor) = %s")
+                params.append(nkor.upper())
+            if nkw:
+                condits.append("upper(nkw) = %s")
+                params.append(nkw.upper())
+
+            abonents = Abonbaza.objects.extra(where=condits, params=params).order_by("nls")[:100]
+
+            return HttpResponse(simplejson.dumps({'response': render_to_string('search/result_table.html',
+                                                                               {'abonents': abonents}),
+                                                  'result': 'success'}), content_type="application/json")
+        else:
+            response = {}
+            for err in form.errors:
+                response[err] = form.errors[err][0]
+            return HttpResponse(simplejson.dumps({'response': response, 'result': 'error'}),
+                                content_type="application/json")
+
+    form = SearchAddressForm()
+    return render(request, 'search/search_abonent.html', {'ssheader': _('Search by address'), 'submCaptrans': _('Find'),
+                                                          'form': form})
+
+
 def search_address(request):
     abonents = None
     form = SearchAddressForm()
@@ -481,21 +522,24 @@ def ajax_search_fio(request):
         if form.is_valid():
             # Обработка
             # ...
+            fio = u"{0}{1}".format(request.POST.get('fio', '').upper(), '%')
+            department = request.POST.get('department', 0)
             abonents = Abonbaza.objects.extra(where=["department_id = %s", "upper(fio) like %s"],
-                                        params=[form.cleaned_data['department'],
-                                        force_unicode(form.cleaned_data['fio']).upper() + '%']).order_by("nls")[:100]
-            print force_unicode(abonents)
-            return HttpResponse(
-                simplejson.dumps({'response': render_to_string('search/result_table.html', {'abonents': 'ждужд'}), 'result': 'success'}))
+                                              params=[department, fio]).order_by("nls")[:100]
+
+            return HttpResponse(simplejson.dumps({'response': render_to_string('search/result_table.html',
+                                                                               {'abonents': abonents}),
+                                                  'result': 'success'}), content_type="application/json")
         else:
             response = {}
-            for field in form:
-                for err in field.errors:
-                    response[field.name] = err
+            for err in form.errors:
+                response[err] = form.errors[err][0]
+            return HttpResponse(simplejson.dumps({'response': response, 'result': 'error'}),
+                                content_type="application/json")
 
-            return HttpResponse(simplejson.dumps({'response': response, 'result': 'error'}))
     form = SearchFioForm()
-    return render(request, 'search/search_abonent.html', {'ssheader': _('Search by surname'), 'form': form})
+    return render(request, 'search/search_abonent.html', {'ssheader': _('Search by surname'), 'submCaptrans': _('Find'),
+                                                          'form': form})
 
 
 def search_fio(request):
@@ -750,13 +794,13 @@ def upload_data(request):
             month = form.cleaned_data.get('month')
             year = form.cleaned_data.get('year')
             actual_date = form.cleaned_data.get("actual_date")
-            dbfFileName = "{0}_{1}_{2:0>2}{3:0>4}".format(dbtable, department.id, month, year) + ".dbf"
+            dbfFileName = u"{0}_{1}_{2:0>2}{3:0>4}".format(dbtable, department.id, month, year) + ".dbf"
             dbfnumrecs = handle_uploaded_file(request.FILES['filename'],
                                               os.path.join(settings.UPLOAD_DATA_PATH, dbfFileName))
             if dbfnumrecs >= 0:
                 messages.add_message(request, messages.SUCCESS,
-                                     "Файл - {0} ({1}) за {2:0>2}/{3:0>4} загружен".format(dbtable, department, month,
-                                                                                           year))
+                                     u"Файл - {0} ({1}) за {2:0>2}/{3:0>4} загружен".format(dbtable, department, month,
+                                                                                            year))
 
                 tabs = Tables.objects.filter(dbtable=dbtable, department=department, month=month, year=year)
                 if tabs.count():
@@ -774,7 +818,7 @@ def upload_data(request):
                     #                    ActualDate(dbtable=dbtable, department=department, actual_date=actual_date).save()
             else:
                 messages.add_message(request, messages.ERROR,
-                                     "Файл {0} не DBF или испорчен".format(form.cleaned_data.get('filename')))
+                                     u"Файл {0} не DBF или испорчен".format(form.cleaned_data.get('filename')))
             return HttpResponseRedirect(reverse('upload_data'))
     else:
         form = TablesForm()
@@ -793,7 +837,7 @@ def delete_loaded(request, item_id):
         return render(request, 'load_data/data_error.html', {'error': error})
     tabs = Tables.objects.filter(pk=item_id)
     if tabs.count():
-        messages.add_message(request, messages.INFO, "Файл {0} удалён".format(tabs[0].filename))
+        messages.add_message(request, messages.INFO, u"Файл {0} удалён".format(tabs[0].filename))
         tabs[0].delete()
     return HttpResponseRedirect(reverse('upload_data'))
 

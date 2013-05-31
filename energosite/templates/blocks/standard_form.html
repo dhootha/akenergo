@@ -7,7 +7,8 @@
 {#    </div>#}
 {#{% endif %}#}
 
-<form  id="standard_form"  class="form-horizontal"  action="{{ ACTION|default:'' }}" method="{{ REQ_METHOD|default:'POST' }}">
+<form id="standard_form" class="form-horizontal" action="{{ ACTION|default:'' }}"
+      method="{{ REQ_METHOD|default:'POST' }}">
     {% csrf_token %}
 
     {% for field in form %}
@@ -69,3 +70,8 @@
 </form>
 
 
+<script>
+    $(function () {
+        $('#standard_form').SubmitAjaxForm("#results", "#ajax_message", 'Правверитьвв');
+    });
+</script>

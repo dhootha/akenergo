@@ -5,62 +5,12 @@
 {% block page_title %}{{ ssheader }}{% endblock %}
 {% block page_content %}
 
-    {#    {% trans 'OK' as submCaptrans %}#}
     {% include 'blocks/standard_form.html' %}
 
-<div id="results">
+    <div style="min-height: 400px;">
+        <div id="results"></div>
+    </div>
 
-</div>
 
-
-    <script>
-
-        function display_form_errors(errors, $form) {
-            for (var k in errors) {
-                $form.find('input[name=' + k + '], select[name=' + k + ']').closest(".control-group").addClass('error');
-                $form.find('input[name=' + k + '], select[name=' + k + ']').next(".help-inline").html(errors[k]);
-            }
-        }
-
-         function remove_form_errors($form) {
-                $form.find('.control-group').removeClass('error');
-                $form.find('.help-inline').html('');
-        }
-
-        $(document).ready(function () {
-            $('#standard_form').submit(function () { // catch the form's submit event
-                $.ajax({ // create an AJAX call...
-                    context: $('#standard_form'),
-                    data: $(this).serialize(), // get the form data
-                    type: $(this).attr('method'), // GET or POST
-                    url: $(this).attr('action'), // the file to call
-                    dataType: 'json',
-                    beforeSend: function (jqXHR, settings) {
-                        {#                        $(this).next().html('<p>beforeSend-> Отправляю запрос</p>'); // Просто очистим поле, в которое выводим сообщения#}
-                        $(this).find('input, select').attr('disabled', 'disabled'); // запрещаем редактировать инпуты
-                        remove_form_errors($(this));
-                    },
-                    success: function (data) { // on success..
-                        if (data['result'] === 'success') {
-                            alert(data['response']);
-                        }
-                        else if (data['result'] === 'error') {
-                            // Показываем ошибки
-                            {#                            $('#standard_form').html(data['response']);#}
-                            display_form_errors(data['response'], $(this));
-
-                        }
-                    },
-                    complete: function (jqXHR, textStatus) {
-                        {#                        $(this).next().append('<p>complete -> Завершено со статусом: ' + textStatus + '</p>');#}
-                        $(this).find('input, select').removeAttr('disabled'); // разрешаем редактировать инпуты
-
-                    }
-                });
-                return false;
-            });
-        });
-
-    </script>
 
 {% endblock %}

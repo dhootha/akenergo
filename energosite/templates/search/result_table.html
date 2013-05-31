@@ -18,12 +18,10 @@
         </tbody>
     </table>
 {% else %}
-    {% if request.POST %}
-        <p>
-            <strong>
-                {% trans 'Not found' %}
-            </strong>
-        </p>
-    {% endif %}
+    <p>
+        <strong>
+            {% trans 'Not found' %}
+        </strong>
+    </p>
 
 {% endif %}

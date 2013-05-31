@@ -43,20 +43,7 @@
         <script src="{% static "js/bootstrap-datepicker.js" %}"></script>
         <script src="{% static "js/jquery.form.js" %}"></script>
 
-        <script>
-            $(document).ready(function () {
-{#                $('div.input-required > input, div.input-required > textarea, div.input-required > select').attr('required', '');#}
-                $('a[data-toggle=tooltip]').tooltip();
-                $("a[data-toggle=popover], button[data-toggle=popover]").popover({ trigger: "hover focus", delay: 100 });
-            });
-        </script>
-
-        <script type="text/javascript">
-            function PrintWindow() {
-                window.print();
-                setTimeout("window.close();", 300);
-            }
-        </script>
+        <script src="{% static 'js/my.js' %}"></script>
 
     {% endblock %}
 
@@ -158,13 +145,22 @@
                     {% block messages %}
                         {% if messages %}
                             {% for message in messages %}
-                                <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                                <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %} fade in">
                                     <button type="button" class="close" data-dismiss="alert">&times;</button>
                                     <strong>{{ message }}</strong>
                                 </div>
                             {% endfor %}
                         {% endif %}
                     {% endblock %}
+
+                    {% block ajax_messages %}
+{#                        <div style="min-height: 60px;">#}
+                            <div class="hide alert alert-info fade in">
+                                <strong id="ajax_message"></strong>
+                            </div>
+{#                        </div>#}
+                    {% endblock %}
+
 
                     {% block page_content %}
                     {% endblock %}

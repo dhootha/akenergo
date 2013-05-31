@@ -45,7 +45,7 @@ urlpatterns = patterns('',
     url(r'^meter_reading/load/$', 'energosite.views.load_reading', name='load_reading'),
 
     url(r'^search/fio/$', 'energosite.views.ajax_search_fio', name='search_fio'),
-    url(r'^search/address/$', 'energosite.views.search_address', name='search_address'),
+    url(r'^search/address/$', 'energosite.views.ajax_search_address', name='search_address'),
 #    url(r'^search/results/$',  TemplateView.as_view(template_name='search/search_results.html'), name='search_results'),
 
     url(r'^search/google/$', TemplateView.as_view(template_name='search/google_search.html'), name='google_search'),
