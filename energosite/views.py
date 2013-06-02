@@ -285,16 +285,24 @@ def edit_profile(request):
     address = get_address(profile.nls)
     email = profile.user.email
 
-    if request.method == 'POST':
+    if request.method == 'POST' and request.is_ajax():
         form = EditProfileForm(request.POST, instance=profile)
         if form.is_valid():
             form.save()
-            messages.add_message(request, messages.SUCCESS, _('Your profile was saved'))
-            return HttpResponseRedirect(reverse('edit_profile'))
-    else:
+            #messages.add_message(request, messages.SUCCESS, _('Your profile was saved'))
+            return HttpResponse(simplejson.dumps({'response': "", 'result': 'success'}),
+                                content_type="application/json")
+            # return HttpResponseRedirect(reverse('edit_profile'))
+        else:
         # dict_ = {'nls': profile.nls, 'mailing': profile.mailing,
         #          'home_phone': profile.home_phone, 'mobile_phone': profile.mobile_phone}
-        form = EditProfileForm(instance=profile)
+            response = {}
+            for err in form.errors:
+                response[err] = form.errors[err][0]
+            non_f_err = form.non_field_errors()
+            return HttpResponse(simplejson.dumps({'response': response, 'non_f_err': non_f_err, 'result': 'error'}),
+                                content_type="application/json")
+    form = EditProfileForm(instance=profile)
     return render(request, 'profile/edit_profile.html', {'form': form, 'fio': fio, 'address': address, 'email': email})
 
 
@@ -462,13 +470,13 @@ def ajax_search_address(request):
             abonents = Abonbaza.objects.extra(where=condits, params=params).order_by("nls")[:100]
 
             return HttpResponse(simplejson.dumps({'response': render_to_string('search/result_table.html',
-                                                                               {'abonents': abonents}),
-                                                  'result': 'success'}), content_type="application/json")
+                                                  {'abonents': abonents}), 'result': 'success'}), content_type="application/json")
         else:
             response = {}
             for err in form.errors:
                 response[err] = form.errors[err][0]
-            return HttpResponse(simplejson.dumps({'response': response, 'result': 'error'}),
+            non_f_err = form.non_field_errors()
+            return HttpResponse(simplejson.dumps({'response': response, 'non_f_err': non_f_err, 'result': 'error'}),
                                 content_type="application/json")
 
     form = SearchAddressForm()
@@ -522,7 +530,7 @@ def ajax_search_fio(request):
         if form.is_valid():
             # Обработка
             # ...
-            fio = u"{0}{1}".format(request.POST.get('fio', '').upper(), '%')
+            fio = request.POST.get('fio', '').upper() + '%'
             department = request.POST.get('department', 0)
             abonents = Abonbaza.objects.extra(where=["department_id = %s", "upper(fio) like %s"],
                                               params=[department, fio]).order_by("nls")[:100]
@@ -534,7 +542,9 @@ def ajax_search_fio(request):
             response = {}
             for err in form.errors:
                 response[err] = form.errors[err][0]
-            return HttpResponse(simplejson.dumps({'response': response, 'result': 'error'}),
+            # non_f_err = ['ggg', 'fddd']
+            non_f_err = form.non_field_errors()
+            return HttpResponse(simplejson.dumps({'response': response, 'non_f_err': non_f_err, 'result': 'error'}),
                                 content_type="application/json")
 
     form = SearchFioForm()

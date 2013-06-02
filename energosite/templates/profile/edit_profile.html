@@ -24,7 +24,7 @@
 
 
 
-    <form class="form-horizontal" action="" method="post">
+    <form id="edit_profile_frm" class="form-horizontal" action="" method="post">
         {% csrf_token %}
 
         <div class="control-group{% if form.nls.errors %} error{% endif %}">
@@ -64,6 +64,7 @@
                             {{ error|escape }} &nbsp;&nbsp;
                         {% endfor %}
                     </span>
+
                 <div class="help-block" style="margin-left: 34px">
                     <span class="text-warning">7132 * * * * * *</span>
                 </div>
@@ -124,6 +125,9 @@
 
     <script type="text/javascript">
         document.getElementById('id_nls').focus();
+        $(function () {
+            SubmitAjaxForm('#edit_profile_frm', "#ajax_results", "{% trans 'Your profile was saved' %}");
+        });
     </script>
 
 

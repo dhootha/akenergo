@@ -153,12 +153,27 @@
                         {% endif %}
                     {% endblock %}
 
-                    {% block ajax_messages %}
-{#                        <div style="min-height: 60px;">#}
-                            <div class="hide alert alert-info fade in">
-                                <strong id="ajax_message"></strong>
+                    {#                    {% block ajax_messages %}#}
+                    {#                        <div style="min-height: 38px; margin-bottom: 20px">#}
+                    {#                            <div style="margin-bottom: 0" class="hide alert alert-info fade in">#}
+                    {#                                <strong id="ajax_message"></strong>#}
+                    {#                            </div>#}
+                    {#                        </div>#}
+                    {#                    {% endblock %}#}
+                    {% block ajax_results %}
+                        <div id="ajax_results" class="modal hide fade" tabindex="-1">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"
+                                        aria-hidden="true">&times;</button>
+                                <h3>Modal header</h3>
                             </div>
-{#                        </div>#}
+                            <div class="modal-body">
+                                <p>One fine body…</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn" data-dismiss="modal" aria-hidden="true">OK</button>
+                            </div>
+                        </div>
                     {% endblock %}
 
 

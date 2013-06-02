@@ -6,10 +6,17 @@
  * To change this template use File | Settings | File Templates.
  */
 
-
 function PrintWindow() {
     window.print();
     setTimeout("window.close();", 300);
+}
+
+
+function show_modal(modal_id, modal_head, modal_body) {
+    if (!modal_id) return;
+    $(modal_id).find('.modal-header h3').text(modal_head);
+    $(modal_id).find('.modal-body').html(modal_body);
+    $(modal_id).modal();
 }
 
 function display_form_errors(errors, $form) {
@@ -21,52 +28,51 @@ function display_form_errors(errors, $form) {
     }
 }
 
+function display_non_field_errors(errors, modal_id) {
+    if (errors.length == 0) return;
+    var result = "<ul> \n";
+    for (var i = 0; i < errors.length; i++) result += "<li>" + errors[i] + "</li> \n";
+    result += "</ul> \n";
+    show_modal(modal_id, 'Ошибка', result);
+}
+
 function remove_form_errors($form) {
     $form.find('.control-group').removeClass('error');
     $form.find('.help-inline').hide();
 }
 
 
-(function ($) {
-    jQuery.fn.SubmitAjaxForm = function (results_id, ajax_mess_id, ajax_message) {
-        return this.each(function () {
-            var $this = $(this);
-            $this.submit(function (event) {
-                event.preventDefault();
-                // Your function goes here
-                $.ajax({ // create an AJAX call...
+function SubmitAjaxForm(form_id, modal_id, modal_head) {
+    var $this = $(form_id);
+    $this.submit(function (event) {
+        event.preventDefault();
+        $.ajax({ // create an AJAX call...
 //                    context: $this,
-                    data: $this.serialize(), // get the form data
-                    type: $this.attr('method'), // GET or POST
-                    url: $this.attr('action'), // the file to call
-                    dataType: 'json',
-                    beforeSend: function (jqXHR, settings) {
-                        $this.find('input, select').attr('disabled', 'disabled'); // запрещаем редактировать инпуты
-                        remove_form_errors($this);
-                        if (results_id) $(results_id).hide();
-                        if (ajax_mess_id) $(ajax_mess_id).parent().addClass("hide");
-                    },
-                    success: function (data) { // on success..
-                        if (data.result == 'success') {
-                            if (results_id) $(results_id).html(data.response).fadeIn();
-                            if (ajax_mess_id) {$(ajax_mess_id).parent().removeClass("hide");
-                                $(ajax_mess_id).html(ajax_message);
-                            }
-                        }
-                        else if (data.result == 'error') {
-                            display_form_errors(data.response, $this);
-                            if (ajax_mess_id) $(ajax_mess_id).parent().addClass("hide");
-                        }
-                    },
-                    complete: function (jqXHR, textStatus) {
-                        $this.find('input, select').removeAttr('disabled'); // разрешаем редактировать инпуты
-                    }
-                });
-
-            });
+            data: $this.serialize(), // get the form data
+            type: $this.attr('method'), // GET or POST
+            url: $this.attr('action'), // the file to call
+            dataType: 'json',
+            beforeSend: function (jqXHR, settings) {
+                $this.find('input, select').attr('disabled', 'disabled'); // запрещаем редактировать инпуты
+                remove_form_errors($this);
+//                if (modal_id) $(modal_id).hide();
+            },
+            success: function (data) { // on success..
+                if (data["result"] == 'success') {
+                    show_modal(modal_id, modal_head, data["response"]);
+//                    if (modal_id) $(modal_id).html(data["response"]).fadeIn();
+                }
+                else if (data["result"] == 'error') {
+                    display_form_errors(data["response"], $this);
+                    display_non_field_errors(data["non_f_err"], modal_id);
+                }
+            },
+            complete: function (jqXHR, textStatus) {
+                $this.find('input, select').removeAttr('disabled'); // разрешаем редактировать инпуты
+            }
         });
-    };
-})(jQuery);
+    });
+}
 
 
 $(function () {
@@ -88,11 +94,11 @@ $(function () {
 //                $('#results').hide();
 //            },
 //            success: function (data) { // on success..
-//                if (data.result == 'success') {
-//                    $('#results').html(data.response).fadeIn();
+//                if (data["result"] == 'success') {
+//                    $('#results').html(data["response"]).fadeIn();
 //                }
-//                else if (data.result == 'error') {
-//                    display_form_errors(data.response, $(this));
+//                else if (data["result"] == 'error') {
+//                    display_form_errors(data["response"], $(this));
 //                }
 //            },
 //            complete: function (jqXHR, textStatus) {

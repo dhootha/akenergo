@@ -7,9 +7,15 @@
 
     {% include 'blocks/standard_form.html' %}
 
-    <div style="min-height: 400px;">
-        <div id="results"></div>
-    </div>
+    {#    <div style="min-height: 400px;">#}
+    {#        <div id="results"></div>#}
+    {#    </div>#}
+
+    <script>
+        $(function () {
+            SubmitAjaxForm('#standard_form', "#ajax_results", "{{ ssheader }}");
+        });
+    </script>
 
 
 
