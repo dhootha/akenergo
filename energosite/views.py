@@ -32,6 +32,21 @@ def index(request):
     HI_PAGE = get_object_or_404(Page, link='hi', published=True)
     return render(request, 'posts/index.html', {'HI_PAGE': HI_PAGE})
 
+
+def ajaxFormErrorsResponse(form):
+    response = {}
+    for err in form.errors:
+        response[err] = form.errors[err][0]
+        # print response[err]
+    non_f_err = form.non_field_errors()
+    return HttpResponse(simplejson.dumps({'response': response, 'response_header': '',
+                                          'non_f_err': non_f_err, 'result': 'error'}), content_type="application/json")
+
+
+def ajaxSuccessResponse(response, response_header):
+    return HttpResponse(simplejson.dumps({'response': response, 'response_header': response_header,
+                                          'non_f_err': [], 'result': 'success'}), content_type="application/json")
+
 #
 # from django.utils.http import is_safe_url
 # from django.http import HttpResponseRedirect as HRR
@@ -290,18 +305,10 @@ def edit_profile(request):
         if form.is_valid():
             form.save()
             #messages.add_message(request, messages.SUCCESS, _('Your profile was saved'))
-            return HttpResponse(simplejson.dumps({'response': "", 'result': 'success'}),
-                                content_type="application/json")
-            # return HttpResponseRedirect(reverse('edit_profile'))
+            return ajaxSuccessResponse('', _('Your profile was saved'))
         else:
-        # dict_ = {'nls': profile.nls, 'mailing': profile.mailing,
-        #          'home_phone': profile.home_phone, 'mobile_phone': profile.mobile_phone}
-            response = {}
-            for err in form.errors:
-                response[err] = form.errors[err][0]
-            non_f_err = form.non_field_errors()
-            return HttpResponse(simplejson.dumps({'response': response, 'non_f_err': non_f_err, 'result': 'error'}),
-                                content_type="application/json")
+            return ajaxFormErrorsResponse(form)
+
     form = EditProfileForm(instance=profile)
     return render(request, 'profile/edit_profile.html', {'form': form, 'fio': fio, 'address': address, 'email': email})
 
@@ -315,7 +322,7 @@ def meter_reading(request):
         error = _("You don't have permission's")
         return render(request, 'load_data/data_error.html', {'error': error})
 
-    if request.method == 'POST':
+    if request.method == 'POST' and request.is_ajax():
         form = MeterReadingForm(request.POST)
         if form.is_valid():
             nls = form.cleaned_data['nls']
@@ -333,13 +340,15 @@ def meter_reading(request):
             mr.pok2 = form.cleaned_data['pok2']
             mr.pok3 = form.cleaned_data['pok3']
             mr.save()
-            messages.add_message(request, messages.SUCCESS, _('Thank you!'))
-            return HttpResponseRedirect(reverse('meter_reading'))
-    else:
-        fio = get_fio(profile.nls)
-        address = get_address(profile.nls)
-        dict___ = {'nls': profile.nls, 'fio': fio, 'address': address, 'date': timezone.now()}
-        form = MeterReadingForm(initial=dict___)
+            # messages.add_message(request, messages.SUCCESS, _('Thank you!'))
+            return ajaxSuccessResponse('', _('Thank you!'))
+        else:
+            return ajaxFormErrorsResponse(form)
+
+    fio = get_fio(profile.nls)
+    address = get_address(profile.nls)
+    dict___ = {'nls': profile.nls, 'fio': fio, 'address': address, 'date': timezone.now()}
+    form = MeterReadingForm(initial=dict___)
     return render(request, 'load_data/meter_reading.html', {'form': form})
 
 
@@ -445,7 +454,7 @@ def load_reading(request):
 
 
 def ajax_search_address(request):
-    abonents = None
+    # abonents = None
     if request.method == 'POST' and request.is_ajax():
         form = SearchAddressForm(request.POST)
         if form.is_valid():
@@ -468,16 +477,11 @@ def ajax_search_address(request):
                 params.append(nkw.upper())
 
             abonents = Abonbaza.objects.extra(where=condits, params=params).order_by("nls")[:100]
+            return ajaxSuccessResponse(render_to_string('search/result_table.html', {'abonents': abonents}),
+                                       _('Search by address'))
 
-            return HttpResponse(simplejson.dumps({'response': render_to_string('search/result_table.html',
-                                                  {'abonents': abonents}), 'result': 'success'}), content_type="application/json")
         else:
-            response = {}
-            for err in form.errors:
-                response[err] = form.errors[err][0]
-            non_f_err = form.non_field_errors()
-            return HttpResponse(simplejson.dumps({'response': response, 'non_f_err': non_f_err, 'result': 'error'}),
-                                content_type="application/json")
+            return ajaxFormErrorsResponse(form)
 
     form = SearchAddressForm()
     return render(request, 'search/search_abonent.html', {'ssheader': _('Search by address'), 'submCaptrans': _('Find'),
@@ -524,7 +528,7 @@ def search_address(request):
 
 
 def ajax_search_fio(request):
-    abonents = None
+    # abonents = None
     if request.method == 'POST' and request.is_ajax():
         form = SearchFioForm(request.POST)
         if form.is_valid():
@@ -535,17 +539,10 @@ def ajax_search_fio(request):
             abonents = Abonbaza.objects.extra(where=["department_id = %s", "upper(fio) like %s"],
                                               params=[department, fio]).order_by("nls")[:100]
 
-            return HttpResponse(simplejson.dumps({'response': render_to_string('search/result_table.html',
-                                                                               {'abonents': abonents}),
-                                                  'result': 'success'}), content_type="application/json")
+            return ajaxSuccessResponse(render_to_string('search/result_table.html', {'abonents': abonents}),
+                                       _('Search by surname'))
         else:
-            response = {}
-            for err in form.errors:
-                response[err] = form.errors[err][0]
-            # non_f_err = ['ggg', 'fddd']
-            non_f_err = form.non_field_errors()
-            return HttpResponse(simplejson.dumps({'response': response, 'non_f_err': non_f_err, 'result': 'error'}),
-                                content_type="application/json")
+            return ajaxFormErrorsResponse(form)
 
     form = SearchFioForm()
     return render(request, 'search/search_abonent.html', {'ssheader': _('Search by surname'), 'submCaptrans': _('Find'),
@@ -710,8 +707,7 @@ def kvit_page(request):
 @login_required
 def contact_form(request):
     user = request.user
-    #    print datetime.datetime.now()
-    if request.method == 'POST':
+    if request.method == 'POST' and request.is_ajax():
         form = ContactForm(request.POST)
         if form.is_valid():
             subject = render_to_string('contact/subject.html')
@@ -730,14 +726,16 @@ def contact_form(request):
                 #                emessg.content_subtype = "html"
                 emessg.send()
                 #                request.session['email_sent'] = email_count + 1
-                messages.add_message(request, messages.INFO, _('Message was sent. Thank you!'))
+                # messages.add_message(request, messages.INFO, _('Message was sent. Thank you!'))
+                return ajaxSuccessResponse('', _('Message was sent. Thank you!'))
             except:
-                messages.add_message(request, messages.ERROR, _('Error sending mail'))
-            return HttpResponseRedirect(reverse('contact_form'))
+                return ajaxSuccessResponse('', _('Error sending mail'))
+                # messages.add_message(request, messages.ERROR, _('Error sending mail'))
+                #return HttpResponseRedirect(reverse('contact_form'))
+        else:
+            return ajaxFormErrorsResponse(form)
 
-    else:
-        form = ContactForm()
-
+    form = ContactForm()
     trail = []
     menus = TopMenu.objects.filter(link=reverse('contact_form'))
     if menus.count():

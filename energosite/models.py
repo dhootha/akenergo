@@ -330,7 +330,7 @@ class UserProfile(models.Model):
     nls = models.DecimalField(_('Personal number'), max_digits=7, decimal_places=0, default=0)
     mobile_phone = models.CharField(blank=True, null=True, max_length=25)
     home_phone = models.CharField(blank=True, null=True, max_length=25)
-    mailing = models.BooleanField(default=True)
+    mailing = models.BooleanField(_('I agree to receive newsletter'), default=True)
 
     def __unicode__(self):
         return u"{0} - {1}".format(self.user.username, self.nls)

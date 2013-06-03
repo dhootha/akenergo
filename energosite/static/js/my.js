@@ -14,16 +14,25 @@ function PrintWindow() {
 
 function show_modal(modal_id, modal_head, modal_body) {
     if (!modal_id) return;
-    $(modal_id).find('.modal-header h3').text(modal_head);
-    $(modal_id).find('.modal-body').html(modal_body);
-    $(modal_id).modal();
+    var $this = $(modal_id);
+    $this.find('.modal-header h3').text(modal_head);
+    if (!modal_body)
+        $this.find('.modal-body').hide();
+    else
+        $this.find('.modal-body').show().html(modal_body);
+    $this.modal().css({'margin-top': ($(window).height() - $this.height()) / 2 + 'px', 'top': '0'});
 }
 
 function display_form_errors(errors, $form) {
     for (var k in errors) {
         if (errors.hasOwnProperty(k)) {
-            $form.find('input[name=' + k + '], select[name=' + k + ']').closest(".control-group").addClass('error');
-            $form.find('input[name=' + k + '], select[name=' + k + ']').next(".help-inline").html(errors[k]).fadeIn();
+            $form.find('input[name=' + k + '], textarea[name=' + k + '], select[name=' + k + ']').closest(".control-group").addClass('error');
+            $form.find('input[name=' + k + '], textarea[name=' + k + '], select[name=' + k + ']').closest(".control-group").find('.help-inline').html(errors[k]).fadeIn();
+            if (k == 'captcha') {
+                $form.find('input[name=captcha_1]').closest(".control-group").addClass('error');
+                $form.find('input[name=captcha_1]').closest(".control-group").find('.help-inline').html(errors[k]).fadeIn();
+
+            }
         }
     }
 }
@@ -38,11 +47,11 @@ function display_non_field_errors(errors, modal_id) {
 
 function remove_form_errors($form) {
     $form.find('.control-group').removeClass('error');
-    $form.find('.help-inline').hide();
+    $form.find('.help-inline').empty();
 }
 
 
-function SubmitAjaxForm(form_id, modal_id, modal_head) {
+function SubmitAjaxForm(form_id, modal_id) {
     var $this = $(form_id);
     $this.submit(function (event) {
         event.preventDefault();
@@ -59,7 +68,7 @@ function SubmitAjaxForm(form_id, modal_id, modal_head) {
             },
             success: function (data) { // on success..
                 if (data["result"] == 'success') {
-                    show_modal(modal_id, modal_head, data["response"]);
+                    show_modal(modal_id, data['response_header'], data["response"]);
 //                    if (modal_id) $(modal_id).html(data["response"]).fadeIn();
                 }
                 else if (data["result"] == 'error') {
@@ -78,7 +87,7 @@ function SubmitAjaxForm(form_id, modal_id, modal_head) {
 $(function () {
     $('div.input-required > input, div.input-required > textarea, div.input-required > select').attr('required', '');
     $('a[data-toggle=tooltip]').tooltip();
-    $("a[data-toggle=popover], button[data-toggle=popover]").popover({ trigger: "hover focus", delay: 100 });
+    $("a[data-toggle=popover], button[data-toggle=popover]").popover({ trigger: "hover focus", delay: 300 });
 
 
 //    $('#standard_form').submit(function () {
