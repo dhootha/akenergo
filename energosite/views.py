@@ -33,19 +33,52 @@ def index(request):
     return render(request, 'posts/index.html', {'HI_PAGE': HI_PAGE})
 
 
-def ajaxFormErrorsResponse(form):
-    response = {}
-    for err in form.errors:
-        response[err] = form.errors[err][0]
-        # print response[err]
-    non_f_err = form.non_field_errors()
-    return HttpResponse(simplejson.dumps({'response': response, 'response_header': '',
-                                          'non_f_err': non_f_err, 'result': 'error'}), content_type="application/json")
+# def ajaxFormErrorsResponse(form):
+#     response = {}
+#     for err in form.errors:
+#         response[err] = form.errors[err][0]
+#         # print response[err]
+#     non_f_err = form.non_field_errors()
+#     return HttpResponse(simplejson.dumps({'response': response, 'response_header': '',
+#                                           'non_f_err': non_f_err, 'result': 'error'}), content_type="application/json")
 
 
-def ajaxSuccessResponse(response, response_header):
-    return HttpResponse(simplejson.dumps({'response': response, 'response_header': response_header,
-                                          'non_f_err': [], 'result': 'success'}), content_type="application/json")
+def ajaxResponse(form_errors, response='', response_header='', form=None):
+    errors = {}
+    # if form_errors and form:
+    #     for err in form.errors:
+    #         field = form.fields.get(err)
+    #         if field:
+    #             errors[force_unicode(field.label)] = ', '.join(form.errors[err])
+    #         else:
+    #             errors[' '] = ', '.join(form.errors[err])
+    #     return HttpResponse(simplejson.dumps({'response': '', 'response_header': _('Incorrect information'),
+    #                                           'errors': errors, 'result': 'error'}),
+    #                         content_type="application/json")
+    # else:
+    #     return HttpResponse(simplejson.dumps({'response': response, 'response_header': response_header,
+    #                                           'errors': {}, 'result': 'success'}), content_type="application/json")
+
+
+    if form_errors and form:
+        for field in form:
+            if field.errors:
+                errors[force_unicode(field.label)] = ', '.join(field.errors)
+
+        if form.non_field_errors():
+            errors[_('Incorrect information')] = ', '.join(form.non_field_errors())
+            # sorted_errors = {}
+        # for k in sorted(errors):
+        #     sorted_errors[k] = errors[k]
+
+
+
+        return HttpResponse(simplejson.dumps({'response': '', 'response_header': _('Incorrect information'),
+                                              'errors': errors, 'result': 'error'}),
+                            content_type="application/json")
+    else:
+        return HttpResponse(simplejson.dumps({'response': response, 'response_header': response_header,
+                                              'errors': {}, 'result': 'success'}), content_type="application/json")
 
 #
 # from django.utils.http import is_safe_url
@@ -305,9 +338,9 @@ def edit_profile(request):
         if form.is_valid():
             form.save()
             #messages.add_message(request, messages.SUCCESS, _('Your profile was saved'))
-            return ajaxSuccessResponse('', _('Your profile was saved'))
+            return ajaxResponse(False, response_header=_('Your profile was saved'))
         else:
-            return ajaxFormErrorsResponse(form)
+            return ajaxResponse(True, form=form)
 
     form = EditProfileForm(instance=profile)
     return render(request, 'profile/edit_profile.html', {'form': form, 'fio': fio, 'address': address, 'email': email})
@@ -341,9 +374,9 @@ def meter_reading(request):
             mr.pok3 = form.cleaned_data['pok3']
             mr.save()
             # messages.add_message(request, messages.SUCCESS, _('Thank you!'))
-            return ajaxSuccessResponse('', _('Thank you!'))
+            return ajaxResponse(False, response_header=_('Thank you!'))
         else:
-            return ajaxFormErrorsResponse(form)
+            return ajaxResponse(True, form=form)
 
     fio = get_fio(profile.nls)
     address = get_address(profile.nls)
@@ -477,11 +510,11 @@ def ajax_search_address(request):
                 params.append(nkw.upper())
 
             abonents = Abonbaza.objects.extra(where=condits, params=params).order_by("nls")[:100]
-            return ajaxSuccessResponse(render_to_string('search/result_table.html', {'abonents': abonents}),
-                                       _('Search by address'))
+            return ajaxResponse(False, response=render_to_string('search/result_table.html', {'abonents': abonents}),
+                                response_header=_('Search results'))
 
         else:
-            return ajaxFormErrorsResponse(form)
+            return ajaxResponse(True, form=form)
 
     form = SearchAddressForm()
     return render(request, 'search/search_abonent.html', {'ssheader': _('Search by address'), 'submCaptrans': _('Find'),
@@ -539,10 +572,10 @@ def ajax_search_fio(request):
             abonents = Abonbaza.objects.extra(where=["department_id = %s", "upper(fio) like %s"],
                                               params=[department, fio]).order_by("nls")[:100]
 
-            return ajaxSuccessResponse(render_to_string('search/result_table.html', {'abonents': abonents}),
-                                       _('Search by surname'))
+            return ajaxResponse(False, response=render_to_string('search/result_table.html', {'abonents': abonents}),
+                                response_header=_('Search results'))
         else:
-            return ajaxFormErrorsResponse(form)
+            return ajaxResponse(True, form=form)
 
     form = SearchFioForm()
     return render(request, 'search/search_abonent.html', {'ssheader': _('Search by surname'), 'submCaptrans': _('Find'),
@@ -727,13 +760,13 @@ def contact_form(request):
                 emessg.send()
                 #                request.session['email_sent'] = email_count + 1
                 # messages.add_message(request, messages.INFO, _('Message was sent. Thank you!'))
-                return ajaxSuccessResponse('', _('Message was sent. Thank you!'))
+                return ajaxResponse(False, response_header=_('Message was sent. Thank you!'))
             except:
-                return ajaxSuccessResponse('', _('Error sending mail'))
+                return ajaxResponse(False, response_header=_('Error sending mail'))
                 # messages.add_message(request, messages.ERROR, _('Error sending mail'))
                 #return HttpResponseRedirect(reverse('contact_form'))
         else:
-            return ajaxFormErrorsResponse(form)
+            return ajaxResponse(True, form=form)
 
     form = ContactForm()
     trail = []
