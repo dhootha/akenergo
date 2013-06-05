@@ -36,21 +36,28 @@ function show_modal(modal_id, modal_head, modal_body) {
     $this.modal().css({'margin-top': ($(window).height() - $this.height()) / 2 + 'px', 'top': '0'});
 }
 
-function display_form_errors__tt(errors, $form) {
-    for (var k in sortDict(errors)) {
-        if (errors.hasOwnProperty(k)) {
-            $form.find('input[name=' + k + '], textarea[name=' + k + '], select[name=' + k + ']').closest(".control-group").addClass('error');
-            $form.find('input[name=' + k + '], textarea[name=' + k + '], select[name=' + k + ']').closest(".control-group").find('.help-inline').html(errors[k]).fadeIn();
-            if (k == 'captcha') {
-                $form.find('input[name=captcha_1]').closest(".control-group").addClass('error');
-                $form.find('input[name=captcha_1]').closest(".control-group").find('.help-inline').html(errors[k]).fadeIn();
+function display_form_errors($form, errors) {
+    for (var k in errors) if (errors.hasOwnProperty(k)) {
+        $form.find('input[name=' + k + '], textarea[name=' + k + '], select[name=' + k + ']').closest(".control-group").addClass('error');
+        $form.find('input[name=' + k + '], textarea[name=' + k + '], select[name=' + k + ']').closest(".control-group").find('.help-inline').text(errors[k]);
+        if (k === 'captcha') {
+            $form.find('input[name=captcha_1]').closest(".control-group").addClass('error');
+            $form.find('input[name=captcha_1]').closest(".control-group").find('.help-inline').text(errors[k]);
 
-            }
         }
+        if (k === 'non_field')
+            $form.find('#ajax_non_field_errors').text(errors[k]).show();
+
     }
 }
 
-function display_errors(modal_id, modal_head, errors) {
+function update_values($form, values) {
+    for (var key in values) if (values.hasOwnProperty(key)) {
+        $('#'+key).text(values[key]);
+    }
+}
+
+function display_errors_tt(modal_id, modal_head, errors) {
 
     if (errors.length == 0) return;
     var result = '<table class="table-hover table table-bordered"> \n';
@@ -65,22 +72,14 @@ function display_errors(modal_id, modal_head, errors) {
     show_modal(modal_id, modal_head, result);
 }
 
-
-function display_non_field_errors(errors, modal_id) {
-    if (errors.length == 0) return;
-    var result = "<ul> \n";
-    for (var i = 0; i < errors.length; i++) result += "<li>" + errors[i] + "</li> \n";
-    result += "</ul> \n";
-    show_modal(modal_id, 'Ошибка', result);
-}
-
 function remove_form_errors($form) {
     $form.find('.control-group').removeClass('error');
     $form.find('.help-inline').empty();
+    $form.find('#ajax_non_field_errors').hide();
 }
 
 
-function SubmitAjaxForm(form_id, modal_id) {
+function SubmitAjaxForm(form_id, modal_id, complete_func) {
     var $this = $(form_id);
     $this.submit(function (event) {
         event.preventDefault();
@@ -92,19 +91,28 @@ function SubmitAjaxForm(form_id, modal_id) {
             dataType: 'json',
             beforeSend: function (jqXHR, settings) {
                 $this.find('input, select').attr('disabled', 'disabled'); // запрещаем редактировать инпуты
-//                remove_form_errors($this);
-//                if (modal_id) $(modal_id).hide();
+//                $this.hide();
+                $this.css("visibility", 'hidden');
+                remove_form_errors($this);
             },
             success: function (data) { // on success..
+                if (data["captcha_key"] && data["captcha_image"]) {
+                    $this.find("img.captcha").attr('src', data["captcha_image"]);
+                    $this.find('#id_captcha_0').val(data["captcha_key"]);
+                    $this.find('#id_captcha_1').val('');
+                }
+
                 if (data["result"] === 'success') {
+                    update_values($this, data["update_values"]);
                     show_modal(modal_id, data['response_header'], data["response"]);
-//                    if (modal_id) $(modal_id).html(data["response"]).fadeIn();
                 }
                 else if (data["result"] === 'error') {
-                    display_errors(modal_id, data["response_header"], data["errors"]);
+                    display_form_errors($this, data["errors"]);
                 }
             },
             complete: function (jqXHR, textStatus) {
+//                $this.fadeIn('fast');
+                $this.css("visibility", 'visible');
                 $this.find('input, select').removeAttr('disabled'); // разрешаем редактировать инпуты
             }
         });
@@ -113,9 +121,9 @@ function SubmitAjaxForm(form_id, modal_id) {
 
 
 $(function () {
-    $('div.input-required > input, div.input-required > textarea, div.input-required > select').attr('required', '');
+//    $('div.input-required > input, div.input-required > textarea, div.input-required > select').attr('required', '');
     $('a[data-toggle=tooltip]').tooltip();
-    $("a[data-toggle=popover], button[data-toggle=popover]").popover({ trigger: "hover focus", delay: 300 });
+    $("a[data-toggle=popover], button[data-toggle=popover]").popover({ trigger: "hover focus", delay: 127 });
 
 
 //    $('#standard_form').submit(function () {

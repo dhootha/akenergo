@@ -15,9 +15,9 @@
         <div class="media-body">
             <h4 class="media-heading">{% trans 'Information' %}</h4>
             <ul class="unstyled">
-                <li><strong> {% trans 'Client name' %}: </strong> {{ fio }}</li>
-                <li><strong> {% trans 'Address' %}: </strong> {{ address }}</li>
-                <li><strong> E-mail: </strong> {{ email }}</li>
+                <li><strong> {% trans 'Client name' %}: </strong> <span id="info_fio">{{ fio }}</span></li>
+                <li><strong> {% trans 'Address' %}: </strong> <span id="info_address">{{ address }}</span></li>
+                <li><strong> E-mail: </strong> <span id="info_email">{{ email }}</span></li>
             </ul>
         </div>
     </div>
@@ -112,6 +112,9 @@
                 {% endfor %}
             </div>
         {% endif %}
+
+        <div id="ajax_non_field_errors" style="display: none;" class="alert alert-error">
+        </div>
 
         <div class="control-group">
             <div class="controls">

@@ -25,7 +25,9 @@ from django.contrib.sites.models import RequestSite
 from django.contrib.auth.views import login as django_login
 from django.contrib.auth.forms import AuthenticationForm
 from django.utils.encoding import force_unicode
-import json as simplejson
+import json
+from captcha.models import CaptchaStore
+from captcha.helpers import captcha_image_url
 
 
 def index(request):
@@ -43,42 +45,26 @@ def index(request):
 #                                           'non_f_err': non_f_err, 'result': 'error'}), content_type="application/json")
 
 
-def ajaxResponse(form_errors, response='', response_header='', form=None):
+def ajaxResponse(form_errors, response='', response_header='', form=None, update_values=None, captcha_key=None,
+                 captcha_image=None):
     errors = {}
-    # if form_errors and form:
-    #     for err in form.errors:
-    #         field = form.fields.get(err)
-    #         if field:
-    #             errors[force_unicode(field.label)] = ', '.join(form.errors[err])
-    #         else:
-    #             errors[' '] = ', '.join(form.errors[err])
-    #     return HttpResponse(simplejson.dumps({'response': '', 'response_header': _('Incorrect information'),
-    #                                           'errors': errors, 'result': 'error'}),
-    #                         content_type="application/json")
-    # else:
-    #     return HttpResponse(simplejson.dumps({'response': response, 'response_header': response_header,
-    #                                           'errors': {}, 'result': 'success'}), content_type="application/json")
-
-
     if form_errors and form:
         for field in form:
             if field.errors:
-                errors[force_unicode(field.label)] = ', '.join(field.errors)
+                errors[force_unicode(field.name)] = '; '.join(field.errors)
 
         if form.non_field_errors():
-            errors[_('Incorrect information')] = ', '.join(form.non_field_errors())
-            # sorted_errors = {}
-        # for k in sorted(errors):
-        #     sorted_errors[k] = errors[k]
+            errors['non_field'] = '; '.join(form.non_field_errors())
 
-
-
-        return HttpResponse(simplejson.dumps({'response': '', 'response_header': _('Incorrect information'),
-                                              'errors': errors, 'result': 'error'}),
+        return HttpResponse(json.dumps({'errors': errors, 'captcha_key': captcha_key,
+                                        'captcha_image': captcha_image, 'result': 'error'}),
                             content_type="application/json")
+
     else:
-        return HttpResponse(simplejson.dumps({'response': response, 'response_header': response_header,
-                                              'errors': {}, 'result': 'success'}), content_type="application/json")
+        return HttpResponse(json.dumps({'response': response, 'response_header': response_header,
+                                        'update_values': update_values, 'captcha_key': captcha_key,
+                                        'captcha_image': captcha_image, 'result': 'success'}),
+                            content_type="application/json")
 
 #
 # from django.utils.http import is_safe_url
@@ -185,8 +171,12 @@ def is_ur_lica(kod):
     return int(kod) == 2
 
 
-def is_fiz_lica(kod):
+def is_fizlica(kod):
     return int(kod) == 1
+
+def is_fizlica_rayon(kod):
+    return int(kod) == 3
+
 
 
 @login_required
@@ -329,16 +319,16 @@ def get_kpp(nls):
 def edit_profile(request):
     user = request.user
     profile = get_profile(user)
-    fio = get_fio(profile.nls)
-    address = get_address(profile.nls)
-    email = profile.user.email
+    fio, address, email = get_fio(profile.nls), get_address(profile.nls), profile.user.email
 
     if request.method == 'POST' and request.is_ajax():
         form = EditProfileForm(request.POST, instance=profile)
         if form.is_valid():
             form.save()
-            #messages.add_message(request, messages.SUCCESS, _('Your profile was saved'))
-            return ajaxResponse(False, response_header=_('Your profile was saved'))
+            new_nls = form.cleaned_data['nls']
+            new_fio, new_address = get_fio(new_nls), get_address(new_nls)
+            return ajaxResponse(False, response_header=_('Your profile was saved'),
+                                update_values={'info_fio': new_fio, 'info_address': new_address})
         else:
             return ajaxResponse(True, form=form)
 
@@ -640,8 +630,9 @@ def view_payment(request):
     # kvits = kvits.extra(where=["to_char(dat_kv, 'YY-MM')=%s"], params=[])
     # kvits = kvits.extra(order_by=['-year', '-month', '-day'])
 
-    fizlica = is_fiz_lica(get_depid(profile.nls))
+    fizlica = is_fizlica(get_depid(profile.nls)) or is_fizlica_rayon(get_depid(profile.nls))
     urlica = is_ur_lica(get_depid(profile.nls))
+
 
     if kvits.count():
         if kvits[0].saldo_k:
@@ -651,7 +642,7 @@ def view_payment(request):
         actual_kvit_date = getActualDate('kvitbaza', kvits[0].department)
 
     return render(request, 'data/view_payment.html',
-                  {'payments': payments, 'dolg': dolg, 'actual_kvit_date': actual_kvit_date,
+                  {'nls':nls, 'payments': payments, 'dolg': dolg, 'actual_kvit_date': actual_kvit_date,
                    'actual_pay_date': actual_pay_date, 'fizlica': fizlica, 'urlica': urlica})
 
 
@@ -660,7 +651,7 @@ def render_recon_rep(nls):
     #                                          'day': "to_char(dat_kv, 'DD')"}).filter(nls=nls)
     # reports = reports.extra(order_by=['year', 'month', 'day'])
     reports = Kvitbaza.objects.filter(nls=nls).order_by('god', 'nmes')
-    # fiz_lica = is_fiz_lica(get_depid(nls))
+    # fiz_lica = is_fizlica(get_depid(nls))
     return render_to_string('data/recrep_shablon.html', {'reports': reports, })
     # 'fiz_lica': fiz_lica,
 
@@ -678,7 +669,7 @@ def recon_rep_page(request):
     user = request.user
     nls = get_profile(user).nls
     reports_table = render_recon_rep(nls)
-    return render(request, 'data/recon_rep_page.html', {'reports_table': reports_table})
+    return render(request, 'data/recon_rep_page.html', {'nls':nls, 'reports_table': reports_table})
 
 
 def render_kvit(nls):
@@ -741,8 +732,11 @@ def kvit_page(request):
 def contact_form(request):
     user = request.user
     if request.method == 'POST' and request.is_ajax():
+        captcha_key, captcha_image = None, None
         form = ContactForm(request.POST)
         if form.is_valid():
+            captcha_key = CaptchaStore.generate_key()
+            captcha_image = captcha_image_url(captcha_key)
             subject = render_to_string('contact/subject.html')
             msg = render_to_string('contact/message.html',
                                    dict(user_name=user.username, user_email=user.email,
@@ -760,13 +754,18 @@ def contact_form(request):
                 emessg.send()
                 #                request.session['email_sent'] = email_count + 1
                 # messages.add_message(request, messages.INFO, _('Message was sent. Thank you!'))
-                return ajaxResponse(False, response_header=_('Message was sent. Thank you!'))
+                return ajaxResponse(False, response_header=_('Message was sent. Thank you!'), captcha_key=captcha_key,
+                                    captcha_image=captcha_image)
             except:
-                return ajaxResponse(False, response_header=_('Error sending mail'))
+                return ajaxResponse(False, response_header=_('Error sending mail'), captcha_key=captcha_key,
+                                    captcha_image=captcha_image)
                 # messages.add_message(request, messages.ERROR, _('Error sending mail'))
                 #return HttpResponseRedirect(reverse('contact_form'))
         else:
-            return ajaxResponse(True, form=form)
+            if not form.errors.get('captcha'):
+                captcha_key = CaptchaStore.generate_key()
+                captcha_image = captcha_image_url(captcha_key)
+            return ajaxResponse(True, form=form, captcha_key=captcha_key, captcha_image=captcha_image)
 
     form = ContactForm()
     trail = []
