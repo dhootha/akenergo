@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-08 16:11+0500\n"
+"POT-Creation-Date: 2013-06-05 18:59+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,104 +18,101 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0\n"
 
-#: forms.py:17 forms.py:137
+#: forms.py:19 forms.py:120
 msgid "Incorrect personal number"
 msgstr "Жеке есеп шот дұрыс емес"
 
-#: forms.py:22 forms.py:74 models.py:149 models.py:331
-#: templates/data/view_debtors.html:42
-#: templates/load_data/meter_reading.html:26
-#: templates/search/search_abonent.html:15
+#: forms.py:27 forms.py:55
+msgid "Home phone"
+msgstr "Үй телефоны"
+
+#: forms.py:28 forms.py:56
+msgid "Mobile phone"
+msgstr "Ұялы телефон"
+
+#: forms.py:40 forms.py:49 forms.py:69 forms.py:78 forms.py:156 forms.py:163
+msgid "Incorrect information"
+msgstr "Теріс мәліметтер"
+
+#: forms.py:54 models.py:149 models.py:330
+#: templates/data/recon_rep_page.html:12 templates/data/view_debtors.html:42
+#: templates/data/view_payment.html:10 templates/search/result_table.html:6
 #: templates/search/search_results.html:13
 msgid "Personal number"
 msgstr "Жеке есеп шот"
 
-#: forms.py:23 forms.py:75
-msgid "Home phone"
-msgstr "Үй телефоны"
-
-#: forms.py:24 forms.py:76
-msgid "Mobile phone"
-msgstr "Ұялы телефон"
-
-#: forms.py:25 forms.py:77
+#: forms.py:57 models.py:333
 msgid "I agree to receive newsletter"
 msgstr "Таратпа ақпарат алуға келісемін"
 
-#: forms.py:47 forms.py:56 forms.py:89 forms.py:98 forms.py:179 forms.py:186
-msgid "Incorrect information"
-msgstr "Теріс мәліметтер"
-
-#: forms.py:78 forms.py:171 forms.py:223
+#: forms.py:58 forms.py:150 forms.py:191
 msgid "Captcha"
 msgstr "Каптча"
 
-#: forms.py:130
+#: forms.py:113
 msgid "one-tariff"
 msgstr "бiр-тарифтi"
 
-#: forms.py:130
+#: forms.py:113
 msgid "two-tariff"
 msgstr "екi-тарифтi"
 
-#: forms.py:131
+#: forms.py:114
 msgid "Counter type"
 msgstr "Есептеуiштiң түрi"
 
-#: forms.py:139 views.py:325
+#: forms.py:122 views.py:345
 msgid "You don't have permission's"
 msgstr "Кешіріңіз, сіздің құқығыңыз жоқ"
 
-#: forms.py:151 forms.py:159
+#: forms.py:134 forms.py:142
 msgid "Department"
 msgstr "Бөлімше"
 
-#: forms.py:152
+#: forms.py:135
 msgid "Street"
 msgstr "Көше"
 
-#: forms.py:153
+#: forms.py:136
 msgid "House number"
 msgstr "Үй номері"
 
-#: forms.py:154
+#: forms.py:137
 msgid "Corps"
 msgstr "Корпус"
 
-#: forms.py:155
+#: forms.py:138
 msgid "Apartment"
 msgstr "Пәтер"
 
-#: forms.py:160 models.py:150 templates/load_data/meter_reading.html:51
-#: templates/profile/edit_profile.html:18
-#: templates/search/search_abonent.html:17
+#: forms.py:143 models.py:150 templates/profile/edit_profile.html:18
+#: templates/search/result_table.html:7
 #: templates/search/search_results.html:15
 msgid "Client name"
 msgstr "Аты"
 
-#: forms.py:169
+#: forms.py:148
 msgid "Subject"
 msgstr "Тақырып"
 
-#: forms.py:170
+#: forms.py:149
 msgid "Message"
 msgstr "Хабарлама"
 
-#: forms.py:222
+#: forms.py:190
 msgid "E-mail"
 msgstr "E-mail"
 
 #: models.py:151 templates/data/view_debtors.html:43
-#: templates/load_data/meter_reading.html:64
 #: templates/profile/edit_profile.html:19
 msgid "Address"
 msgstr "Мекен-жайы"
 
-#: models.py:152 templates/load_data/meter_reading.html:96
+#: models.py:152
 msgid "Day reading"
 msgstr "Күндізгі көрсеткіш"
 
-#: models.py:153 templates/load_data/meter_reading.html:110
+#: models.py:153
 msgid "Night reading"
 msgstr "Түнгі көрсеткіш"
 
@@ -123,60 +120,68 @@ msgstr "Түнгі көрсеткіш"
 msgid "Evening reading"
 msgstr "Кешкі көрсеткіш"
 
-#: views.py:96 templates/posts/news_list.html:5
+#: views.py:120 templates/posts/news_list.html:5
 #: templates/posts/news_list.html.py:10 templates/tags/recent_news_list.html:8
 msgid "Site news"
 msgstr "Сайттың жаңалықтары"
 
-#: views.py:309
+#: views.py:330
 msgid "Your profile was saved"
 msgstr "Сіздің мәліметтеріңіз сақталды"
 
-#: views.py:346
+#: views.py:367
 msgid "Thank you!"
 msgstr "Рахмет!"
 
-#: views.py:492 templates/blocks/standard_form.html:36
+#: views.py:504 views.py:566 templates/search/google_search.html:4
+#: templates/search/google_search.html:7
+msgid "Search results"
+msgstr "Іздеу нәтижелері"
+
+#: views.py:510 views.py:549 templates/blocks/standard_form.html:37
 #: templates/load_data/meter_reading.html:42
-#: templates/profile/edit_profile.html:46
+#: templates/profile/edit_profile.html:47
 #: templates/registration/registration_form.html:147
 msgid "Search by address"
 msgstr "Мекен-жайы бойынша іздеу"
 
-#: views.py:512 templates/blocks/standard_form.html:33
+#: views.py:510 views.py:571
+msgid "Find"
+msgstr "Табу"
+
+#: views.py:571 views.py:590 templates/blocks/standard_form.html:34
 #: templates/load_data/meter_reading.html:39
-#: templates/profile/edit_profile.html:43
+#: templates/profile/edit_profile.html:44
 #: templates/registration/registration_form.html:144
 msgid "Search by surname"
 msgstr "Аты бойынша іздеу"
 
-#: views.py:664 templates/data/new_recrep_shablon.html:80
-#: templates/data/recon_rep_shablon.html:40 templates/data/view_debtors.html:6
-#: templates/data/view_debtors.html:19 templates/posts/base_post.html:9
-#: templates/posts/base_post.html.py:19 templates/posts/list_submenus.html:11
-#: templates/search/search_abonent.html:35
+#: views.py:711 views.py:726 templates/data/recrep_shablon.html:80
+#: templates/data/view_debtors.html:6 templates/data/view_debtors.html:19
+#: templates/posts/base_post.html:9 templates/posts/base_post.html.py:19
+#: templates/posts/list_submenus.html:11 templates/search/result_table.html:23
 #: templates/tags/recent_news_list.html:21
 msgid "Not found"
 msgstr "Табылған жоқ"
 
-#: views.py:695
+#: views.py:757
 msgid "Message was sent. Thank you!"
 msgstr "Хабарлама жіберілді. Рахмет!"
 
-#: views.py:697
+#: views.py:760
 msgid "Error sending mail"
 msgstr "Поштаның жiберуiн қате"
 
-#: views.py:832
+#: views.py:900
 msgid "Account for email address is not registered or already activated."
 msgstr ""
 "Бұл e-mail мекен-жайдың тіркеу жазбасы тіркелмеген немесе іске қосылған."
 
-#: views.py:844
+#: views.py:912
 msgid "Resend activation link done"
 msgstr "Іске қосу сілтемесі жіберілді"
 
-#: views.py:862
+#: views.py:930
 msgid "This account is inactive."
 msgstr "Бұл тіркеу жазбасы сөндірілген."
 
@@ -189,7 +194,7 @@ msgid "We're sorry, but the requested page could not be found."
 msgstr "Кешіріңіз, парақ табылмады."
 
 #: templates/404.html:12 templates/500.html:10
-#: templates/data/kvit_page.html:159 templates/data/view_recon_rep.html:29
+#: templates/data/kvit_page.html:24 templates/data/recon_rep_page.html:33
 #: templates/load_data/data_error.html:11 templates/registration/login.html:19
 #: templates/registration/login.html:97
 #: templates/registration/registration_form.html:29
@@ -213,33 +218,29 @@ msgstr ""
 "Қателік кетті. Қателік коды администраторға жіберілді, қателік жойылады. "
 "Күткеніңізге рахмет."
 
-#: templates/base.html:8 templates/base.html.py:91
+#: templates/base.html:8 templates/base.html.py:85
 #: templates/blocks/informers.html:7 templates/contact/contact_form.html:56
 msgid "LLP Aktobeenergosnab"
 msgstr "Ақтөбеэнергоснаб ЖШС"
 
-#: templates/base.html:94
+#: templates/base.html:88
 msgid "Welcome to our site!"
 msgstr "Бiздiң сайтқа қош келдiнiздер!"
 
-#: templates/base.html:99 templates/registration/login.html:88
+#: templates/base.html:93 templates/registration/login.html:88
 #: templates/registration/login_.html:5 templates/registration/login_.html:8
 #: templates/registration/login_.html:57
 #: templates/registration/password_reset_complete.html:12
 msgid "Log in"
 msgstr "Кіру"
 
-#: templates/base.html:101 templates/registration/login.html:101
+#: templates/base.html:95 templates/registration/login.html:101
 msgid "Registration"
 msgstr "Тіркеу"
 
-#: templates/base.html:182
+#: templates/base.html:200
 msgid "Go top"
 msgstr "Жоғары"
-
-#: templates/base.html:213
-msgid "Site development and support"
-msgstr "Сайттың әзірлеуі және қолдауы"
 
 #: templates/blocks/informers.html:5 templates/contact/contact_form.html:33
 #: templates/contact/contact_form.html:54
@@ -286,13 +287,13 @@ msgstr "Пайдаланушының мәзiрi"
 msgid "Edit profile"
 msgstr "Мәліметтерді өңдеу"
 
-#: templates/blocks/menu_block.html:27 templates/data/kvit_page.html:55
-#: templates/data/kvit_page.html.py:56
+#: templates/blocks/menu_block.html:27 templates/data/kvit_page.html:5
+#: templates/data/kvit_page.html.py:6 templates/data/print_kvit.html:38
 msgid "Receipt"
 msgstr "Түбіртек"
 
-#: templates/blocks/menu_block.html:34 templates/data/save_recon_rep.html:14
-#: templates/data/view_recon_rep.html:7 templates/data/view_recon_rep.html:10
+#: templates/blocks/menu_block.html:34 templates/data/print_recon_rep.html:10
+#: templates/data/recon_rep_page.html:7 templates/data/recon_rep_page.html:10
 msgid "Reconciliation report"
 msgstr "Есептің қозғалысы"
 
@@ -300,7 +301,7 @@ msgstr "Есептің қозғалысы"
 msgid "View payment and debt"
 msgstr "Төлем мен қарызды қарау"
 
-#: templates/blocks/menu_block.html:45
+#: templates/blocks/menu_block.html:46
 #: templates/load_data/meter_reading.html:4
 #: templates/load_data/meter_reading.html:6
 msgid "Readings input"
@@ -318,84 +319,69 @@ msgstr "Бізбен хабарласу"
 msgid "Send message"
 msgstr "Хабарлама жіберу"
 
-#: templates/data/kvit_page.html:152 templates/data/view_recon_rep.html:22
+#: templates/data/kvit_page.html:16 templates/data/recon_rep_page.html:25
 msgid "Print"
 msgstr "Басып шығару"
 
-#: templates/data/new_recrep_shablon.html:7
-#: templates/data/recon_rep_shablon.html:7
+#: templates/data/recrep_shablon.html:7
 msgid "Month"
 msgstr "Ай"
 
-#: templates/data/new_recrep_shablon.html:8
+#: templates/data/recrep_shablon.html:8
 msgid "Tariff type"
 msgstr "Тарифтің түрі"
 
-#: templates/data/new_recrep_shablon.html:9
+#: templates/data/recrep_shablon.html:9
 msgid "Registered"
 msgstr "Тұрғындар саны"
 
-#: templates/data/new_recrep_shablon.html:10
-#: templates/data/recon_rep_shablon.html:9
+#: templates/data/recrep_shablon.html:10
 msgid "Initial reading, kW/h"
 msgstr "Алдыңғы көрсеткіш"
 
-#: templates/data/new_recrep_shablon.html:11
-#: templates/data/recon_rep_shablon.html:10
+#: templates/data/recrep_shablon.html:11
 msgid "Final reading, kW/h"
 msgstr "Соңғы көрсеткіш"
 
-#: templates/data/new_recrep_shablon.html:12
+#: templates/data/recrep_shablon.html:12
 msgid "Total consumption, kW/h"
 msgstr "Жалпы шығын <br> кВт/сағ"
 
-#: templates/data/new_recrep_shablon.html:13
+#: templates/data/recrep_shablon.html:13
 msgid "Consumption, kW/h"
 msgstr "Эл/энергиянын шығыны <br> деңгей бойынша / күндізгі-түнгі <br> кВт/сағ"
 
-#: templates/data/new_recrep_shablon.html:14
+#: templates/data/recrep_shablon.html:14
 msgid "Tariff, KZT"
 msgstr "Тариф <br> тг"
 
-#: templates/data/new_recrep_shablon.html:15
-#: templates/data/recon_rep_shablon.html:12
+#: templates/data/recrep_shablon.html:15
 msgid "Amount, KZT"
 msgstr "Есептелгені <br> тг"
 
-#: templates/data/new_recrep_shablon.html:16
+#: templates/data/recrep_shablon.html:16
 msgid "Total amount, KZT"
 msgstr "Жалпы есептелгені <br> тг"
 
-#: templates/data/new_recrep_shablon.html:17
-#: templates/data/recon_rep_shablon.html:13
+#: templates/data/recrep_shablon.html:17
 msgid "Amount of acts, KZT"
 msgstr "Актілер <br> тг"
 
-#: templates/data/new_recrep_shablon.html:18
-#: templates/data/recon_rep_shablon.html:14
+#: templates/data/recrep_shablon.html:18
 msgid "Payment, KZT"
 msgstr "Төлем <br> тг"
 
-#: templates/data/new_recrep_shablon.html:19
-#: templates/data/recon_rep_shablon.html:15
+#: templates/data/recrep_shablon.html:19
 msgid "Debt at the end, KZT"
 msgstr "Ай соңына қарыз <br> тг"
 
-#: templates/data/new_recrep_shablon.html:37
+#: templates/data/recrep_shablon.html:37
 msgid "Day/Night"
 msgstr "Күндізгі/Түнгі"
 
-#: templates/data/new_recrep_shablon.html:39
+#: templates/data/recrep_shablon.html:39
 msgid "By limits"
 msgstr "Деңгей бойынша"
-
-#: templates/data/recon_rep_shablon.html:8
-msgid "Debt at the beginning, KZT"
-msgstr "Алдыңғы қарыз ақы <br> тг"
-
-#: templates/data/recon_rep_shablon.html:11
-msgid "Electricity consumption, kW/h"
-msgstr "Эл/энергиянын шығыны <br> кВт/сағ"
 
 #: templates/data/view_debtors.html:9 templates/data/view_debtors.html:22
 msgid "List of debtors of legal entities"
@@ -426,23 +412,23 @@ msgstr "%(data_debt)s күніне қалған қарызы"
 msgid "View your payment and debt"
 msgstr "Сіздің төлем мен қарызыңызды қарау"
 
-#: templates/data/view_payment.html:21
+#: templates/data/view_payment.html:23
 msgid "Payment"
 msgstr "Төлем"
 
-#: templates/data/view_payment.html:22
+#: templates/data/view_payment.html:24
 msgid "Date of payment"
 msgstr "Төлемақының күні"
 
-#: templates/data/view_payment.html:35
+#: templates/data/view_payment.html:37
 msgid "Payment not found"
 msgstr "Төлем табылған жоқ"
 
-#: templates/data/view_payment.html:44
+#: templates/data/view_payment.html:46
 msgid "Actual date"
 msgstr "Көкейкесті күні"
 
-#: templates/data/view_payment.html:48
+#: templates/data/view_payment.html:50
 msgid "Debt"
 msgstr "Қарыз"
 
@@ -454,16 +440,16 @@ msgstr "Көрсеткішті хабарлау 20-31 аралығында"
 msgid "Meter readings"
 msgstr "Есептегіштің көрсеткіші"
 
-#: templates/load_data/meter_reading.html:142
-#: templates/profile/edit_profile.html:116
+#: templates/load_data/meter_reading.html:144
+#: templates/profile/edit_profile.html:121
 msgid "Save"
 msgstr "Сақтау"
 
-#: templates/load_data/meter_reading.html:144
+#: templates/load_data/meter_reading.html:146
 msgid "Add another electric meter readings"
 msgstr "Басқа есептеуіштің көрсетулер қосу керек"
 
-#: templates/load_data/meter_reading.html:145
+#: templates/load_data/meter_reading.html:147
 msgid "Another electric meter"
 msgstr "Басқа электр есептеуіш"
 
@@ -722,7 +708,6 @@ msgid "How to register?"
 msgstr "Қалай тіркелуге болады?"
 
 #: templates/registration/registration_form.html:57
-#: templates/search/search_abonent.html:8
 msgid "OK"
 msgstr "Жақсы"
 
@@ -734,13 +719,18 @@ msgstr "Тек қана ағылшын әріптері"
 msgid "Send"
 msgstr "Жіберу"
 
-#: templates/search/google_search.html:4 templates/search/google_search.html:7
-msgid "Search results"
-msgstr "Іздеу нәтижелері"
-
 #: templates/tags/top_menu.html:43
 msgid "Type here..."
 msgstr "Енгізу..."
+
+#~ msgid "Site development and support"
+#~ msgstr "Сайттың әзірлеуі және қолдауы"
+
+#~ msgid "Debt at the beginning, KZT"
+#~ msgstr "Алдыңғы қарыз ақы <br> тг"
+
+#~ msgid "Electricity consumption, kW/h"
+#~ msgstr "Эл/энергиянын шығыны <br> кВт/сағ"
 
 #~ msgid "Download receipt"
 #~ msgstr "Түбіртекті басып шығару"
