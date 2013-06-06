@@ -709,7 +709,7 @@ def print_kvit(request):
     kvitanciya = render_kvit(nls)
     if not kvitanciya:
         messages.add_message(request, messages.ERROR, _('Not found'))
-        return HttpResponseRedirect(reverse('kvit_page'))
+        return HttpResponseRedirect(reverse('home'))
         # response = HttpResponse(mimetype='text/html')
     # response['Content-Disposition'] = 'attachment; filename=kvitanciya.html'
     # response.write(kvitanciya)
@@ -724,7 +724,7 @@ def kvit_page(request):
     kvitanciya = render_kvit(nls)
     if not kvitanciya:
         messages.add_message(request, messages.ERROR, _('Not found'))
-        return HttpResponseRedirect(reverse('kvit_page'))
+        return HttpResponseRedirect(reverse('home'))
     return render(request, 'data/kvit_page.html', {'kvitanciya': kvitanciya})
 
 
