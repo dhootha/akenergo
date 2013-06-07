@@ -144,7 +144,7 @@ function SubmitAjaxForm(form_selector) {
 
 
 $(function () {
-//    $('div.input-required > input, div.input-required > textarea, div.input-required > select').attr('required', '');
+    $('div.input-required > input, div.input-required > textarea, div.input-required > select').attr('required', true);
     $('a[data-toggle=tooltip]').tooltip();
     $("a[data-toggle=popover], button[data-toggle=popover]").popover({ trigger: "hover focus", delay: 127 });
 
