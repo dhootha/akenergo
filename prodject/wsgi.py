@@ -27,4 +27,4 @@ application = get_wsgi_application()
 # from helloworld.wsgi import HelloWorldApplication
 # application = HelloWorldApplication(application)
 import sys
-sys.path.append('c:/progi/akenergo_project')
+sys.path.append('/opt/progi/akenergo_project')

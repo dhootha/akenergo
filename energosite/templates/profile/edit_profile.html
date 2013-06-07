@@ -113,8 +113,8 @@
             </div>
         {% endif %}
 
-        <div id="ajax_non_field_errors" style="display: none;" class="alert alert-error">
-        </div>
+{#        <div id="ajax_non_field_errors" style="display: none;" class="alert alert-error">#}
+{#        </div>#}
 
         <div class="control-group">
             <div class="controls">
@@ -129,7 +129,7 @@
     <script type="text/javascript">
         document.getElementById('id_nls').focus();
         $(function () {
-            SubmitAjaxForm('#edit_profile_frm', "#ajax_results");
+            SubmitAjaxForm('#edit_profile_frm');
         });
     </script>
 

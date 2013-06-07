@@ -6,7 +6,7 @@
 {% block page_content %}
 
 
-        <form class="form-horizontal" action="?next='/'" method="post">
+        <form id="resend_activation_form" class="form-horizontal" action="" method="post">
             {% csrf_token %}
 
 
@@ -60,6 +60,10 @@
         <script type="text/javascript">
             document.getElementById('id_email').focus();
             document.getElementById('id_captcha_1').setAttribute('class', 'input-small');
+
+         $(document).ready(function () {
+             SubmitAjaxForm("#resend_activation_form");
+         });
         </script>
 
 

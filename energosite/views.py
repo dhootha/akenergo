@@ -45,8 +45,9 @@ def index(request):
 #                                           'non_f_err': non_f_err, 'result': 'error'}), content_type="application/json")
 
 
-def ajaxResponse(form_errors, response='', response_header='', form=None, update_values=None, captcha_key=None,
-                 captcha_image=None):
+def ajaxResponse(form_errors, success_in_modal=False, form=None, response_body='', response_header='',
+                 update_values=None,
+                 captcha_key=None, captcha_image=None):
     errors = {}
     if form_errors and form:
         for field in form:
@@ -55,15 +56,18 @@ def ajaxResponse(form_errors, response='', response_header='', form=None, update
 
         if form.non_field_errors():
             errors['non_field'] = '; '.join(form.non_field_errors())
+            # errors['non_field'] = '; '.join(['ff', 'rrr3w'])
 
-        return HttpResponse(json.dumps({'errors': errors, 'captcha_key': captcha_key,
-                                        'captcha_image': captcha_image, 'result': 'error'}),
+
+        return HttpResponse(json.dumps({'errors': errors,
+                                        'captcha_key': captcha_key, 'captcha_image': captcha_image, 'result': 'error'}),
                             content_type="application/json")
 
     else:
-        return HttpResponse(json.dumps({'response': response, 'response_header': response_header,
-                                        'update_values': update_values, 'captcha_key': captcha_key,
-                                        'captcha_image': captcha_image, 'result': 'success'}),
+        return HttpResponse(json.dumps({'response_body': response_body, 'response_header': response_header,
+                                        'update_values': update_values,
+                                        'captcha_key': captcha_key, 'captcha_image': captcha_image, 'result': 'success',
+                                        'success_in_modal': success_in_modal}),
                             content_type="application/json")
 
 #
@@ -174,9 +178,9 @@ def is_ur_lica(kod):
 def is_fizlica(kod):
     return int(kod) == 1
 
+
 def is_fizlica_rayon(kod):
     return int(kod) == 3
-
 
 
 @login_required
@@ -500,7 +504,8 @@ def ajax_search_address(request):
                 params.append(nkw.upper())
 
             abonents = Abonbaza.objects.extra(where=condits, params=params).order_by("nls")[:100]
-            return ajaxResponse(False, response=render_to_string('search/result_table.html', {'abonents': abonents}),
+            return ajaxResponse(False, success_in_modal=True,
+                                response_body=render_to_string('search/result_table.html', {'abonents': abonents}),
                                 response_header=_('Search results'))
 
         else:
@@ -562,7 +567,8 @@ def ajax_search_fio(request):
             abonents = Abonbaza.objects.extra(where=["department_id = %s", "upper(fio) like %s"],
                                               params=[department, fio]).order_by("nls")[:100]
 
-            return ajaxResponse(False, response=render_to_string('search/result_table.html', {'abonents': abonents}),
+            return ajaxResponse(False, success_in_modal=True,
+                                response_body=render_to_string('search/result_table.html', {'abonents': abonents}),
                                 response_header=_('Search results'))
         else:
             return ajaxResponse(True, form=form)
@@ -633,7 +639,6 @@ def view_payment(request):
     fizlica = is_fizlica(get_depid(profile.nls)) or is_fizlica_rayon(get_depid(profile.nls))
     urlica = is_ur_lica(get_depid(profile.nls))
 
-
     if kvits.count():
         if kvits[0].saldo_k:
             dolg += kvits[0].saldo_k
@@ -642,7 +647,7 @@ def view_payment(request):
         actual_kvit_date = getActualDate('kvitbaza', kvits[0].department)
 
     return render(request, 'data/view_payment.html',
-                  {'nls':nls, 'payments': payments, 'dolg': dolg, 'actual_kvit_date': actual_kvit_date,
+                  {'nls': nls, 'payments': payments, 'dolg': dolg, 'actual_kvit_date': actual_kvit_date,
                    'actual_pay_date': actual_pay_date, 'fizlica': fizlica, 'urlica': urlica})
 
 
@@ -669,7 +674,7 @@ def recon_rep_page(request):
     user = request.user
     nls = get_profile(user).nls
     reports_table = render_recon_rep(nls)
-    return render(request, 'data/recon_rep_page.html', {'nls':nls, 'reports_table': reports_table})
+    return render(request, 'data/recon_rep_page.html', {'nls': nls, 'reports_table': reports_table})
 
 
 def render_kvit(nls):
@@ -732,11 +737,10 @@ def kvit_page(request):
 def contact_form(request):
     user = request.user
     if request.method == 'POST' and request.is_ajax():
-        captcha_key, captcha_image = None, None
+        captcha_key = CaptchaStore.generate_key()
+        captcha_image = captcha_image_url(captcha_key)
         form = ContactForm(request.POST)
         if form.is_valid():
-            captcha_key = CaptchaStore.generate_key()
-            captcha_image = captcha_image_url(captcha_key)
             subject = render_to_string('contact/subject.html')
             msg = render_to_string('contact/message.html',
                                    dict(user_name=user.username, user_email=user.email,
@@ -762,9 +766,9 @@ def contact_form(request):
                 # messages.add_message(request, messages.ERROR, _('Error sending mail'))
                 #return HttpResponseRedirect(reverse('contact_form'))
         else:
-            if not form.errors.get('captcha'):
-                captcha_key = CaptchaStore.generate_key()
-                captcha_image = captcha_image_url(captcha_key)
+            # if not form.errors.get('captcha'):
+            #     captcha_key = CaptchaStore.generate_key()
+            #     captcha_image = captcha_image_url(captcha_key)
             return ajaxResponse(True, form=form, captcha_key=captcha_key, captcha_image=captcha_image)
 
     form = ContactForm()
@@ -779,10 +783,10 @@ def contact_form(request):
 
 def site_comments(request):
     trail = []
-    menus = TopMenu.objects.filter(link=reverse('comments'))
-    if menus.count():
-        menu = menus[0].get_root()
-        trail = [(reverse('list_submenus', args=[menu.id]), menu.title)]
+    # menus = TopMenu.objects.filter(link=reverse('comments'))
+    # if menus.count():
+    #     menu = menus[0].get_root()
+    #     trail = [(reverse('list_submenus', args=[menu.id]), menu.title)]
     return render(request, 'contact/comments.html', {'trail': trail})
 
 
@@ -889,13 +893,13 @@ def resend_activation_link(request):
     else:
         site = RequestSite(request)
 
-    if request.method == 'POST':
+    if request.method == 'POST' and request.is_ajax():
+        captcha_key = CaptchaStore.generate_key()
+        captcha_image = captcha_image_url(captcha_key)
         form = ResendActivationEmailForm(request.POST)
         if form.is_valid():
             email = form.cleaned_data["email"]
-            #            print email
             users = User.objects.filter(email=email, is_active=False)
-
             if not users.count():
                 form._errors["email"] = (_("Account for email address is not registered or already activated."),)
             else:
@@ -909,12 +913,12 @@ def resend_activation_link(request):
                             user.save()
                         profile.send_activation_email(site)
 
-                messages.add_message(request, messages.INFO, _('Resend activation link done'))
-                return HttpResponseRedirect(reverse('home'))
+                # messages.add_message(request, messages.INFO, _('Resend activation link done'))
+                return ajaxResponse(False, response_header=_('Resend activation link done'), captcha_key=captcha_key,
+                                    captcha_image=captcha_image)
+        return ajaxResponse(True, form=form, captcha_key=captcha_key, captcha_image=captcha_image)
 
-    else:
-        form = ResendActivationEmailForm()
-
+    form = ResendActivationEmailForm()
     return render(request, "registration/resend_activation_email_form.html", {"form": form})
 
 

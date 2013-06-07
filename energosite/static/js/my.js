@@ -25,15 +25,53 @@ function sortDict(dict) {
 }
 
 
-function show_modal(modal_id, modal_head, modal_body) {
-    if (!modal_id) return;
-    var $this = $(modal_id);
-    $this.find('.modal-header h3').text(modal_head);
+function show_modal(modal_header, modal_body) {
+    var $this = $("#ajax_results");
+    $this.find('.modal-header h3').text(modal_header);
     if (!modal_body)
         $this.find('.modal-body').hide();
     else
         $this.find('.modal-body').show().html(modal_body);
-    $this.modal().css({'margin-top': ($(window).height() - $this.height()) / 2 + 'px', 'top': '0'});
+    $this.modal().css({'margin-top': ($(window).height() - $this.height()) / 2, 'top': 0});
+}
+
+
+function clear_form($form) {
+    $form.find('.control-group').removeClass('error');
+    $form.find('.help-inline').empty();
+    $form.find('#ajax_non_field_errors').remove();
+    $form.find('#ajax_form_success').remove();
+}
+
+function scrollTo(selector, step) {
+    if ($(selector).length)
+        $('html, body').animate({scrollTop: $(selector).offset().top - step}, 'fast');
+    return false;
+}
+
+
+function show_form_success($form, header, body) {
+    var html = '<div id="ajax_form_success" class="alert alert-success alert-block">' +
+        '<button type="button" class="close" data-dismiss="alert">&times;</button>';
+    if (header) html += '<h4>' + header + '</h4>';
+    html += body +
+        '</div>';
+    $form.prepend(html);
+}
+
+
+function display_nonfield_error($form, error) {
+    var html = '<div id="ajax_non_field_errors" class="alert alert-error alert-block">' +
+        '<button type="button" class="close" data-dismiss="alert">&times;</button>' +
+        error +
+        '</div>';
+    var find1 = $form.find('.form-actions:last');
+    var find2 = $form.find('.control-group:last');
+    if (find1.length)
+        find1.before(html);
+    else if (find2.length)
+        find2.before(html);
+
 }
 
 function display_form_errors($form, errors) {
@@ -43,44 +81,21 @@ function display_form_errors($form, errors) {
         if (k === 'captcha') {
             $form.find('input[name=captcha_1]').closest(".control-group").addClass('error');
             $form.find('input[name=captcha_1]').closest(".control-group").find('.help-inline').text(errors[k]);
-
         }
-        if (k === 'non_field')
-            $form.find('#ajax_non_field_errors').text(errors[k]).show();
-
+        if (k === 'non_field') {
+            display_nonfield_error($form, errors[k]);
+        }
     }
 }
 
-function update_values($form, values) {
+function update_values(values) {
     for (var key in values) if (values.hasOwnProperty(key)) {
-        $('#'+key).text(values[key]);
+        $('#' + key).text(values[key]);
     }
 }
 
-function display_errors_tt(modal_id, modal_head, errors) {
-
-    if (errors.length == 0) return;
-    var result = '<table class="table-hover table table-bordered"> \n';
-//    result+= '<tr><th></th><th></th></tr>'
-
-    for (var k in sortDict(errors)) {
-        if (errors.hasOwnProperty(k)) {
-            result += '<tr> \n <th>' + k + '</th> \n <td>' + errors[k] + '</td> \n </tr> \n';
-        }
-    }
-    result += "</table>";
-    show_modal(modal_id, modal_head, result);
-}
-
-function remove_form_errors($form) {
-    $form.find('.control-group').removeClass('error');
-    $form.find('.help-inline').empty();
-    $form.find('#ajax_non_field_errors').hide();
-}
-
-
-function SubmitAjaxForm(form_id, modal_id, complete_func) {
-    var $this = $(form_id);
+function SubmitAjaxForm(form_selector) {
+    var $this = $(form_selector);
     $this.submit(function (event) {
         event.preventDefault();
         $.ajax({ // create an AJAX call...
@@ -89,29 +104,37 @@ function SubmitAjaxForm(form_id, modal_id, complete_func) {
             type: $this.attr('method'), // GET or POST
             url: $this.attr('action'), // the file to call
             dataType: 'json',
+            timeout: 60000,
             beforeSend: function (jqXHR, settings) {
                 $this.find('input, select').attr('disabled', 'disabled'); // запрещаем редактировать инпуты
-//                $this.hide();
                 $this.css("visibility", 'hidden');
-                remove_form_errors($this);
+//                $this.fadeOut();
+                clear_form($this);
             },
-            success: function (data) { // on success..
+            error: function (jqXHR, textStatus, errorThrown) {
+                display_nonfield_error($this, "ERROR: " + errorThrown);
+            },
+            success: function (data, textStatus, jqXHR) {
                 if (data["captcha_key"] && data["captcha_image"]) {
                     $this.find("img.captcha").attr('src', data["captcha_image"]);
                     $this.find('#id_captcha_0').val(data["captcha_key"]);
                     $this.find('#id_captcha_1').val('');
                 }
-
                 if (data["result"] === 'success') {
-                    update_values($this, data["update_values"]);
-                    show_modal(modal_id, data['response_header'], data["response"]);
+                    update_values(data["update_values"]);
+                    if (data['success_in_modal'])
+                        show_modal(data['response_header'], data["response_body"]);
+                    else {
+                        show_form_success($this, data['response_header'], data["response_body"]);
+                        scrollTo("#ajax_form_success", 55);
+                    }
+
                 }
                 else if (data["result"] === 'error') {
                     display_form_errors($this, data["errors"]);
                 }
             },
             complete: function (jqXHR, textStatus) {
-//                $this.fadeIn('fast');
                 $this.css("visibility", 'visible');
                 $this.find('input, select').removeAttr('disabled'); // разрешаем редактировать инпуты
             }
@@ -135,7 +158,7 @@ $(function () {
 //            dataType: 'json',
 //            beforeSend: function (jqXHR, settings) {
 //                $(this).find('input, select').attr('disabled', 'disabled'); // запрещаем редактировать инпуты
-//                remove_form_errors($(this));
+//                clear_form($(this));
 //                $('#results').hide();
 //            },
 //            success: function (data) { // on success..

@@ -136,8 +136,8 @@
             </div>
         {% endif %}
 
-    <div id="ajax_non_field_errors" style="display: none;" class="alert alert-error">
-    </div>
+{#    <div id="ajax_non_field_errors" style="display: none;" class="alert alert-error">#}
+{#    </div>#}
 
 
         <div class="form-actions">
@@ -153,27 +153,18 @@
 
 
     <script>
-        document.getElementById('id_nls').focus();
-        {#        var pok1 = document.getElementById('id_pok1');#}
-        {#        if (pok1.value == 0)#}
-        {#            pok1.value = '';#}
-        {#        var fio = document.getElementById('id_fio');#}
-        {#        if (fio.value == ' ')#}
-        {#            fio.value = '';#}
-        {#        var address = document.getElementById('id_address');#}
-        {#        if (address.value == ' ')#}
-        {#            address.value = '';#}
-        document.getElementById('id_fio').setAttribute('style', 'width: 360px;');
-        document.getElementById('id_address').setAttribute('style', 'width: 360px;');
-
-
-        document.getElementById('id_nls').setAttribute('required', '');
-        document.getElementById('id_fio').setAttribute('required', '');
-        document.getElementById('id_address').setAttribute('required', '');
-        document.getElementById('id_pok1').setAttribute('required', '');
-
 
         $(document).ready(function () {
+
+        $('#id_nls').focus();
+        $('#id_fio').css('width', 360);
+        $('#id_address').css('width', 360);
+
+        $('#id_nls').attr('required', true);
+        $('#id_fio').attr('required', true);
+        $('#id_address').attr('required', true);
+        $('#id_pok1').attr('required', true);
+
 
             var tar_selector = $("#id_tariff");
             var tariff = tar_selector.val();
@@ -201,25 +192,15 @@
                 var $form = $('#mrform');
                 $form.find('input:text, input:password, input:file, textarea').val('');
                 $form.find('input:radio, input:checkbox, select option').removeAttr('checked').removeAttr('selected');
-                $('select option:first', $form).attr('selected', true);
-                $("#night_pok").hide();
+                $form.find('select option:first').attr('selected', true);
+                $form.find("#night_pok").hide();
                 {#            $(':input', $form).not(':button, :submit, :reset, :hidden').attr('required', false);#}
-                $('input:text:visible:first', $form).focus();
-                $('html, body').animate({scrollTop: $form.offset().top - 176}, 'fast');
+                $form.find('input:text:visible:first', $form).focus();
+{#                $('html, body').animate({scrollTop: $form.offset().top - 176}, 'fast');#}
+                $form.find('#id_nls').focus();
             });
 
-            {#                        jQuery.fn.form_clear = function () {#}
-            {#                            var $form = $(this);#}
-            {#            #}
-            {#                            $form.find('input:text, input:password, input:file, select, textarea').val('');#}
-            {#                            $form.find('input:radio, input:checkbox').removeAttr('checked').removeAttr('selected');#}
-            {#                            $('input:text:visible:first').focus();#}
-            {#                            $("#night_pok").animate({ opacity: 'hide' }, "slow");#}
-            {#            #}
-            {#                            return this;#}
-            {#                        };#}
-
-            SubmitAjaxForm('#mrform', "#ajax_results");
+            SubmitAjaxForm('#mrform');
         });
 
 
