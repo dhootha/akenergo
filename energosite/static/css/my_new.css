@@ -1,10 +1,19 @@
+/*Google fonts*/
+@font-face {
+  font-family: 'Telex';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Telex-Regular'), url(QBUn5F7b-9Ulki7K75J1Bw.woff) format('woff');
+}
+
+
 /* Footer
 -------------------------------------------------- */
 
 .footer {
     text-align: center;
     /*padding: 30px 0;*/
-    padding: 15px 0;
+    padding: 15px 10px;
     margin-top: 70px;
     border-top: 1px solid #e5e5e5;
     background-color: #f5f5f5;
@@ -45,10 +54,9 @@ th.center_middle, td.center_middle {
 /*New styles*/
 body {
     padding-top: 60px;
-    padding-bottom: 40px;
+    padding-bottom: 20px;
 }
 
 .sidebar-nav {
-    padding: 9px 0;
+    padding: 9px 0 !important;
 }
-
