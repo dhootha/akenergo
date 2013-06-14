@@ -12,6 +12,7 @@ then
 else   
        7z a  akenergo_project-$1.7z akenergo_project/ 
        sha1sum  akenergo_project-$1.7z  > akenergo_project-$1.7z.sha1
+       7z t  akenergo_project-$1.7z
 fi
 
 

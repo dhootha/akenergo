@@ -6,8 +6,8 @@
 #Substitute your postgresql root username in the below given line
 PGUSER=energosite
 #Substitute your postgresql root password in the below given line
-#PGPASSWORD=mypostgre
-PGPASSWORD=11111111
+#PGPASSWORD=11111111111
+PGPASSWORD=22222222222222222
 export PGUSER PGPASSWORD
 
 
@@ -31,8 +31,8 @@ else
 
 #if one or more arguments were provided
         if [ $# -eq 1 ]
-	#if arguments provided is equal to 1
-	then
+#if arguments provided is equal to 1
+then
             rm -f  $1_$tdate*
             pg_dump $1 -f ./$1_$tdate.backup -x -O -b -v                            
             7z a $1_$tdate.backup.7z  $1_$tdate.backup
