@@ -191,25 +191,35 @@ def show_pager(pager, num_pages=4, pager_class='pagination'):
     page_steps = range(1, num_pages + 1)
     page_steps_reversed = [-elm for elm in reversed(page_steps)]
 
-    page_number = pager.number
-
-    previous_page_number = None
-    next_page_number = None
-    has_previous = pager.has_previous()
-    if has_previous:
-        previous_page_number = pager.previous_page_number()
-    has_next = pager.has_next()
-    if has_next:
-        next_page_number = pager.next_page_number()
-
     pages_count = pager.paginator.num_pages
 
-    left_pages = [elm + page_number for elm in page_steps_reversed if elm + page_number > 1]
-    right_pages = [elm + page_number for elm in page_steps if elm + page_number < pages_count]
+    pages = []
+    if pager.has_previous():
+        pages.append({'num': pager.previous_page_number(), 'caption': '&laquo;', 'class': None})
+        pages.append({'num': 1, 'caption': 1, 'class': None})
+    else:
+        pages.append({'num': None, 'caption': '&laquo;', 'class': 'disabled'})
 
-    return {
-        'page_number': page_number, 'has_previous': has_previous, 'has_next': has_next,
-        'previous_page_number': previous_page_number,
-        'next_page_number': next_page_number, 'pages_count': pages_count, 'left_pages': left_pages,
-        'right_pages': right_pages, 'pager_class': pager_class
-    }
+    page_number = pager.number
+    left_pages = [elm + page_number for elm in page_steps_reversed if elm + page_number > 1]
+    for i, page_num in enumerate(left_pages):
+        if i == 0 and page_num > 2:
+            pages.append({'num': None, 'caption': '...', 'class': 'disabled'})
+        pages.append({'num': page_num, 'caption': page_num, 'class': None})
+
+    pages.append({'num': None, 'caption': page_number, 'class': 'active'})
+
+    right_pages = [elm + page_number for elm in page_steps if elm + page_number < pages_count]
+    for i, page_num in enumerate(right_pages):
+        pages.append({'num': page_num, 'caption': page_num, 'class': None})
+        if (i == len(right_pages) - 1) and (page_num < pages_count - 1):
+            pages.append({'num': None, 'caption': '...', 'class': 'disabled'})
+
+    if pager.has_next():
+        pages.append({'num': pages_count, 'caption': pages_count, 'class': None})
+        pages.append({'num': pager.next_page_number(), 'caption': '&raquo;', 'class': None})
+    else:
+        pages.append({'num': None, 'caption': '&raquo;', 'class': 'disabled'})
+
+    print pages
+    return {'pages': pages, 'pager_class': pager_class}

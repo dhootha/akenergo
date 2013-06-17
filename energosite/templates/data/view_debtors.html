@@ -30,6 +30,9 @@
     {#    {% if perms.energosite.view_debuch %}#}
 
     {% if debtors_pages %}
+
+        {% show_pager debtors_pages 4 %}
+
         <table class="table table-striped table-bordered table-hover table-condensed">
             <thead>
             <tr>
@@ -42,7 +45,8 @@
                     <th>{% trans 'Personal number' %}</th>
                     <th>{% trans 'Address' %}</th>
                     <th>
-                        {% blocktrans with data_debt=today|date:"01.m.Y" %}Remainder of a debt at {{ data_debt }}{% endblocktrans %}
+                        {% blocktrans with data_debt=today|date:"01.m.Y" %}Remainder of a debt at
+                            {{ data_debt }}{% endblocktrans %}
                     </th>
                 {% endif %}
             </tr>
@@ -64,10 +68,7 @@
             </tbody>
         </table>
 
-
-       {% show_pager debtors_pages 4 %}
-
-
+        {% show_pager debtors_pages 4 %}
 
     {% endif %}
 

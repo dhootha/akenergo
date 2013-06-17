@@ -121,7 +121,7 @@ function mySubmitAjaxForm(form_selector) {
                     $this.find('#id_captcha_1').val('');
                 }
                 if (data["result"] === 'success') {
-                    myUpdateValues(data["myUpdateValues"]);
+                    myUpdateValues(data["update_values"]);
                     if (data['success_in_modal'])
                         myShowModal(data['response_header'], data["response_body"]);
                     else {

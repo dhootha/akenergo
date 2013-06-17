@@ -65,7 +65,7 @@ def ajaxResponse(form_errors, success_in_modal=False, form=None, response_body='
 
     else:
         return HttpResponse(json.dumps({'response_body': response_body, 'response_header': response_header,
-                                        'myUpdateValues': update_values,
+                                        'update_values': update_values,
                                         'captcha_key': captcha_key, 'captcha_image': captcha_image, 'result': 'success',
                                         'success_in_modal': success_in_modal}),
                             content_type="application/json")
