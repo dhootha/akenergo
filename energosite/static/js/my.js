@@ -6,12 +6,12 @@
  * To change this template use File | Settings | File Templates.
  */
 
-function PrintWindow() {
+function myPrintWindow() {
     window.print();
     setTimeout("window.close();", 300);
 }
 
-function sortDict(dict) {
+function mySortDict(dict) {
     var keys = [];
     for (var i in dict)
         if (dict.hasOwnProperty(i))
@@ -25,7 +25,7 @@ function sortDict(dict) {
 }
 
 
-function show_modal(modal_header, modal_body) {
+function myShowModal(modal_header, modal_body) {
     var $this = $("#ajax_results");
     $this.find('.modal-header h3').text(modal_header);
     if (!modal_body)
@@ -36,21 +36,21 @@ function show_modal(modal_header, modal_body) {
 }
 
 
-function clear_form($form) {
+function myClearForm($form) {
     $form.find('.control-group').removeClass('error');
     $form.find('.help-inline').empty();
     $form.find('#ajax_non_field_errors').remove();
     $form.find('#ajax_form_success').remove();
 }
 
-function scrollTo(selector, step) {
+function myScrollPage(selector, step) {
     if ($(selector).length)
         $('html, body').animate({scrollTop: $(selector).offset().top - step}, 'fast');
     return false;
 }
 
 
-function show_form_success($form, header, body) {
+function myShowFormSuccess($form, header, body) {
     var html = '<div id="ajax_form_success" class="alert alert-success alert-block">' +
         '<button type="button" class="close" data-dismiss="alert">&times;</button>';
     if (header) html += '<h4>' + header + '</h4>';
@@ -60,7 +60,7 @@ function show_form_success($form, header, body) {
 }
 
 
-function display_nonfield_error($form, error) {
+function myDisplayNonfieldError($form, error) {
     var html = '<div id="ajax_non_field_errors" class="alert alert-error alert-block">' +
         '<button type="button" class="close" data-dismiss="alert">&times;</button>' +
         error +
@@ -74,7 +74,7 @@ function display_nonfield_error($form, error) {
 
 }
 
-function display_form_errors($form, errors) {
+function myDisplayFormErrors($form, errors) {
     for (var k in errors) if (errors.hasOwnProperty(k)) {
         $form.find('input[name=' + k + '], textarea[name=' + k + '], select[name=' + k + ']').closest(".control-group").addClass('error');
         $form.find('input[name=' + k + '], textarea[name=' + k + '], select[name=' + k + ']').closest(".control-group").find('.help-inline').text(errors[k]);
@@ -83,18 +83,18 @@ function display_form_errors($form, errors) {
             $form.find('input[name=captcha_1]').closest(".control-group").find('.help-inline').text(errors[k]);
         }
         if (k === 'non_field') {
-            display_nonfield_error($form, errors[k]);
+            myDisplayNonfieldError($form, errors[k]);
         }
     }
 }
 
-function update_values(values) {
+function myUpdateValues(values) {
     for (var key in values) if (values.hasOwnProperty(key)) {
         $('#' + key).text(values[key]);
     }
 }
 
-function SubmitAjaxForm(form_selector) {
+function mySubmitAjaxForm(form_selector) {
     var $this = $(form_selector);
     $this.submit(function (event) {
         event.preventDefault();
@@ -109,10 +109,10 @@ function SubmitAjaxForm(form_selector) {
                 $this.find('input, select').attr('disabled', 'disabled'); // запрещаем редактировать инпуты
                 $this.css("visibility", 'hidden');
 //                $this.fadeOut();
-                clear_form($this);
+                myClearForm($this);
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                display_nonfield_error($this, "ERROR: " + errorThrown);
+                myDisplayNonfieldError($this, "ERROR: " + errorThrown);
             },
             success: function (data, textStatus, jqXHR) {
                 if (data["captcha_key"] && data["captcha_image"]) {
@@ -121,17 +121,17 @@ function SubmitAjaxForm(form_selector) {
                     $this.find('#id_captcha_1').val('');
                 }
                 if (data["result"] === 'success') {
-                    update_values(data["update_values"]);
+                    myUpdateValues(data["myUpdateValues"]);
                     if (data['success_in_modal'])
-                        show_modal(data['response_header'], data["response_body"]);
+                        myShowModal(data['response_header'], data["response_body"]);
                     else {
-                        show_form_success($this, data['response_header'], data["response_body"]);
-                        scrollTo("#ajax_form_success", 55);
+                        myShowFormSuccess($this, data['response_header'], data["response_body"]);
+                        myScrollPage("#ajax_form_success", 55);
                     }
 
                 }
                 else if (data["result"] === 'error') {
-                    display_form_errors($this, data["errors"]);
+                    myDisplayFormErrors($this, data["errors"]);
                 }
             },
             complete: function (jqXHR, textStatus) {
@@ -158,7 +158,7 @@ $(function () {
 //            dataType: 'json',
 //            beforeSend: function (jqXHR, settings) {
 //                $(this).find('input, select').attr('disabled', 'disabled'); // запрещаем редактировать инпуты
-//                clear_form($(this));
+//                myClearForm($(this));
 //                $('#results').hide();
 //            },
 //            success: function (data) { // on success..

@@ -9,20 +9,20 @@
 
 <div class="navbar navbar-fixed-top">
     <div class="navbar-inner">
-        <div class="container-fluid">
-            <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
-            </button>
+            </a>
             <a class="brand" style="padding: 12px 16px 14px"
                href="/"><img style="width: 22px; height: 22px" src="{% static 'img/home.png' %}"
                              title="{% trans 'Home' %}" alt="{% trans 'Home' %}"></a>
 
             <div class="nav-collapse collapse">
-{#            <p class="navbar-text pull-right">#}
-{#              Logged in as <a href="#" class="navbar-link">Username</a>#}
-{#            </p>#}
+                {#            <p class="navbar-text pull-right">#}
+                {#              Logged in as <a href="#" class="navbar-link">Username</a>#}
+                {#            </p>#}
                 <ul class="nav">
                     {% for menu in top_menu_nodes %}
                         {% if menu.is_leaf_node %}
@@ -36,11 +36,11 @@
                             </li>
                         {% endif %}
                     {% endfor %}
-
                     <li class="divider-vertical"></li>
                 </ul>
-                <form class="navbar-search pull-left" action="{% url 'google_search' %}" method="get">
-                    <input class="search-query span2" placeholder="{% trans 'Type here...' %}" type="text" name="q">
+                <form class="navbar-form pull-left" action="{% url 'google_search' %}" method="get">
+                    <input type="text" class="span2" placeholder="{% trans 'Type here...' %}" name="q">
+                    <button type="submit" class="btn">{% trans 'Search' %}</button>
                 </form>
                 {% if request.user.is_authenticated %}
                     <ul class="nav pull-right">

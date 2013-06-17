@@ -65,7 +65,7 @@ def ajaxResponse(form_errors, success_in_modal=False, form=None, response_body='
 
     else:
         return HttpResponse(json.dumps({'response_body': response_body, 'response_header': response_header,
-                                        'update_values': update_values,
+                                        'myUpdateValues': update_values,
                                         'captcha_key': captcha_key, 'captcha_image': captcha_image, 'result': 'success',
                                         'success_in_modal': success_in_modal}),
                             content_type="application/json")
@@ -127,16 +127,11 @@ def show_article(request, link_id):
 
 
 def list_submenus(request, menu_id):
-    menus = TopMenu.objects.filter(pk=menu_id)
-    submenus = None
-    menu_title = ''
-    trail = []
-    if menus.count():
-        menu = menus[0]
-        menu_title = menu.title
-        submenus = menu.get_descendants()
-        ancs = menu.get_ancestors()
-        trail = [(reverse('list_submenus', args=[anc.id]), anc.title) for anc in ancs]
+    menu = get_object_or_404(TopMenu, pk=menu_id)
+    menu_title = menu.title
+    submenus = menu.get_descendants()
+    ancs = menu.get_ancestors()
+    trail = [(reverse('list_submenus', args=[anc.id]), anc.title) for anc in ancs]
     return render(request, 'posts/list_submenus.html', {'submenus': submenus, 'menu_title': menu_title, 'trail': trail})
 
 
@@ -154,10 +149,7 @@ def news_list(request):
         # If page is out of range (e.g. 9999), deliver last page of results.
         news_list = paginator.page(paginator.num_pages)
 
-    page_limit = [1, 2, 3, 4]
-    page_limitr = [-4, -3, -2, -1]
-    return render(request, 'posts/news_list.html',
-                  {"news_list": news_list, 'page_limit': page_limit, 'page_limitr': page_limitr})
+    return render(request, 'posts/news_list.html', {"news_list": news_list})
 
 # def getLastMonthPayment(nls):
 #     sel = "SELECT nls, sum(opl) as opl FROM oplbaza " \
@@ -182,12 +174,13 @@ def is_fizlica(kod):
 def is_fizlica_rayon(kod):
     return int(kod) == 3
 
+# import time
 
 @login_required
 def view_debtors(request, kod):
     today = getActualDate("debtors", kod)
     debs = cache.get('debs' + str(kod))
-    #    sec = time.time()
+    # sec = time.time()
     if not debs:
         debs = []
         debtors = Debtors.objects.raw("SELECT A.ID, A.NLS, A.DOLG, B.FIO, B.UL||' '||B.ND||"
@@ -220,7 +213,7 @@ def view_debtors(request, kod):
         # If page is out of range (e.g. 9999), deliver last page of results.
         debtors_pages = paginator.page(paginator.num_pages)
 
-    #    print "\n", time.time() - sec
+    # print "\n", time.time() - sec
 
     ur_lica = is_ur_lica(kod)
 
@@ -230,13 +223,9 @@ def view_debtors(request, kod):
         menu = menus[0].get_root()
         trail = [(reverse('list_submenus', args=[menu.id]), menu.title)]
 
-    page_limit = [1, 2, 3, 4]
-    page_limitr = [-4, -3, -2, -1]
 
     return render(request, 'data/view_debtors.html',
-                  {'debtors_pages': debtors_pages, 'today': today, 'ur_lica': ur_lica, 'trail': trail,
-                   'page_limit': page_limit,
-                   'page_limitr': page_limitr})
+                  {'debtors_pages': debtors_pages, 'today': today, 'ur_lica': ur_lica, 'trail': trail})
 
 
 def nls_exists(ls):

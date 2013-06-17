@@ -65,51 +65,7 @@
         </table>
 
 
-        <div class="pagination">
-            <ul>
-                {% if debtors_pages.has_previous %}
-                    <li>
-                        <a href="?page={{ debtors_pages.previous_page_number }}">&laquo;</a>
-                    </li>
-                    <li>
-                        <a href="?page=1">1</a>
-                    </li>
-                {% endif %}
-
-
-                {% for pagran in page_limitr %}
-                    {% if debtors_pages.number|add:pagran  > 1 %}
-                        <li>
-                            <a href="?page={{ debtors_pages.number|add:pagran }}">{{ debtors_pages.number|add:pagran }}</a>
-                        </li>
-                    {% endif %}
-                {% endfor %}
-
-
-                <li class="active">
-                    <a href="#">{{ debtors_pages.number }}</a>
-                </li>
-
-                {% for pagran in page_limit %}
-                    {% if debtors_pages.number|add:pagran  < debtors_pages.paginator.num_pages %}
-                        <li>
-                            <a href="?page={{ debtors_pages.number|add:pagran }}">{{ debtors_pages.number|add:pagran }}</a>
-                        </li>
-                    {% endif %}
-                {% endfor %}
-
-
-                {% if debtors_pages.has_next %}
-                    <li>
-                        <a href="?page={{ debtors_pages.paginator.num_pages }}">{{ debtors_pages.paginator.num_pages }}</a>
-                    </li>
-                    <li>
-                        <a href="?page={{ debtors_pages.next_page_number }}">&raquo;</a>
-                    </li>
-                {% endif %}
-
-            </ul>
-        </div>
+       {% show_pager debtors_pages 4 %}
 
 
 

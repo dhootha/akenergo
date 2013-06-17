@@ -1,0 +1,61 @@
+<div class="{{ pager_class|default:'pagination' }}">
+    <ul>
+
+        {% if has_previous %}
+            <li>
+                <a href="?page={{ previous_page_number }}">&laquo;</a>
+            </li>
+            <li>
+                <a href="?page=1">1</a>
+            </li>
+        {% else %}
+            <li class="disabled">
+                <a href="#">&laquo;</a>
+            </li>
+        {% endif %}
+
+
+        {% for page_range in left_pages %}
+            {% if forloop.first and page_range > 2 %}
+                <li class="disabled">
+                    <a href="#">...</a>
+                </li>
+            {% endif %}
+            <li>
+                <a href="?page={{ page_range }}">{{ page_range }}</a>
+            </li>
+        {% endfor %}
+
+
+        <li class="active">
+            <a href="#">{{ page_number }}</a>
+        </li>
+
+        {% for page_range in right_pages %}
+            <li>
+                <a href="?page={{ page_range }}">{{ page_range }}</a>
+            </li>
+            {% if forloop.last and  page_range|add:1 < pages_count %}
+                <li class="disabled">
+                    <a href="#">...</a>
+                </li>
+            {% endif %}
+        {% endfor %}
+
+
+        {% if has_next %}
+            <li>
+                <a href="?page={{ pages_count }}">{{ pages_count }}</a>
+            </li>
+            <li>
+                <a href="?page={{ next_page_number }}">&raquo;</a>
+            </li>
+        {% else %}
+            <li class="disabled">
+                <a href="#">&raquo;</a>
+            </li>
+        {% endif %}
+
+
+    </ul>
+</div>

@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n staticfiles %}
+{% load i18n staticfiles tags %}
 
 {% block title %}
     {% trans 'Site news' %}
@@ -65,51 +65,7 @@
 
     {% endfor %}
 
-    <div class="pagination">
-        <ul>
-            {% if news_list.has_previous %}
-                <li>
-                    <a href="?page={{ news_list.previous_page_number }}">&laquo;</a>
-                </li>
-                <li>
-                    <a href="?page=1">1</a>
-                </li>
-            {% endif %}
-
-
-            {% for pagran in page_limitr %}
-                {% if news_list.number|add:pagran  > 1 %}
-                    <li>
-                        <a href="?page={{ news_list.number|add:pagran }}">{{ news_list.number|add:pagran }}</a>
-                    </li>
-                {% endif %}
-            {% endfor %}
-
-
-            <li class="active">
-                <a href="#">{{ news_list.number }}</a>
-            </li>
-
-            {% for pagran in page_limit %}
-                {% if news_list.number|add:pagran  < news_list.paginator.num_pages %}
-                    <li>
-                        <a href="?page={{ news_list.number|add:pagran }}">{{ news_list.number|add:pagran }}</a>
-                    </li>
-                {% endif %}
-            {% endfor %}
-
-
-            {% if news_list.has_next %}
-                <li>
-                    <a href="?page={{ news_list.paginator.num_pages }}">{{ news_list.paginator.num_pages }}</a>
-                </li>
-                <li>
-                    <a href="?page={{ news_list.next_page_number }}">&raquo;</a>
-                </li>
-            {% endif %}
-
-        </ul>
-    </div>
+    {% show_pager news_list 4 %}
 
 
 

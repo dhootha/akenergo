@@ -143,7 +143,9 @@ def none2zero(value):
     else:
         return '0'
 
+
 import calendar
+
 
 @register.filter
 def month_name(month_number):
@@ -182,3 +184,32 @@ def get_page(page_link):
 
 
 #    "$%s%s" % (intcomma(int(dollars)), ("%0.2f" % dollars)[-3:])
+
+
+@register.inclusion_tag("tags/pager.html")
+def show_pager(pager, num_pages=4, pager_class='pagination'):
+    page_steps = range(1, num_pages + 1)
+    page_steps_reversed = [-elm for elm in reversed(page_steps)]
+
+    page_number = pager.number
+
+    previous_page_number = None
+    next_page_number = None
+    has_previous = pager.has_previous()
+    if has_previous:
+        previous_page_number = pager.previous_page_number()
+    has_next = pager.has_next()
+    if has_next:
+        next_page_number = pager.next_page_number()
+
+    pages_count = pager.paginator.num_pages
+
+    left_pages = [elm + page_number for elm in page_steps_reversed if elm + page_number > 1]
+    right_pages = [elm + page_number for elm in page_steps if elm + page_number < pages_count]
+
+    return {
+        'page_number': page_number, 'has_previous': has_previous, 'has_next': has_next,
+        'previous_page_number': previous_page_number,
+        'next_page_number': next_page_number, 'pages_count': pages_count, 'left_pages': left_pages,
+        'right_pages': right_pages, 'pager_class': pager_class
+    }
