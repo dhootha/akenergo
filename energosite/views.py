@@ -388,19 +388,19 @@ def toInt(value):
 
 
 def getToday():
-    return datetime.date.today()
+    return timezone.now()
 
 
 def getYear():
-    return datetime.date.today().year
+    return timezone.now().year
 
 
 def getMonth():
-    return datetime.date.today().month
+    return timezone.now().month
 
 
 def getDay():
-    return datetime.date.today().day
+    return timezone.now().day
 
 
 @login_required

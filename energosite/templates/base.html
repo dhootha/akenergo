@@ -206,7 +206,7 @@
         $("a[data-toggle=popover], button[data-toggle=popover]").popover({ trigger: "hover focus", delay: 127 });
 
         $('#google_search_form').submit(function () {
-            return $(this).find(':input[name=q]').val().length != 0;
+            return $.trim($(this).find(':input[name=q]').val()) != '';
         });
     });
 </script>

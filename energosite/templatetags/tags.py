@@ -221,5 +221,5 @@ def show_pager(pager, num_pages=4, pager_class='pagination'):
     else:
         pages.append({'num': None, 'caption': '&raquo;', 'class': 'disabled'})
 
-    print pages
+
     return {'pages': pages, 'pager_class': pager_class}
