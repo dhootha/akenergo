@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n tags %}
+{% load i18n tags staticfiles %}
 
 {% block title %}{% trans 'Contact us' %}{% endblock %}
 
@@ -28,59 +28,53 @@
 {% block page_content %}
 
 
-        <ul id="myTab" class="nav nav-tabs">
-            <li class="active"><a href="#contact__form" data-toggle="tab">{% trans 'Contact form' %}</a></li>
-            <li><a href="#find_us" data-toggle="tab">{% trans 'Find Us' %}</a></li>
-        </ul>
-        <div id="myTabContent" class="tab-content">
-            <div class="tab-pane fade in active" id="contact__form">
+    <ul id="myTab" class="nav nav-tabs">
+        <li class="active"><a href="#contact__form" data-toggle="tab">{% trans 'Contact form' %}</a></li>
+        <li><a href="#find_us" data-toggle="tab">{% trans 'Find Us' %}</a></li>
+    </ul>
+    <div id="myTabContent" class="tab-content">
+        <div class="tab-pane fade in active" id="contact__form">
+            {% trans 'Send message' as submCaptrans %}
+            {% include 'blocks/standard_form.html' %}
+        </div>
+        <div class="tab-pane fade" id="find_us">
 
-                {% trans 'Send message' as submCaptrans %}
-                {% include 'blocks/standard_form.html' %}
-
-                <script type="text/javascript">
-                    document.getElementById('id_subject').focus();
-                    document.getElementById('id_message').setAttribute('style', 'width: 360px;');
-                    document.getElementById('id_captcha_1').setAttribute('class', 'input-small');
-                </script>
-
-            </div>
-            <div class="tab-pane fade" id="find_us">
-
-                <div class="row-fluid">
+            <div class="row-fluid">
 
 
-                    <div class="span3">
-                        <h4>{% trans 'Find Us' %}</h4>
-                        <address>
-                            <strong>{% trans 'LLP Aktobeenergosnab' %}</strong><br>
-                            {% trans 'Kazakhstan, Aktobe, <br> 312 Infantry Division 44-B' %}<br>
-                            <strong>Телефон:</strong> +7 7132 700-230<br>
-                            <strong>Факс</strong> +7 7132 773-920<br>
-                        </address>
-                    </div>
-
-                    <div class="span4">
-                        <div class="map img-border">
-                            <iframe frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
-                                    src="https://maps.google.ru/maps/ms?msa=0&amp;msid=211356737080948881956.0004c1532dd47a4c58f94&amp;ie=UTF8&amp;t=m&amp;ll=50.319655,57.150793&amp;spn=0.016441,0.025749&amp;z=14&amp;output=embed"></iframe>
-                        </div>
-                    </div>
-
-
+                <div class="span3">
+                    <h4>{% trans 'Find Us' %}</h4>
+                    <address>
+                        <strong>{% trans 'LLP Aktobeenergosnab' %}</strong><br>
+                        {% trans 'Kazakhstan, Aktobe, <br> 312 Infantry Division 44-B' %}<br>
+                        <strong>Телефон:</strong> +7 7132 700-230<br>
+                        <strong>Факс</strong> +7 7132 773-920<br>
+                    </address>
                 </div>
 
+                <div class="span4">
+                    <div class="map img-border">
+                        <iframe frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
+                                src="https://maps.google.ru/maps/ms?msa=0&amp;msid=211356737080948881956.0004c1532dd47a4c58f94&amp;ie=UTF8&amp;t=m&amp;ll=50.319655,57.150793&amp;spn=0.016441,0.025749&amp;z=14&amp;output=embed"></iframe>
+                    </div>
+                </div>
+
+
             </div>
+
         </div>
+    </div>
+
+{% endblock %}
 
 
-<script>
- $(document).ready(function () {
-     mySubmitAjaxForm('#standard_form');
- });
-</script>
-
-
-
-
+{% block js %}
+    <script>
+        $(document).ready(function () {
+            $('#id_subject').focus();
+            $('#id_message').css('width', 360);
+            $('#id_captcha_1').addClass('input-small');
+            mySubmitAjaxForm('#standard_form');
+        });
+    </script>
 {% endblock %}

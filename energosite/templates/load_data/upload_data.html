@@ -79,6 +79,54 @@
 
     </form>
 
+    {% if tables %}
+        <h3>Загруженные файлы:</h3>
+        <table class="table table-striped table-bordered table-hover">
+            <tr>
+                <th>
+                    №
+                </th>
+                <th>
+                    Отделение
+                </th>
+                <th>
+                    База
+                </th>
+                <th>
+                    Записей
+                </th>
+                <th>
+                    Месяц
+                </th>
+                <th>
+                    Год
+                </th>
+                <th>
+                    Актуальная дата
+                </th>
+                <th>
+
+                </th>
+            </tr>
+            {% for tab in tables %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ tab.department.name }}</td>
+                    <td>{{ tab.dbtable }}</td>
+                    <td>{{ tab.dbfnumrecs }}</td>
+                    <td>{% if not tab.month %} - {% else %} {{ tab.month }} {% endif %}</td>
+                    <td>{% if not tab.year %} - {% else %} {{ tab.year }} {% endif %}</td>
+                    <td> {{ tab.actual_date|date:"d.m.Y" }}</td>
+                    <td><a onclick="return confirm('Удалить запись?');"
+                           href="{% url 'delete_loaded' tab.id %}">Удалить</a></td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+
+{% endblock %}
+
+{% block js %}
     <script>
         $(function () {
             var currentDate = new Date();
@@ -154,52 +202,8 @@
         });
     </script>
 
-    {% if tables %}
-        <h3>Загруженные файлы:</h3>
-        <table class="table table-striped table-bordered table-hover">
-            <tr>
-                <th>
-                    №
-                </th>
-                <th>
-                    Отделение
-                </th>
-                <th>
-                    База
-                </th>
-                <th>
-                    Записей
-                </th>
-                <th>
-                    Месяц
-                </th>
-                <th>
-                    Год
-                </th>
-                <th>
-                    Актуальная дата
-                </th>
-                <th>
-
-                </th>
-            </tr>
-            {% for tab in tables %}
-                <tr>
-                    <td>{{ forloop.counter }}</td>
-                    <td>{{ tab.department.name }}</td>
-                    <td>{{ tab.dbtable }}</td>
-                    <td>{{ tab.dbfnumrecs }}</td>
-                    <td>{% if not tab.month %} - {% else %} {{ tab.month }} {% endif %}</td>
-                    <td>{% if not tab.year %} - {% else %} {{ tab.year }} {% endif %}</td>
-                    <td> {{ tab.actual_date|date:"d.m.Y" }}</td>
-                    <td><a onclick="return confirm('Удалить запись?');"
-                           href="{% url 'delete_loaded' tab.id %}">Удалить</a></td>
-                </tr>
-            {% endfor %}
-        </table>
-    {% endif %}
-
 {% endblock %}
+
 
 
 

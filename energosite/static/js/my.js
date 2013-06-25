@@ -6,6 +6,11 @@
  * To change this template use File | Settings | File Templates.
  */
 
+//(function ($) {
+//    if ($ == undefined) {
+//        return;
+//    }
+
 function myPrintWindow() {
     window.print();
     setTimeout("window.close();", 300);
@@ -106,9 +111,10 @@ function mySubmitAjaxForm(form_selector) {
             dataType: 'json',
             timeout: 60000,
             beforeSend: function (jqXHR, settings) {
-                $this.find('input, select').attr('disabled', 'disabled'); // запрещаем редактировать инпуты
+                $this.find('input, select').attr('disabled', true); // запрещаем редактировать инпуты
                 $this.css("visibility", 'hidden');
-//                $this.fadeOut();
+                $('footer').css("visibility", 'hidden');
+
                 myClearForm($this);
             },
             error: function (jqXHR, textStatus, errorThrown) {
@@ -136,6 +142,7 @@ function mySubmitAjaxForm(form_selector) {
             },
             complete: function (jqXHR, textStatus) {
                 $this.css("visibility", 'visible');
+                $('footer').css("visibility", 'visible');
                 $this.find('input, select').removeAttr('disabled'); // разрешаем редактировать инпуты
             }
         });
@@ -143,10 +150,7 @@ function mySubmitAjaxForm(form_selector) {
 }
 
 
-$(function () {
-    $('div.input-required > input, div.input-required > textarea, div.input-required > select').attr('required', true);
-    $('a[data-toggle=tooltip]').tooltip();
-    $("a[data-toggle=popover], button[data-toggle=popover]").popover({ trigger: "hover focus", delay: 127 });
+//$(function () {
 
 
 //    $('#standard_form').submit(function () {
@@ -175,5 +179,6 @@ $(function () {
 //        });
 //        return false;
 //    });
-});
+//});
 
+//})(jQuery);

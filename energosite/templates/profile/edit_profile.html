@@ -113,8 +113,8 @@
             </div>
         {% endif %}
 
-{#        <div id="ajax_non_field_errors" style="display: none;" class="alert alert-error">#}
-{#        </div>#}
+        {#        <div id="ajax_non_field_errors" style="display: none;" class="alert alert-error">#}
+        {#        </div>#}
 
         <div class="control-group">
             <div class="controls">
@@ -124,14 +124,14 @@
 
     </form>
 
+{% endblock %}
 
-
+{% block js %}
     <script type="text/javascript">
-        document.getElementById('id_nls').focus();
         $(function () {
+            $('#id_nls').focus();
             mySubmitAjaxForm('#edit_profile_frm');
         });
     </script>
-
-
 {% endblock %}
+

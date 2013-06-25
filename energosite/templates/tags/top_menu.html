@@ -38,7 +38,7 @@
                     {% endfor %}
                     <li class="divider-vertical"></li>
                 </ul>
-                <form class="navbar-form pull-left" action="{% url 'google_search' %}" method="get">
+                <form id="google_search_form" class="navbar-form pull-left" action="{% url 'google_search' %}" method="get">
                     <input type="text" class="span2" placeholder="{% trans 'Type here...' %}" name="q">
                     <button type="submit" class="btn">{% trans 'Search' %}</button>
                 </form>

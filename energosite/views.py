@@ -130,6 +130,8 @@ def list_submenus(request, menu_id):
     menu = get_object_or_404(TopMenu, pk=menu_id)
     menu_title = menu.title
     submenus = menu.get_descendants()
+    if not submenus.count():
+        raise Http404
     ancs = menu.get_ancestors()
     trail = [(reverse('list_submenus', args=[anc.id]), anc.title) for anc in ancs]
     return render(request, 'posts/list_submenus.html', {'submenus': submenus, 'menu_title': menu_title, 'trail': trail})

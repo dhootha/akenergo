@@ -7,16 +7,13 @@
 
     {% include 'blocks/standard_form.html' %}
 
-    {#    <div style="min-height: 400px;">#}
-    {#        <div id="results"></div>#}
-    {#    </div>#}
+{% endblock %}
 
+{% block js %}
     <script>
         $(function () {
             mySubmitAjaxForm('#standard_form');
         });
     </script>
-
-
-
 {% endblock %}
+

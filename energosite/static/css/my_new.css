@@ -60,3 +60,23 @@ body {
 .sidebar-nav {
     padding: 9px 0 !important;
 }
+
+/*Go Top*/
+#scrollup_button {
+    position: fixed;
+    top: 80px;
+    right: 15px;
+    height: 41px;
+    width: 42px;
+    background: url('../img/scrollup_button.png') no-repeat 0 0;
+    cursor:pointer;
+    z-index:32001;
+}
+
+#scrollup_button:hover {
+    background-position: 0 -41px;
+}
+
+#scrollup_button.scrl_disabled {
+    display:none;
+}

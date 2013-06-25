@@ -8,7 +8,7 @@
     <title>  {% trans 'LLP Aktobeenergosnab' %} - {% block title %}{% endblock %} </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="description" content="Сайт энергоснабжающей организации">
+    <meta name="description" content="Сайт энергоснабжающей организации Актобе и Актюбинской области">
     <meta name="author" content="Igor Maydanenko">
 
     <meta name='yandex-verification' content='66ce583f5c149a57'/>
@@ -16,35 +16,10 @@
 
 
     {% block css %}
-
         <link rel="stylesheet" type="text/css" href="{% static "css/my_new.css" %}"/>
         <link rel="stylesheet" type="text/css" href="{% static "css/bootstrap.min.css" %}"/>
         <link rel="stylesheet" type="text/css" href="{% static "css/datepicker.css" %}"/>
         <link rel="stylesheet" type="text/css" href="{% static "css/bootstrap-responsive.min.css" %}"/>
-
-        {#        <style type="text/css" {% block css_media %} media="screen, handheld" {% endblock %}>#}
-        {#            @import "{% static "css/bootstrap.min.css" %}";#}
-        {#            @import "{% static "css/my_new.css" %}";#}
-        {#            @import "{% static "css/datepicker.css" %}";#}
-        {#            @import "{% static "css/bootstrap-responsive.min.css" %}";#}
-        {#        </style>#}
-
-        {#        <style type="text/css" media="print">#}
-        {#            @import "{% static "css/print.css" %}";#}
-        {#        </style>#}
-
-
-    {% endblock %}
-
-    {% block js %}
-        <script src="{% static "js/jquery-2.0.1.min.js" %}"></script>
-        <script src="{% static "js/bootstrap.js" %}"></script>
-        <script src="//yandex.st/share/share.js" charset="utf-8"></script>
-        <script src="{% static "js/bootstrap-datepicker.js" %}"></script>
-{#        <script src="{% static "js/jquery.form.js" %}"></script>#}
-
-        <script src="{% static 'js/my.js' %}"></script>
-
     {% endblock %}
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -78,7 +53,7 @@
 
         {% block header %}
             <div style="padding: 40px;" class="hero-unit">
-                <h1 style="font-size: 50px;">
+                <h1 style="font-size: 50px; word-wrap: break-word">
                     <a href="/">
                         <img class="img-rounded" src="{% static "img/energo.jpg" %}" alt="">
                     </a>
@@ -93,8 +68,6 @@
                            href="{% url 'auth_login' %}">{% trans 'Log in' %} &raquo;</a>
                         <a class="btn btn-large btn-success"
                            href="{% url 'registration_register' %}">{% trans 'Registration' %} &raquo;</a>
-                        {#                        <a href="{% url 'show_page' 'about' %}"#}
-                        {#                           class="btn btn-large btn-info">{% trans 'About the company' %} &raquo;</a>#}
                     </div>
                 {% endif %}
 
@@ -153,13 +126,6 @@
                         {% endif %}
                     {% endblock %}
 
-                    {#                    {% block ajax_messages %}#}
-                    {#                        <div style="min-height: 38px; margin-bottom: 20px">#}
-                    {#                            <div style="margin-bottom: 0" class="hide alert alert-info fade in">#}
-                    {#                                <strong id="ajax_message"></strong>#}
-                    {#                            </div>#}
-                    {#                        </div>#}
-                    {#                    {% endblock %}#}
                     {% block ajax_results %}
                         <div id="ajax_results" class="modal hide fade" tabindex="-1">
                             <div class="modal-header">
@@ -171,11 +137,10 @@
                                 <p>One fine body…</p>
                             </div>
                             <div class="modal-footer">
-                              <button class="btn" data-dismiss="modal">OK</button>
+                                <button class="btn" data-dismiss="modal">OK</button>
                             </div>
                         </div>
                     {% endblock %}
-
 
                     {% block page_content %}
                     {% endblock %}
@@ -183,7 +148,6 @@
                 </div>
 
             {% endblock %}
-
 
         </div>
 
@@ -196,51 +160,60 @@
         <footer class="footer">
             <div class="container-fluid">
 
-                <p class="pull-right">
-                    <a href="javascript:scroll(0,0)"><i class="icon-arrow-up"></i>{% trans 'Go top' %}</a>
-                </p>
+                {#                <p class="pull-right">#}
+                {#                    <a href="javascript:scroll(0,0)"><i class="icon-arrow-up"></i>{% trans 'Go top' %}</a>#}
+                {#                </p>#}
 
                 {% block informers %}
                     {% include "blocks/informers.html" %}
                 {% endblock %}
-
-
-                {#                <div class="links">#}
-                {#                    <a href="http://news.bootswatch.com/" onclick="pageTracker._link(this.href); return false;">Blog</a>#}
-                {#                    <a href="http://feeds.feedburner.com/bootswatch">RSS</a>#}
-                {#                    <a href="https://twitter.com/thomashpark">Twitter</a>#}
-                {#                    <a href="https://github.com/thomaspark/bootswatch/">GitHub</a>#}
-                {#                    <a href="https://github.com/thomaspark/bootswatch/tree/gh-pages/swatchmaker">Swatchmaker</a>#}
-                {#                    <a href="http://news.bootswatch.com/post/22193315172/bootswatch-api">API</a>#}
-                {#                    <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=F22JEM3Q78JC2">Donate</a>#}
-                {#                </div>#}
-                {##}
-                {#                <ul class="footer-links">#}
-                {#                    <li><a href="http://blog.getbootstrap.com">Blog</a></li>#}
-                {#                    <li class="muted">&middot;</li>#}
-                {#                    <li><a href="https://github.com/twitter/bootstrap/issues?state=open">Issues</a></li>#}
-                {#                    <li class="muted">&middot;</li>#}
-                {#                    <li><a href="https://github.com/twitter/bootstrap/wiki">Roadmap and changelog</a></li>#}
-                {#                </ul>#}
 
                 {% block bottom_menu %}
                     {% bottom_menu %}
                 {% endblock %}
 
 
-{#                <p>Created by#}
-{#                    <a href="{% url 'show_page' 'author' %}">Maydanenko Igor</a> &copy; 2012-2013#}
-{#                </p>#}
+                {#                <p>Created by#}
+                {#                    <a href="{% url 'show_page' 'author' %}">Maydanenko Igor</a> &copy; 2012-2013#}
+                {#                </p>#}
                 <p>
                     <a href="{% url 'show_page' 'author' %}">О сайте</a> &nbsp; &copy; {% trans 'Aktobeenergosnab' %}
                 </p>
+
                 <div class="pull-right">
-                    {% include 'blocks/counter_block.html' %}
+                    {% include 'blocks/liveinternet.html' %}
                 </div>
             </div>
         </footer>
     {% endblock %}
 
 {% endblock %}
+
+{% block js_second %}
+    <script src="{% static "js/jquery-2.0.1.min.js" %}"></script>
+    <script src="{% static "js/bootstrap.js" %}"></script>
+    <script src="//yandex.st/share/share.js" charset="utf-8"></script>
+    <script src="{% static "js/bootstrap-datepicker.js" %}"></script>
+    <script src="{% static 'js/my.js' %}"></script>
+    <script src="{% static 'js/scrollup_button.js' %}"></script>
+{% endblock %}
+
+<script>
+    $(document).ready(function () {
+
+        $('div.input-required > input, div.input-required > textarea, div.input-required > select').attr('required', true);
+        $('a[data-toggle=tooltip]').tooltip();
+        $("a[data-toggle=popover], button[data-toggle=popover]").popover({ trigger: "hover focus", delay: 127 });
+
+        $('#google_search_form').submit(function () {
+            return $(this).find(':input[name=q]').val().length != 0;
+        });
+    });
+</script>
+
+{% block js %}
+{% endblock %}
+
+
 </body>
 </html>

@@ -45,8 +45,7 @@
                     <th>{% trans 'Personal number' %}</th>
                     <th>{% trans 'Address' %}</th>
                     <th>
-                        {% blocktrans with data_debt=today|date:"01.m.Y" %}Remainder of a debt at
-                            {{ data_debt }}{% endblocktrans %}
+                        {% blocktrans with data_debt=today|date:"01.m.Y" %}Remainder of a debt at {{ data_debt }}{% endblocktrans %}
                     </th>
                 {% endif %}
             </tr>

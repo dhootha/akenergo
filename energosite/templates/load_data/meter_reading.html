@@ -136,8 +136,8 @@
             </div>
         {% endif %}
 
-{#    <div id="ajax_non_field_errors" style="display: none;" class="alert alert-error">#}
-{#    </div>#}
+        {#    <div id="ajax_non_field_errors" style="display: none;" class="alert alert-error">#}
+        {#    </div>#}
 
 
         <div class="form-actions">
@@ -148,22 +148,23 @@
             </button>
         </div>
 
-
     </form>
 
+{% endblock %}
 
+{% block js %}
     <script>
 
         $(document).ready(function () {
 
-        $('#id_nls').focus();
-        $('#id_fio').css('width', 360);
-        $('#id_address').css('width', 360);
+            $('#id_nls').focus();
+            $('#id_fio').css('width', 360);
+            $('#id_address').css('width', 360);
 
-        $('#id_nls').attr('required', true);
-        $('#id_fio').attr('required', true);
-        $('#id_address').attr('required', true);
-        $('#id_pok1').attr('required', true);
+            $('#id_nls').attr('required', true);
+            $('#id_fio').attr('required', true);
+            $('#id_address').attr('required', true);
+            $('#id_pok1').attr('required', true);
 
 
             var tar_selector = $("#id_tariff");
@@ -193,10 +194,10 @@
                 $form.find('input:text, input:password, input:file, textarea').val('');
                 $form.find('input:radio, input:checkbox, select option').removeAttr('checked').removeAttr('selected');
                 $form.find('select option:first').attr('selected', true);
-                $form.find("#night_pok").hide();
+                $("#night_pok").animate({ opacity: 'hide' }, "slow");
                 {#            $(':input', $form).not(':button, :submit, :reset, :hidden').attr('required', false);#}
                 $form.find('input:text:visible:first', $form).focus();
-{#                $('html, body').animate({scrollTop: $form.offset().top - 176}, 'fast');#}
+                {#                $('html, body').animate({scrollTop: $form.offset().top - 176}, 'fast');#}
                 $form.find('#id_nls').focus();
             });
 
@@ -217,8 +218,8 @@
 
 
     </script>
-
 {% endblock %}
+
 
 
 
