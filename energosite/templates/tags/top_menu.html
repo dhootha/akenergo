@@ -7,72 +7,158 @@
 {% url 'home' as home_url %}
 
 
-<div class="navbar navbar-fixed-top">
-    <div class="navbar-inner">
-        <div class="container">
-            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </a>
-            <a class="brand" style="padding: 12px 16px 14px"
-               href="/"><img style="width: 22px; height: 22px" src="{% static 'img/home.png' %}"
-                             title="{% trans 'Home' %}" alt="{% trans 'Home' %}"></a>
+{#<div class="navbar navbar-fixed-top">#}
+{#    <div class="navbar-inner">#}
+{#        <div class="container">#}
+{#            <a class="btn btn-default navbar-btn" data-toggle="collapse" data-target=".nav-collapse">#}
+{#                <span class="glyphicon glyphicon-bar"></span>#}
+{#                <span class="glyphicon glyphicon-bar"></span>#}
+{#                <span class="glyphicon glyphicon-bar"></span>#}
+{#            </a>#}
+{#            <a class="navbar-brand" style="padding: 12px 16px 14px"#}
+{#               href="/"><img style="width: 22px; height: 22px" src="{% static 'img/home.png' %}"#}
+{#                             title="{% trans 'Home' %}" alt="{% trans 'Home' %}"></a>#}
+{##}
+{#            <div class="nav-collapse collapse">#}
+{#            <p class="navbar-text pull-right">#}
+{#              Logged in as <a href="#" class="navbar-link">Username</a>#}
+{#            </p>#}
+{#                <ul class="nav">#}
+{#                    {% for menu in top_menu_nodes %}#}
+{#                        {% if menu.is_leaf_node %}#}
+{#                            <li class="{% current_nav menu.get_absolute_url %}">#}
+{#                                <a href="{{ menu.get_absolute_url }}">{{ menu.title }}</a>#}
+{#                            </li>#}
+{#                        {% else %}#}
+{#                            {% url 'list_submenus' menu.id as submenu_url %}#}
+{#                            <li class="{% current_nav submenu_url %}">#}
+{#                                <a href="{{ submenu_url }}">{{ menu.title }}</a>#}
+{#                            </li>#}
+{#                        {% endif %}#}
+{#                    {% endfor %}#}
+{#                    <li class="divider-vertical"></li>#}
+{#                </ul>#}
+{#                <form id="google_search_form" class="navbar-form pull-left" action="{% url 'google_search' %}"#}
+{#                      method="get">#}
+{#                    <input type="text" class="col-md-2" placeholder="{% trans 'Type here...' %}" name="q">#}
+{#                    <button type="submit" class="btn btn-default">{% trans 'Search' %}</button>#}
+{#                </form>#}
+{#                {% if request.user.is_authenticated %}#}
+{#                    <ul class="nav pull-right">#}
+{#                        <li class="divider-vertical"></li>#}
+{#                        <li class="dropdown">#}
+{#                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">#}
+{#                                {{ request.user.username }} <b class="caret"></b>#}
+{#                            </a>#}
+{#                            <ul class="dropdown-menu">#}
+{#                                <li>#}
+{#                                    <a href="{{ edit_profile }}">#}
+{#                                        <i class="glyphicon glyphicon-edit"></i> {% trans 'Edit profile' %}#}
+{#                                    </a>#}
+{#                                </li>#}
+{#                                <li>#}
+{#                                    <a href="{{ auth_password_change }}">#}
+{#                                        <i class="glyphicon glyphicon-pencil"></i> {% trans 'Password change' %}#}
+{#                                    </a>#}
+{#                                </li>#}
+{#                                <li class="divider"></li>#}
+{#                                <li>#}
+{#                                    <a href="{{ auth_logout }}"><i#}
+{#                                            class="glyphicon glyphicon-off"></i> {% trans 'Log out' %}</a>#}
+{#                                </li>#}
+{#                            </ul>#}
+{#                        </li>#}
+{#                    </ul>#}
+{#                {% endif %}#}
+{##}
+{#            </div>#}
+{#            <!-- /.nav-collapse -->#}
+{#        </div>#}
+{#    </div>#}
+{#    <!-- /navbar-inner -->#}
+{#</div>#}
+{#<!-- /navbar -->#}
 
-            <div class="nav-collapse collapse">
-                {#            <p class="navbar-text pull-right">#}
-                {#              Logged in as <a href="#" class="navbar-link">Username</a>#}
-                {#            </p>#}
-                <ul class="nav">
-                    {% for menu in top_menu_nodes %}
-                        {% if menu.is_leaf_node %}
-                            <li class="{% current_nav menu.get_absolute_url %}">
-                                <a href="{{ menu.get_absolute_url }}">{{ menu.title }}</a>
-                            </li>
-                        {% else %}
-                            {% url 'list_submenus' menu.id as submenu_url %}
-                            <li class="{% current_nav submenu_url %}">
-                                <a href="{{ submenu_url }}">{{ menu.title }}</a>
-                            </li>
-                        {% endif %}
-                    {% endfor %}
-                    <li class="divider-vertical"></li>
-                </ul>
-                <form id="google_search_form" class="navbar-form pull-left" action="{% url 'google_search' %}" method="get">
-                    <input type="text" class="span2" placeholder="{% trans 'Type here...' %}" name="q">
-                    <button type="submit" class="btn">{% trans 'Search' %}</button>
-                </form>
-                {% if request.user.is_authenticated %}
-                    <ul class="nav pull-right">
-                        <li class="divider-vertical"></li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                {{ request.user.username }} <b class="caret"></b>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <a href="{{ edit_profile }}">
-                                        <i class="icon-edit"></i> {% trans 'Edit profile' %}
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{ auth_password_change }}">
-                                        <i class="icon-pencil"></i> {% trans 'Password change' %}
-                                    </a>
-                                </li>
-                                <li class="divider"></li>
-                                <li>
-                                    <a href="{{ auth_logout }}"><i class="icon-off"></i> {% trans 'Log out' %}</a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                {% endif %}
 
-            </div>
-            <!-- /.nav-collapse -->
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            {#            <a class="navbar-brand" href="#">Project name</a>#}
+            <a class="navbar-brand" style="padding: 12px 16px 14px" href="/">
+                <img style="width: 22px; height: 22px" src="{% static 'img/home.png' %}"
+                     title="{% trans 'Home' %}" alt="{% trans 'Home' %}"></a>
+
         </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                {% for menu in top_menu_nodes %}
+                    {% if menu.is_leaf_node %}
+                        <li class="{% current_nav menu.get_absolute_url %}">
+                            <a href="{{ menu.get_absolute_url }}">{{ menu.title }}</a>
+                        </li>
+                    {% else %}
+                        {% url 'list_submenus' menu.id as submenu_url %}
+                        <li class="{% current_nav submenu_url %}">
+                            <a href="{{ submenu_url }}">{{ menu.title }}</a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+                {#                <li class="nav-divider"></li>#}
+                {#                <li class="dropdown">#}
+                {#                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>#}
+                {#                    <ul class="dropdown-menu">#}
+                {#                        <li><a href="#">Action</a></li>#}
+                {#                        <li><a href="#">Another action</a></li>#}
+                {#                        <li><a href="#">Something else here</a></li>#}
+                {#                        <li class="divider"></li>#}
+                {#                        <li class="dropdown-header">Nav header</li>#}
+                {#                        <li><a href="#">Separated link</a></li>#}
+                {#                        <li><a href="#">One more separated link</a></li>#}
+                {#                    </ul>#}
+                {#                </li>#}
+            </ul>
+
+            {% if request.user.is_authenticated %}
+                <ul class="nav navbar-nav navbar-right">
+                    {#                        <li class="divider-vertical"></li>#}
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            {{ request.user.username }} <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="{{ edit_profile }}">
+                                    <i class="glyphicon glyphicon-edit"></i> {% trans 'Edit profile' %}
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ auth_password_change }}">
+                                    <i class="glyphicon glyphicon-pencil"></i> {% trans 'Password change' %}
+                                </a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <a href="{{ auth_logout }}"><i
+                                        class="glyphicon glyphicon-off"></i> {% trans 'Log out' %}</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            {% endif %}
+            <form id="google_search_form" class="navbar-form navbar-right" action="{% url 'google_search' %}"
+                  method="get">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="{% trans 'Type here...' %}" name="q">
+                </div>
+                <button type="submit" class="btn btn-success">{% trans 'Search' %}</button>
+            </form>
+
+        </div>
+        <!--/.navbar-collapse -->
     </div>
-    <!-- /navbar-inner -->
 </div>
-<!-- /navbar -->

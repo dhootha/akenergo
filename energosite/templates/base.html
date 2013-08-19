@@ -17,9 +17,8 @@
 
     {% block css %}
         <link rel="stylesheet" type="text/css" href="{% static "css/my_new.css" %}"/>
-        <link rel="stylesheet" type="text/css" href="{% static "css/bootstrap.min.css" %}"/>
+        <link rel="stylesheet" type="text/css" href="{% static "css/bootstrap.css" %}"/>
         <link rel="stylesheet" type="text/css" href="{% static "css/datepicker.css" %}"/>
-        <link rel="stylesheet" type="text/css" href="{% static "css/bootstrap-responsive.min.css" %}"/>
     {% endblock %}
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -47,12 +46,10 @@
         {% top_menu %}
     {% endblock %}
 
-
-
-    <div class="container-fluid">
-
-        {% block header %}
-            <div style="padding: 40px;" class="hero-unit">
+    {% block header %}
+        <!-- Main jumbotron for a primary marketing message or call to action -->
+        <div style="padding: 40px;" class="jumbotron">
+            <div class="container">
                 <h1 style="font-size: 50px; word-wrap: break-word">
                     <a href="/">
                         <img class="img-rounded" src="{% static "img/energo.jpg" %}" alt="">
@@ -64,21 +61,22 @@
 
                 {% if not user.is_authenticated %}
                     <div class="btn-group">
-                        <a class="btn btn-large btn-primary"
+                        <a class="btn btn-lg btn-primary"
                            href="{% url 'auth_login' %}">{% trans 'Log in' %} &raquo;</a>
-                        <a class="btn btn-large btn-success"
+                        <a class="btn btn-lg btn-success"
                            href="{% url 'registration_register' %}">{% trans 'Registration' %} &raquo;</a>
                     </div>
                 {% endif %}
-
             </div>
-        {% endblock %}
+        </div>
+    {% endblock %}
 
+    <div class="container">
         <!--==============================content================================-->
-        <div class="row-fluid">
+        <div class="row">
             <!--  Nav -->
             {% block left_menu %}
-                <div class="span3">
+                <div class="col-md-3">
 
                     {% block select_language %}
                         {% include "blocks/lang_block.html" %}
@@ -105,7 +103,7 @@
 
             {% block page %}
                 <!--Page  -->
-                <div class="{% block page_class %}span9{% endblock %}">
+                <div class="{% block page_class %}col-md-9{% endblock %}">
 
                     {% block show_breadcrumbs %}
                         {% breadcrumbs %}
@@ -127,19 +125,45 @@
                     {% endblock %}
 
                     {% block ajax_results %}
-                        <div id="ajax_results" class="modal hide fade" tabindex="-1">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal"
-                                        aria-hidden="true">&times;</button>
-                                <h3>Modal header</h3>
+                        {#                        <div id="ajax_results" class="modal hide fade" tabindex="-1">#}
+                        {#                            <div class="modal-header">#}
+                        {#                                <button type="button" class="close" data-dismiss="modal"#}
+                        {#                                        aria-hidden="true">&times;</button>#}
+                        {#                                <h3>Modal header</h3>#}
+                        {#                            </div>#}
+                        {#                            <div class="modal-body">#}
+                        {#                                <p>One fine body…</p>#}
+                        {#                            </div>#}
+                        {#                            <div class="modal-footer">#}
+                        {#                                <button class="btn btn-default" data-dismiss="modal">OK</button>#}
+                        {#                            </div>#}
+                        {#                        </div>#}
+
+
+                        <div id="ajax_results" class="modal fade" tabindex="-1" role="dialog"
+                             aria-labelledby="myModalLabel"
+                             aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal"
+                                                aria-hidden="true">&times;</button>
+                                        <h4 class="modal-title" id="myModalLabel"></h4>
+                                    </div>
+                                    <div class="modal-body">
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+                                    </div>
+
+                                </div>
+                                <!-- /.modal-content -->
                             </div>
-                            <div class="modal-body">
-                                <p>One fine body…</p>
-                            </div>
-                            <div class="modal-footer">
-                                <button class="btn" data-dismiss="modal">OK</button>
-                            </div>
-                        </div>
+                            <!-- /.modal-dialog -->
+                        </div><!-- /.modal -->
+
                     {% endblock %}
 
                     {% block page_content %}
@@ -157,8 +181,9 @@
     <!-- Footer
     ================================================ -->
     {% block footer %}
+
         <footer class="footer">
-            <div class="container-fluid">
+            <div class="container">
 
                 {#                <p class="pull-right">#}
                 {#                    <a href="javascript:scroll(0,0)"><i class="icon-arrow-up"></i>{% trans 'Go top' %}</a>#}
@@ -190,7 +215,7 @@
 {% endblock %}
 
 {% block js_second %}
-    <script src="{% static "js/jquery-2.0.1.min.js" %}"></script>
+    <script src="{% static "js/jquery-2.0.3.min.js" %}"></script>
     <script src="{% static "js/bootstrap.js" %}"></script>
     <script src="//yandex.st/share/share.js" charset="utf-8"></script>
     <script src="{% static "js/bootstrap-datepicker.js" %}"></script>
@@ -213,7 +238,6 @@
 
 {% block js %}
 {% endblock %}
-
 
 </body>
 </html>

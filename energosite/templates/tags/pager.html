@@ -1,9 +1,8 @@
-<div class="{{ pager_class|default:'pagination' }}">
-    <ul>
-        {% for page in pages %}
-            <li{% if page.class %} class="{{ page.class }}"{% endif %}>
-                <a href="{% if page.num %}?page={{ page.num }}{% else %}#{% endif %}">{{ page.caption|safe }}</a>
-            </li>
-        {% endfor %}
-    </ul>
-</div>
+<ul class="{{ pager_class|default:'pagination' }}">
+    {% for page in pages %}
+        <li{% if page.class %} class="{{ page.class }}"{% endif %}>
+            <a href="{% if page.num %}?page={{ page.num }}{% else %}#{% endif %}">{{ page.caption|safe }}</a>
+        </li>
+    {% endfor %}
+</ul>
+

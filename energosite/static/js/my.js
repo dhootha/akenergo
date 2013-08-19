@@ -32,12 +32,13 @@ function mySortDict(dict) {
 
 function myShowModal(modal_header, modal_body) {
     var $this = $("#ajax_results");
-    $this.find('.modal-header h3').text(modal_header);
+    $this.find('.modal-header h4').text(modal_header);
     if (!modal_body)
         $this.find('.modal-body').hide();
     else
         $this.find('.modal-body').show().html(modal_body);
-    $this.modal().css({'margin-top': ($(window).height() - $this.height()) / 2, 'top': 0});
+    $this.modal();
+//        .css({'margin-top': ($(window).height() - $this.height()) / 2, 'top': 0});
 }
 
 

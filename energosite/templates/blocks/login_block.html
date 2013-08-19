@@ -17,19 +17,19 @@
                 {% trans 'Hello' %}, <span style="text-transform: lowercase">{{ user.username }}</span>
             </li>
             <li class="{% current_nav auth_password_change %}">
-                <a href="{{ auth_password_change }}"><i class="icon-pencil"></i> {% trans 'Password change' %}</a>
+                <a href="{{ auth_password_change }}"><i class="glyphicon glyphicon-pencil"></i> {% trans 'Password change' %}</a>
             </li>
             <li>
-                <a href="{{ auth_logout }}"><i class="icon-off"></i> {% trans 'Log out' %}</a>
+                <a href="{{ auth_logout }}"><i class="glyphicon glyphicon-off"></i> {% trans 'Log out' %}</a>
             </li>
 
             {#        {% else %}#}
             {##}
             {#            <li class="{% current_nav auth_login %}">#}
-            {#                <a href="{{ auth_login }}"><i class="icon-lock"></i> {% trans 'Log in' %}</a>#}
+            {#                <a href="{{ auth_login }}"><i class="glyphicon glyphicon-lock"></i> {% trans 'Log in' %}</a>#}
             {#            </li>#}
             {#            <li class="{% current_nav registration_register %}">#}
-            {#                <a href="{{ registration_register }}"><i class="icon-plus-sign"></i> {% trans 'Registration' %}</a>#}
+            {#                <a href="{{ registration_register }}"><i class="glyphicon glyphicon-plus-sign"></i> {% trans 'Registration' %}</a>#}
             {#            </li>#}
         </ul>
     </div>
