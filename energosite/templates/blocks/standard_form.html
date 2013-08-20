@@ -1,7 +1,7 @@
 {% load i18n %}
 
 {#{% if form.errors %}#}
-{#    <div class="alert alert-error">#}
+{#    <div class="alert alert-danger">#}
 {#        <button type="button" class="close" data-dismiss="alert">&times;</button>#}
 {#        {% trans 'Please correct the errors below' %}#}
 {#    </div>#}
@@ -51,7 +51,7 @@
 
 
     {% if form.non_field_errors %}
-        <div class="alert alert-error">
+        <div class="alert alert-danger">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
             {% for error in form.non_field_errors %}
                 <ol class="unstyled">
@@ -61,7 +61,7 @@
         </div>
     {% endif %}
 
-{#    <div id="ajax_non_field_errors" style="display: none;" class="alert alert-error">#}
+{#    <div id="ajax_non_field_errors" style="display: none;" class="alert alert-danger">#}
 {#    </div>#}
 
     <div class="control-group">

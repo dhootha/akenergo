@@ -24,7 +24,7 @@
         {#            <li><a href="{% url 'auth_logout' %}">{% trans 'Log out' %}</a></li>#}
         {#        </ul>#}
 
-        <ul class="nav nav-list">
+        <ul class="nav nav-pills nav-stacked">
             <li>
                 <a href="{% url 'home' %}"><i class="glyphicon glyphicon-home"></i> {% trans 'Home' %}</a>
             </li>
@@ -68,7 +68,7 @@
 
 
         {#        {% if form.errors %}#}
-        {#            <div class="alert alert-error">#}
+        {#            <div class="alert alert-danger">#}
         {#                <button type="button" class="close" data-dismiss="alert">&times;</button>#}
         {#                {% trans 'Please correct the errors below' %}#}
         {#            </div>#}
@@ -225,7 +225,7 @@
 
 
             {% if form.non_field_errors %}
-                <div class="alert alert-error">
+                <div class="alert alert-danger">
                     <button type="button" class="close" data-dismiss="alert">&times;</button>
                     {% for error in form.non_field_errors %}
                         <ol class="unstyled">

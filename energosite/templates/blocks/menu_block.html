@@ -14,17 +14,16 @@
 
 {% if user.is_authenticated %}
 
-    <div class="panel panel-primary">
+    <div class="panel panel-success">
         <div class="panel-heading">
             <h3 class="panel-title">{% trans 'User menu' %}</h3>
         </div>
-        <div class="panel-body">
+        <div class="panel-body" style="padding: 1px">
             <ul class="nav nav-pills nav-stacked" style="max-width: 300px;">
                 <li class="{% current_nav edit_profile %}">
                     <a href="{{ edit_profile }}"><i class="glyphicon glyphicon-edit"></i> {% trans 'Edit profile' %}</a>
                 </li>
-
-                <li class="disabled"></li>
+                <li class="divider"></li>
 
                 <li class="{% current_nav kvit_page %}">
                     <a href="{{ kvit_page }}"><i class="glyphicon glyphicon-file"></i> {% trans 'Receipt' %}</a>
@@ -70,7 +69,5 @@
             </ul>
         </div>
     </div>
-
-
 {% endif %}
 

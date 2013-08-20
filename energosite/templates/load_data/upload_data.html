@@ -24,7 +24,7 @@
     {#        </table>#}
     {##}
     {#        {% if form.non_field_errors %}#}
-    {#            <div class="alert alert-error">#}
+    {#            <div class="alert alert-danger">#}
     {#                <button type="button" class="close" data-dismiss="alert">&times;</button>#}
     {#                {% for error in form.non_field_errors %}#}
     {#                    <ol>#}
@@ -61,7 +61,7 @@
         {% endfor %}
 
         {% if form.non_field_errors %}
-            <div class="alert alert-error">
+            <div class="alert alert-danger">
                 <button type="button" class="close" data-dismiss="alert">&times;</button>
                 {% for error in form.non_field_errors %}
                     <ol class="unstyled">

@@ -5,7 +5,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>  {% trans 'LLP Aktobeenergosnab' %} - {% block title %}{% endblock %} </title>
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <meta name="description" content="Сайт энергоснабжающей организации Актобе и Актюбинской области">
@@ -14,10 +14,14 @@
     <meta name='yandex-verification' content='66ce583f5c149a57'/>
     <meta name="google-site-verification" content="sGSmTDCsGw370b8uc_lO9VDdiu6kf2yDVj9u6jS5oXw"/>
 
+{# {% trans 'LLP Aktobeenergosnab' %}#}
+
+    <title>{% block title %}{% endblock %} </title>
+
 
     {% block css %}
-        <link rel="stylesheet" type="text/css" href="{% static "css/my_new.css" %}"/>
         <link rel="stylesheet" type="text/css" href="{% static "css/bootstrap.css" %}"/>
+        <link rel="stylesheet" type="text/css" href="{% static "css/my_new.css" %}"/>
         <link rel="stylesheet" type="text/css" href="{% static "css/datepicker.css" %}"/>
     {% endblock %}
 
@@ -72,32 +76,29 @@
     {% endblock %}
 
     <div class="container">
+        {% block select_language %}
+            <div class="pull-right" style="margin-bottom: 5px">
+                {% include "blocks/lang_block.html" %}
+            </div>
+            <div class="clearfix"></div>
+        {% endblock %}
         <!--==============================content================================-->
         <div class="row">
             <!--  Nav -->
             {% block left_menu %}
                 <div class="col-md-3">
-
-                    {% block select_language %}
-                        {% include "blocks/lang_block.html" %}
-                    {% endblock %}
-
                     {% block login %}
                         {% include "blocks/login_block.html" %}
                     {% endblock %}
-
                     {% block menu_block %}
                         {% include "blocks/menu_block.html" %}
                     {% endblock %}
-
                     {% block news_block %}
                         {% recent_news_list %}
                     {% endblock %}
-
                     {#                    {% block recent_comments %}#}
                     {#                        {% include "blocks/recent_comments.html" %}#}
                     {#                    {% endblock %}#}
-
                 </div>
             {% endblock %}
 
@@ -105,9 +106,11 @@
                 <!--Page  -->
                 <div class="{% block page_class %}col-md-9{% endblock %}">
 
+
                     {% block show_breadcrumbs %}
                         {% breadcrumbs %}
                     {% endblock %}
+
 
                     <div class="page-header">
                         <h2>{% block page_title %}{% endblock %}</h2>

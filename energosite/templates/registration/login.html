@@ -1,132 +1,115 @@
-{% extends "base_only_page.html" %}
-{% load i18n %}
+{% extends "base.html" %}
+{% load i18n staticfiles %}
 
 {% block title %}{% trans 'Authorization for the site' %}{% endblock %}
+{% block css %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static "css/signin.css" %}">
+{% endblock %}
+
 {% block page_title %}{% trans 'Authorization for the site' %} {% trans 'Aktobeenergosnab' %}{% endblock %}
-{% block page_content %}
-    {% if user.is_authenticated %}
-        {#                <p>#}
-        {#                    {% trans 'Hello' %}, {{ user.username }}#}
-        {#                </p>#}
-{#        <ul class="nav nav-list">#}
-{#            <li><a href="{% url 'edit_profile' %}">{% trans 'Edit profile' %}</a></li>#}
-{#            <li><a href="{% url 'auth_password_change' %}">{% trans 'Password change' %}</a></li>#}
-{#            <li><a href="{% url 'auth_logout' %}">{% trans 'Log out' %}</a></li>#}
-{#        </ul>#}
 
-        <ul class="nav nav-list">
-            <li>
-                <a href="{% url 'home' %}"><i class="glyphicon glyphicon-home"></i> {% trans 'Home' %}</a>
-            </li>
-        </ul>
+{% block body %}
 
+    <div class="container">
 
-    {% else %}
+        {% if user.is_authenticated %}
 
-        <p class="text-info" style="margin-bottom: 22px;">
-            {% trans 'To access the data you need to log in' %}
-        </p>
+            <ul class="list-unstyled">
+                <li>
+                    <a href="{% url 'home' %}"><i class="glyphicon glyphicon-home"></i> {% trans 'Home' %}</a>
+                </li>
+            </ul>
 
-{#        {% if form.errors %}#}
-{#            <div class="alert alert-error">#}
-{#                <button type="button" class="close" data-dismiss="alert">&times;</button>#}
-{#                {% trans 'Please correct the errors below' %}#}
-{#            </div>#}
-{#        {% endif %}#}
+        {% else %}
+
+            <form class="form-signin" action="?next={{ next|default:'/' }}" method="post">
+                {% csrf_token %}
+                <p class="text-info">
+                    {% trans 'To access the data you need to log in' %}
+                </p>
+
+                <h2 class="form-signin-heading">{% trans 'Authorization for the site' %} {% trans 'Aktobeenergosnab' %}</h2>
+                <input id="id_username" maxlength="254" name="username" type="text" class="form-control"
+                       placeholder="{% trans 'Username' %} (E-mail):" autofocus>
+                <input id="id_password" name="password" type="password" class="form-control"
+                       placeholder="{% trans 'Password' %}:">
 
 
-        <form  style="min-width: 200px;" class="form-horizontal" action="?next={{ next|default:'/' }}" method="post">
-            {% csrf_token %}
 
-            <div class="control-group{% if form.username.errors %} error{% endif %}">
-                <label class="control-label" for="id_username">{% trans 'Username' %} <br> (E-mail):</label>
-
-                <div class="controls">
-                    {#                    <input type="text" id="inputEmail" placeholder="Email">#}
-                    {{ form.username }}
-                    <span class="help-inline">
-                        {% for error in form.username.errors %}
-                            {{ error|escape }} &nbsp;&nbsp;
+                {% if form.non_field_errors %}
+                    <div class="alert alert-danger">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        {% for error in form.non_field_errors %}
+                            <ul class="list-unstyled">
+                                <li>{{ error|escape }}</li>
+                                {% if user_inactive %}
+                                    <li>
+                                        <a href="{% url 'resend_activation_link' %}">
+                                            <i class="glyphicon glyphicon-envelope"></i> {% trans 'Resend activation link' %}
+                                        </a>
+                                    </li>
+                                {% endif %}
+                            </ul>
                         {% endfor %}
-                    </span>
-                </div>
-            </div>
+                    </div>
+                {% endif %}
 
-            <div class="control-group{% if form.password.errors %} error{% endif %}">
-                <label class="control-label" for="id_password">{% trans 'Password' %}:</label>
-
-                <div class="controls">
-                    {{ form.password }}
-                    <span class="help-inline">
-                        {% for error in form.password.errors %}
-                            {{ error|escape }} &nbsp;&nbsp;
-                        {% endfor %}
-                    </span>
-                </div>
-            </div>
-
-            {% if form.non_field_errors %}
-                <div class="alert alert-error">
-                    <button type="button" class="close" data-dismiss="alert">&times;</button>
-                    {% for error in form.non_field_errors %}
-                        <ul class="unstyled">
-                            <li>{{ error|escape }}</li>
-                            {% if user_inactive %}
-                                <li>
-                                    <a href="{% url 'resend_activation_link' %}">
-                                        <i class="glyphicon glyphicon-envelope"></i> {% trans 'Resend activation link' %}
-                                    </a>
-                                </li>
-                            {% endif %}
+                {% if form.username.errors %}
+                    <div class="alert alert-danger">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        <ul class="list-unstyled">
+                            <li>{% trans form.username.label %}:</li>
+                            {% for error in form.username.errors %}
+                                <li>{{ error|escape }}</li>
+                            {% endfor %}
                         </ul>
-                    {% endfor %}
-                </div>
-            {% endif %}
+                    </div>
+                {% endif %}
+
+                {% if form.password.errors %}
+                    <div class="alert alert-danger">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        <ul class="list-unstyled">
+                            <li>{% trans form.password.label %}:</li>
+                            {% for error in form.password.errors %}
+                                <li>{{ error|escape }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
 
 
-            <div class="form-actions" style="background-color: #ffffff; margin-bottom: 5px;">
-                    <button type="submit" class="btn btn-primary">{% trans 'Log in' %}</button>
-                    <button type="reset" class="btn btn-warning">{% trans 'Cancel' %}</button>
-            </div>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">{% trans 'Log in' %}</button>
 
-            <div class="control-group">
-                <div class="controls">
-                    <ul class="unstyled">
-                         <li style="padding: 3px 0">
-                            <a href="{% url 'home' %}">
-                                <i class="glyphicon glyphicon-home"></i> {% trans 'Home' %}</a>
-                        </li>
-                        <li style="padding: 3px 0">
-                            <a href="{% url 'registration_register' %}">
-                                <i class="glyphicon glyphicon-plus-sign"></i> {% trans 'Registration' %}</a>
-                        </li>
-                        <li style="padding: 3px 0">
-                            <a href="{% url 'auth_password_reset' %}">
-                                <i class="glyphicon glyphicon-refresh"></i> {% trans 'Password reset' %}</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+                <ul class="list-unstyled" style="margin-top: 20px">
+                    <li style="padding: 3px 0">
+                        <a href="{% url 'home' %}">
+                            <i class="glyphicon glyphicon-home"></i> {% trans 'Home' %}</a>
+                    </li>
+                    <li style="padding: 3px 0">
+                        <a href="{% url 'registration_register' %}">
+                            <i class="glyphicon glyphicon-plus-sign"></i> {% trans 'Registration' %}</a>
+                    </li>
+                    <li style="padding: 3px 0">
+                        <a href="{% url 'auth_password_reset' %}">
+                            <i class="glyphicon glyphicon-refresh"></i> {% trans 'Password reset' %}</a>
+                    </li>
+                </ul>
 
-        </form>
+            </form>
 
 
+            <script type="text/javascript">
+                {#                document.getElementById('id_username').focus();#}
+                document.getElementById('id_username').setAttribute('placeholder', '{% trans 'Username' %} (E-mail)');
+                document.getElementById('id_password').setAttribute('placeholder', '{% trans 'Password' %}')
+            </script>
+
+        {% endif %}
 
 
-
-        <script type="text/javascript">
-            document.getElementById('id_username').focus();
-            document.getElementById('id_username').setAttribute('placeholder', '{% trans 'Username' %} (E-mail)');
-            document.getElementById('id_password').setAttribute('placeholder', '{% trans 'Password' %}')
-        </script>
-
-        {#        <ul>#}
-        {#            <li><a href="{% url 'registration_register' %}">{% trans 'Registration' %}</a></li>#}
-        {#            <li><a href="{% url 'auth_password_reset' %}">{% trans 'Password reset' %}</a></li>#}
-        {#        </ul>#}
-
-    {% endif %}
+    </div> <!-- /container -->
 {% endblock %}
 
-{% block aside %}
-{% endblock %}
+

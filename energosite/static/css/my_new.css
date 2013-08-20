@@ -898,3 +898,20 @@ body {
 .glyphicon-wrench:before {
     content: "\1f527";
 }
+
+/*For nav */
+.nav .divider {
+    height: 1px;
+    /*margin: 9px 0;*/
+    overflow: hidden;
+    background-color: #e5e5e5;
+}
+
+.nav-pills > li > a {
+    padding: 6px 11px !important;
+}
+
+/*Panels */
+.panel:first-child {
+    margin-top: 20px;
+}

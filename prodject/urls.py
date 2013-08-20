@@ -20,12 +20,12 @@ admin.autodiscover()
 
 page_dict = {
     'queryset': Page.objects.filter(published=True),
-    'date_field': 'date',
+    # 'date_field': 'date',
 }
 
 article_dict = {
     'queryset': Article.objects.filter(published=True),
-    'date_field': 'date',
+    # 'date_field': 'date',
 }
 
 sitemaps = {
