@@ -132,19 +132,19 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li>
-                                <a href="{{ edit_profile }}">
+                                <a href="{{ edit_profile }}" tabindex="-1">
                                     <i class="glyphicon glyphicon-edit"></i> {% trans 'Edit profile' %}
                                 </a>
                             </li>
                             <li>
-                                <a href="{{ auth_password_change }}">
+                                <a href="{{ auth_password_change }}" tabindex="-1">
                                     <i class="glyphicon glyphicon-pencil"></i> {% trans 'Password change' %}
                                 </a>
                             </li>
                             <li class="divider"></li>
                             <li>
-                                <a href="{{ auth_logout }}"><i
-                                        class="glyphicon glyphicon-off"></i> {% trans 'Log out' %}</a>
+                                <a href="{{ auth_logout }}" tabindex="-1">
+                                    <i class="glyphicon glyphicon-off"></i> {% trans 'Log out' %}</a>
                             </li>
                         </ul>
                     </li>

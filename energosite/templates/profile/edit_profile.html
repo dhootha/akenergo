@@ -14,7 +14,7 @@
 
         <div class="media-body">
             <h4 class="media-heading">{% trans 'Information' %}</h4>
-            <ul class="unstyled">
+            <ul class="list-unstyled">
                 <li><strong> {% trans 'Client name' %}: </strong> <span id="info_fio">{{ fio }}</span></li>
                 <li><strong> {% trans 'Address' %}: </strong> <span id="info_address">{{ address }}</span></li>
                 <li><strong> E-mail: </strong> <span id="info_email">{{ email }}</span></li>
@@ -24,22 +24,24 @@
 
 
 
-    <form id="edit_profile_frm" class="form-horizontal" action="" method="post">
+    <form id="edit_profile_frm" class="form-horizontal" method="post">
         {% csrf_token %}
 
-        <div class="control-group{% if form.nls.errors %} error{% endif %}">
-            <label class="control-label" for="id_nls">{{ form.nls.label }}:</label>
+        <div style="margin-bottom: 10px;" class="form-group{% if form.nls.errors %} has-error{% endif %}">
+            <label class="col-lg-3 control-label" for="id_nls">{{ form.nls.label }}:</label>
 
-            <div class="controls">
+            <div class="col-lg-6">
                 {{ form.nls }}
-                    <span class="help-inline">
+                {% if form.nls.errors %}
+                    <span class="help-block">
                         {% for error in form.nls.errors %}
                             {{ error|escape }} &nbsp;&nbsp;
                         {% endfor %}
                     </span>
+                {% endif %}
 
                 <div class="help-block">
-                    <ul class="unstyled" style="margin-bottom: 0">
+                    <ul class="list-unstyled" style="margin-bottom: 0">
                         <li>
                             <a href="{% url 'search_fio' %}">{% trans 'Search by surname' %}</a>
                         </li>
@@ -51,53 +53,61 @@
             </div>
         </div>
 
-        <div class="control-group{% if form.home_phone.errors %} error{% endif %}">
-            <label class="control-label" for="id_home_phone">{{ form.home_phone.label }}:</label>
+        <div style="margin-bottom: 10px;" class="form-group{% if form.home_phone.errors %} has-error{% endif %}">
+            <label class="col-lg-3 control-label" for="id_home_phone">{{ form.home_phone.label }}:</label>
 
-            <div class="controls">
+            <div class="col-lg-6">
                 <div class="input-group">
                     <span class="input-group-addon">+7</span>
                     {{ form.home_phone }}
                 </div>
-                    <span class="help-inline">
+                {% if form.home_phone.errors %}
+                    <span class="help-block">
                         {% for error in form.home_phone.errors %}
                             {{ error|escape }} &nbsp;&nbsp;
                         {% endfor %}
                     </span>
+                {% endif %}
 
-                <div class="help-block" style="margin-left: 34px">
+                <div class="help-block">
                     <span class="text-warning">7132 * * * * * *</span>
                 </div>
             </div>
         </div>
 
-        <div class="control-group{% if form.mobile_phone.errors %} error{% endif %}">
-            <label class="control-label" for="id_mobile_phone">{{ form.mobile_phone.label }}:</label>
+        <div style="margin-bottom: 10px;" class="form-group{% if form.mobile_phone.errors %} has-error{% endif %}">
+            <label class="col-lg-3 control-label" for="id_mobile_phone">{{ form.mobile_phone.label }}:</label>
 
-            <div class="controls">
+            <div class="col-lg-6">
                 <div class="input-group">
                     <span class="input-group-addon">+7</span>
                     {{ form.mobile_phone }}
                 </div>
-                    <span class="help-inline">
+                {% if form.mobile_phone.errors %}
+                    <span class="help-block">
                         {% for error in form.mobile_phone.errors %}
                             {{ error|escape }} &nbsp;&nbsp;
                         {% endfor %}
                     </span>
+                {% endif %}
             </div>
         </div>
 
 
-        <div class="control-group{% if form.mailing.errors %} error{% endif %}">
-            <div class="controls">
-                <label class="checkbox">
-                    {{ form.mailing }} {{ form.mailing.label }}
-                        <span class="help-inline">
-                        {% for error in form.mailing.errors %}
-                            {{ error|escape }} &nbsp;&nbsp;
-                        {% endfor %}
+        <div style="margin-bottom: 10px;" class="form-group{% if form.mailing.errors %} has-error{% endif %}">
+            <div class="col-lg-offset-3 col-lg-6">
+                <div class="checkbox">
+                    <label>
+                        {{ form.mailing }} {{ form.mailing.label }}
+                    </label>
+                </div>
+                {% if form.mailing.errors %}
+                    <span class="help-block">
+                            {% for error in form.mailing.errors %}
+                                {{ error|escape }} &nbsp;&nbsp;
+                            {% endfor %}
                     </span>
-                </label>
+                {% endif %}
             </div>
         </div>
 
@@ -106,18 +116,16 @@
             <div class="alert alert-danger">
                 <button type="button" class="close" data-dismiss="alert">&times;</button>
                 {% for error in form.non_field_errors %}
-                    <ul class="unstyled">
+                    <ul class="list-unstyled">
                         <li>{{ error|escape }}</li>
                     </ul>
                 {% endfor %}
             </div>
         {% endif %}
 
-        {#        <div id="ajax_non_field_errors" style="display: none;" class="alert alert-danger">#}
-        {#        </div>#}
 
-        <div class="control-group">
-            <div class="controls">
+        <div class="form-group">
+            <div class="col-lg-offset-3 col-lg-6">
                 <button type="submit" class="btn btn-primary">{% trans 'Save' %}</button>
             </div>
         </div>

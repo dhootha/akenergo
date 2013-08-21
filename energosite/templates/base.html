@@ -52,16 +52,16 @@
 
     {% block header %}
         <!-- Main jumbotron for a primary marketing message or call to action -->
-        <div style="padding: 40px;" class="jumbotron">
+        <div class="jumbotron">
             <div class="container">
-                <h1 style="font-size: 50px; word-wrap: break-word">
+                <h1 style="word-wrap: break-word">
                     <a href="/">
                         <img class="img-rounded" src="{% static "img/energo.jpg" %}" alt="">
                     </a>
                     {% trans 'LLP Aktobeenergosnab' %}
                 </h1>
 
-                <p style="margin-top: 10px;">{% trans 'Welcome to our site!' %}</p>
+                <p>{% trans 'Welcome to our site!' %}</p>
 
                 {% if not user.is_authenticated %}
                     <div class="btn-group">
@@ -236,6 +236,7 @@
         $('#google_search_form').submit(function () {
             return $.trim($(this).find(':input[name=q]').val()) != '';
         });
+        $(':input', $('form')).not(':button, :submit, :reset, :hidden, :radio, :checkbox').addClass('form-control');
     });
 </script>
 

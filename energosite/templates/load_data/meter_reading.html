@@ -10,31 +10,23 @@
         <span class="label label-info">{% trans 'Transfer readings from the 20 th to 31 th' %}</span>
     </div>
 
-
-    {#    {% if form.errors %}#}
-    {#        <div class="alert alert-danger">#}
-    {#            <button type="button" class="close" data-dismiss="alert">&times;</button>#}
-    {#            {% trans 'Please correct the errors below' %}#}
-    {#        </div>#}
-    {#    {% endif %}#}
-
     <form id="mrform" class="form-horizontal" action="" method="post">
         {% csrf_token %}
 
 
-        <div class="control-group{% if form.nls.errors %} error{% endif %}">
-            <label class="control-label" for="id_nls">{{ form.nls.label }}:</label>
+        <div class="form-group{% if form.nls.errors %} has-error{% endif %}">
+            <label class="col-lg-3 control-label" for="id_nls">{{ form.nls.label }}:</label>
 
-            <div class="controls">
+            <div class="col-lg-6">
                 {{ form.nls }}
-                    <span class="help-inline">
+                    <span class="help-block">
                         {% for error in form.nls.errors %}
                             {{ error|escape }} &nbsp;&nbsp;
                         {% endfor %}
                     </span>
 
                 <div class="help-block">
-                    <ul class="unstyled" style="margin-bottom: 0">
+                    <ul class="list-unstyled" style="margin-bottom: 0">
                         <li>
                             <a href="{% url 'search_fio' %}">{% trans 'Search by surname' %}</a>
                         </li>
@@ -47,12 +39,12 @@
         </div>
 
 
-        <div class="control-group{% if form.fio.errors %} error{% endif %}">
-            <label class="control-label" for="id_fio">{{ form.fio.label }}:</label>
+        <div class="form-group{% if form.fio.errors %} has-error{% endif %}">
+            <label class="col-lg-3 control-label" for="id_fio">{{ form.fio.label }}:</label>
 
-            <div class="controls">
+            <div class="col-lg-6">
                 {{ form.fio }}
-                    <span class="help-inline">
+                    <span class="help-block">
                         {% for error in form.fio.errors %}
                             {{ error|escape }} &nbsp;&nbsp;
                         {% endfor %}
@@ -60,12 +52,12 @@
             </div>
         </div>
 
-        <div class="control-group{% if form.address.errors %} error{% endif %}">
-            <label class="control-label" for="id_address">{{ form.address.label }}:</label>
+        <div class="form-group{% if form.address.errors %} has-error{% endif %}">
+            <label class="col-lg-3 control-label" for="id_address">{{ form.address.label }}:</label>
 
-            <div class="controls">
+            <div class="col-lg-6">
                 {{ form.address }}
-                    <span class="help-inline">
+                    <span class="help-block">
                         {% for error in form.address.errors %}
                             {{ error|escape }} &nbsp;&nbsp;
                         {% endfor %}
@@ -78,12 +70,12 @@
             <legend>{% trans 'Meter readings' %}</legend>
 
 
-            <div class="control-group{% if form.tariff.errors %} error{% endif %}">
-                <label class="control-label" for="id_tariff"> {{ form.tariff.label }}:</label>
+            <div class="form-group{% if form.tariff.errors %} has-error{% endif %}">
+                <label class="col-lg-3 control-label" for="id_tariff"> {{ form.tariff.label }}:</label>
 
-                <div class="controls">
+                <div class="col-lg-6">
                     {{ form.tariff }}
-                    <span class="help-inline">
+                    <span class="help-block">
                         {% for error in form.tariff.errors %}
                             {{ error|escape }} &nbsp;&nbsp;
                         {% endfor %}
@@ -92,12 +84,12 @@
             </div>
 
 
-            <div id="day_pok" class="control-group{% if form.pok1.errors %} error{% endif %}">
-                <label class="control-label" for="id_pok1">{{ form.pok1.label }}:</label>
+            <div id="day_pok" class="form-group{% if form.pok1.errors %} has-error{% endif %}">
+                <label class="col-lg-3 control-label" for="id_pok1">{{ form.pok1.label }}:</label>
 
-                <div class="controls">
+                <div class="col-lg-6">
                     {{ form.pok1 }}
-                    <span class="help-inline">
+                    <span class="help-block">
                         {% for error in form.pok1.errors %}
                             {{ error|escape }} &nbsp;&nbsp;
                         {% endfor %}
@@ -106,12 +98,12 @@
             </div>
 
 
-            <div id="night_pok" class="control-group{% if form.pok2.errors %} error{% endif %}">
-                <label class="control-label" for="id_pok2">{{ form.pok2.label }}:</label>
+            <div id="night_pok" class="form-group{% if form.pok2.errors %} has-error{% endif %}">
+                <label class="col-lg-3 control-label" for="id_pok2">{{ form.pok2.label }}:</label>
 
-                <div class="controls">
+                <div class="col-lg-6">
                     {{ form.pok2 }}
-                    <span class="help-inline">
+                    <span class="help-block">
                         {% for error in form.pok2.errors %}
                             {{ error|escape }} &nbsp;&nbsp;
                         {% endfor %}
@@ -129,7 +121,7 @@
             <div class="alert alert-danger">
                 <button type="button" class="close" data-dismiss="alert">&times;</button>
                 {% for error in form.non_field_errors %}
-                    <ol class="unstyled">
+                    <ol class="list-unstyled">
                         <li>{{ error|escape }}</li>
                     </ol>
                 {% endfor %}
@@ -158,8 +150,8 @@
         $(document).ready(function () {
 
             $('#id_nls').focus();
-            $('#id_fio').css('width', 360);
-            $('#id_address').css('width', 360);
+{#            $('#id_fio').css('width', 360);#}
+{#            $('#id_address').css('width', 360);#}
 
             $('#id_nls').attr('required', true);
             $('#id_fio').attr('required', true);
@@ -196,7 +188,7 @@
                 $form.find('select option:first').attr('selected', true);
                 $("#night_pok").animate({ opacity: 'hide' }, "slow");
                 {#            $(':input', $form).not(':button, :submit, :reset, :hidden').attr('required', false);#}
-                $form.find('input:text:visible:first', $form).focus();
+                $form.find('input:text:visible:first').focus();
                 {#                $('html, body').animate({scrollTop: $form.offset().top - 176}, 'fast');#}
                 $form.find('#id_nls').focus();
             });

@@ -14,21 +14,21 @@
 
 {% block page_content %}
     {% if submenus %}
-        <ul class="nav nav-list">
+        <ul class="nav nav-pills nav-stacked">
             {% recursetree submenus %}
                 {% if node.published %}
                     <li>
                         {% if node.is_leaf_node %}
-                            <a href="{{ node.get_absolute_url }}"><i class="glyphicon glyphicon-hand-right"></i>
+                            <a href="{{ node.get_absolute_url }}">
+                                <i class="glyphicon glyphicon-hand-right"></i>
                                 {{ node.title }}
                             </a>
                         {% else %}
-                            <a href="{% url 'list_submenus' node.id %}"><i class="glyphicon glyphicon-chevron-right"></i>
-                              <strong> {{ node.title }} </strong>
+                            <a href="{% url 'list_submenus' node.id %}">
+                                <i class="glyphicon glyphicon-chevron-right"></i>
+                                <strong> {{ node.title }} </strong>
                             </a>
-                        {% endif %}
-                        {% if not node.is_leaf_node %}
-                            <ul class="nav nav-list">
+                            <ul class="nav nav-pills nav-stacked" style="margin-left: 25px">
                                 {{ children }}
                             </ul>
                         {% endif %}
@@ -37,6 +37,4 @@
             {% endrecursetree %}
         </ul>
     {% endif %}
-
-
 {% endblock %}
