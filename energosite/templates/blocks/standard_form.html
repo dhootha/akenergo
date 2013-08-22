@@ -22,25 +22,19 @@
 
                 {{ field }}
 
-                {% if field.errors %}
-                    <span class="help-block">
-                        {% for error in field.errors %}
-                            {{ error|escape }} &nbsp;&nbsp;
-                        {% endfor %}
-                    </span>
-                {% endif %}
-                {% ifequal field.name 'nls' %}
-                    <div class="help-block">
-                        <ul class="list-unstyled" style="margin-bottom: 0">
-                            <li>
-                                <a href="{% url 'search_fio' %}">{% trans 'Search by surname' %}</a>
-                            </li>
-                            <li>
-                                <a href="{% url 'search_address' %}">{% trans 'Search by address' %}</a>
-                            </li>
-                        </ul>
-                    </div>
-                {% endifequal %}
+                <ul class="help-block list-unstyled">
+                    {% for error in field.errors %}
+                        <li>{{ error|escape }}</li>
+                    {% endfor %}
+                    {% ifequal field.name 'nls' %}
+                        <li>
+                            <a href="{% url 'search_fio' %}">{% trans 'Search by surname' %}</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'search_address' %}">{% trans 'Search by address' %}</a>
+                        </li>
+                    {% endifequal %}
+                </ul>
             </div>
         </div>
 

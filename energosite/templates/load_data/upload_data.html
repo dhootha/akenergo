@@ -46,16 +46,16 @@
         {% csrf_token %}
         {% for field in form %}
             <div id="controls_{{ field.name }}" class="form-group{% if field.errors %} has-error{% endif %}">
-                <label class="col-lg-3 control-label" for="{{ field.auto_id }}">{{ field.label }}:
+                <label class="col-lg-2 control-label" for="{{ field.auto_id }}">{{ field.label }}:
                 </label>
 
-                <div class="controls {% if field.field.required %}input-required{% endif %}">
+                <div class="col-lg-4 {% if field.field.required %}input-required{% endif %}">
                     {{ field }}
-                    <span class="help-block">
+                    <ul class="help-block list-unstyled">
                         {% for error in field.errors %}
-                            {{ error|escape }} &nbsp;&nbsp;
+                            <li>{{ error|escape }}</li>
                         {% endfor %}
-                    </span>
+                    </ul>
                 </div>
             </div>
         {% endfor %}
@@ -72,12 +72,13 @@
         {% endif %}
 
         <div class="form-group">
-            <div class="col-lg-6">
-                <button type="submit" class="btn btn-default">Загрузить файл</button>
+            <div class="col-lg-offset-2 col-lg-4">
+                <button type="submit" class="btn btn-primary">Загрузить файл</button>
             </div>
         </div>
 
     </form>
+
 
     {% if tables %}
         <h3>Загруженные файлы:</h3>

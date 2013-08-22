@@ -6,8 +6,8 @@
 {% block page_title %} {% trans 'Readings input' %} {% endblock %}
 
 {% block page_content %}
-    <div id="label_info" style="margin-left: 15px; margin-bottom: 20px;">
-        <span class="label label-info">{% trans 'Transfer readings from the 20 th to 31 th' %}</span>
+    <div id="label_info" style="margin-bottom: 20px;">
+        <span class="label label-warning">{% trans 'Transfer readings from the 20 th to 31 th' %}</span>
     </div>
 
     <form id="mrform" class="form-horizontal" action="" method="post">
@@ -19,22 +19,17 @@
 
             <div class="col-lg-6">
                 {{ form.nls }}
-                    <span class="help-block">
-                        {% for error in form.nls.errors %}
-                            {{ error|escape }} &nbsp;&nbsp;
-                        {% endfor %}
-                    </span>
-
-                <div class="help-block">
-                    <ul class="list-unstyled" style="margin-bottom: 0">
-                        <li>
-                            <a href="{% url 'search_fio' %}">{% trans 'Search by surname' %}</a>
-                        </li>
-                        <li>
-                            <a href="{% url 'search_address' %}">{% trans 'Search by address' %}</a>
-                        </li>
-                    </ul>
-                </div>
+                <ul class="help-block list-unstyled">
+                    {% for error in form.nls.errors %}
+                        <li>{{ error|escape }}</li>
+                    {% endfor %}
+                    <li>
+                        <a href="{% url 'search_fio' %}">{% trans 'Search by surname' %}</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'search_address' %}">{% trans 'Search by address' %}</a>
+                    </li>
+                </ul>
             </div>
         </div>
 
@@ -44,11 +39,11 @@
 
             <div class="col-lg-6">
                 {{ form.fio }}
-                    <span class="help-block">
-                        {% for error in form.fio.errors %}
-                            {{ error|escape }} &nbsp;&nbsp;
-                        {% endfor %}
-                    </span>
+                <ul class="help-block list-unstyled">
+                    {% for error in form.fio.errors %}
+                        <li>{{ error|escape }}</li>
+                    {% endfor %}
+                </ul>
             </div>
         </div>
 
@@ -57,11 +52,11 @@
 
             <div class="col-lg-6">
                 {{ form.address }}
-                    <span class="help-block">
-                        {% for error in form.address.errors %}
-                            {{ error|escape }} &nbsp;&nbsp;
-                        {% endfor %}
-                    </span>
+                <ul class="help-block list-unstyled">
+                    {% for error in form.address.errors %}
+                        <li>{{ error|escape }}</li>
+                    {% endfor %}
+                </ul>
             </div>
         </div>
 
@@ -75,11 +70,11 @@
 
                 <div class="col-lg-6">
                     {{ form.tariff }}
-                    <span class="help-block">
+                    <ul class="help-block list-unstyled">
                         {% for error in form.tariff.errors %}
-                            {{ error|escape }} &nbsp;&nbsp;
+                            <li>{{ error|escape }}</li>
                         {% endfor %}
-                    </span>
+                    </ul>
                 </div>
             </div>
 
@@ -89,11 +84,11 @@
 
                 <div class="col-lg-6">
                     {{ form.pok1 }}
-                    <span class="help-block">
+                    <ul class="help-block list-unstyled">
                         {% for error in form.pok1.errors %}
-                            {{ error|escape }} &nbsp;&nbsp;
+                            <li>{{ error|escape }}</li>
                         {% endfor %}
-                    </span>
+                    </ul>
                 </div>
             </div>
 
@@ -103,11 +98,11 @@
 
                 <div class="col-lg-6">
                     {{ form.pok2 }}
-                    <span class="help-block">
+                    <ul class="help-block list-unstyled">
                         {% for error in form.pok2.errors %}
-                            {{ error|escape }} &nbsp;&nbsp;
+                            <li>{{ error|escape }}</li>
                         {% endfor %}
-                    </span>
+                    </ul>
                 </div>
             </div>
 
@@ -132,12 +127,14 @@
         {#    </div>#}
 
 
-        <div class="form-actions">
-            <button type="submit" class="btn btn-default">{% trans 'Save' %}</button>
-            <button id="another_mtr" type="button" data-toggle="popover" data-placement="top"
-                    data-content="{% trans 'Add another electric meter readings' %}" class="btn btn-warning">
-                {% trans 'Another electric meter' %}
-            </button>
+        <div class="form-group">
+            <div class="col-lg-offset-3 col-lg-6">
+                <button type="submit" class="btn btn-primary">{% trans 'Save' %}</button>
+                <button id="another_mtr" type="button" data-toggle="popover" data-placement="top"
+                        data-content="{% trans 'Add another electric meter readings' %}" class="btn btn-warning">
+                    {% trans 'Another electric meter' %}
+                </button>
+            </div>
         </div>
 
     </form>
@@ -150,8 +147,8 @@
         $(document).ready(function () {
 
             $('#id_nls').focus();
-{#            $('#id_fio').css('width', 360);#}
-{#            $('#id_address').css('width', 360);#}
+            {#            $('#id_fio').css('width', 360);#}
+            {#            $('#id_address').css('width', 360);#}
 
             $('#id_nls').attr('required', true);
             $('#id_fio').attr('required', true);

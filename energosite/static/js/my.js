@@ -43,8 +43,8 @@ function myShowModal(modal_header, modal_body) {
 
 
 function myClearForm($form) {
-    $form.find('.control-group').removeClass('error');
-    $form.find('.help-inline').empty();
+    $form.find('.form-group').removeClass('has-error');
+    $form.find('.help-block .ajax_field_error').remove();
     $form.find('#ajax_non_field_errors').remove();
     $form.find('#ajax_form_success').remove();
 }
@@ -57,8 +57,8 @@ function myScrollPage(selector, step) {
 
 
 function myShowFormSuccess($form, header, body) {
-    var html = '<div id="ajax_form_success" class="alert alert-success alert-block">' +
-        '<button type="button" class="close" data-dismiss="alert">&times;</button>';
+    var html = '<div id="ajax_form_success" class="alert alert-success">' +
+        '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>';
     if (header) html += '<h4>' + header + '</h4>';
     html += body +
         '</div>';
@@ -67,26 +67,26 @@ function myShowFormSuccess($form, header, body) {
 
 
 function myDisplayNonfieldError($form, error) {
-    var html = '<div id="ajax_non_field_errors" class="alert alert-error alert-block">' +
-        '<button type="button" class="close" data-dismiss="alert">&times;</button>' +
+    var html = '<div id="ajax_non_field_errors" class="alert alert-danger">' +
+        '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>' +
         error +
         '</div>';
-    var find1 = $form.find('.form-actions:last');
-    var find2 = $form.find('.control-group:last');
-    if (find1.length)
-        find1.before(html);
-    else if (find2.length)
+//    var find1 = $form.find('.form-actions:last');
+    var find2 = $form.find('.form-group:last');
+//    if (find1.length)
+//        find1.before(html);
+    if (find2.length)
         find2.before(html);
 
 }
 
 function myDisplayFormErrors($form, errors) {
     for (var k in errors) if (errors.hasOwnProperty(k)) {
-        $form.find('input[name=' + k + '], textarea[name=' + k + '], select[name=' + k + ']').closest(".control-group").addClass('error');
-        $form.find('input[name=' + k + '], textarea[name=' + k + '], select[name=' + k + ']').closest(".control-group").find('.help-inline').text(errors[k]);
+        $form.find(':input[name=' + k + ']').closest(".form-group").addClass('has-error');
+        $form.find(':input[name=' + k + ']').closest(".form-group").find('.help-block').append('<li class="ajax_field_error">' + errors[k] + '</li>');
         if (k === 'captcha') {
-            $form.find('input[name=captcha_1]').closest(".control-group").addClass('error');
-            $form.find('input[name=captcha_1]').closest(".control-group").find('.help-inline').text(errors[k]);
+            $form.find('input[name=captcha_1]').closest(".form-group").addClass('has-error');
+            $form.find('input[name=captcha_1]').closest(".form-group").find('.help-block').append('<li class="ajax_field_error">' + errors[k] + '</li>');
         }
         if (k === 'non_field') {
             myDisplayNonfieldError($form, errors[k]);

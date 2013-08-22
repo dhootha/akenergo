@@ -23,7 +23,7 @@
 
         {% else %}
 
-            <form id="login_form" class="form-signin" action="?next={{ next|default:'/' }}" method="post">
+            <form id="login_form" class="form-signin" action="" method="post">
                 {% csrf_token %}
                 <h2 class="form-signin-heading">{% trans 'Authorization for the site' %} {% trans 'Aktobeenergosnab' %}</h2>
 
@@ -32,11 +32,8 @@
                 </p>
                 {{ form.username }}
                 {{ form.password }}
-                {#                <input id="id_username" maxlength="254" name="username" type="text" class="form-control"#}
-                {#                       placeholder="{% trans 'Username' %} (E-mail):">#}
-                {#                <input id="id_password" name="password" type="password" class="form-control"#}
-                {#                       placeholder="{% trans 'Password' %}:">#}
-
+                <input type="hidden" name="this_is_the_login_form" value="1"/>
+                <input type="hidden" name="next" value="{{ next|default:'/' }}"/>
 
 
                 {% if form.errors %}
@@ -60,7 +57,7 @@
                     {% if form.username.errors %}
                         <div class="alert alert-danger" style="margin-bottom: 10px;">
                             <ul class="list-unstyled">
-                                <li><strong>{% trans form.username.label %}:</strong></li>
+                                <li><strong>{{ form.username.label }}:</strong></li>
                                 {% for error in form.username.errors %}
                                     <li>{{ error|escape }}</li>
                                 {% endfor %}
@@ -70,7 +67,7 @@
                     {% if form.password.errors %}
                         <div class="alert alert-danger" style="margin-bottom: 10px;">
                             <ul class="list-unstyled">
-                                <li><strong>{% trans form.password.label %}:</strong></li>
+                                <li><strong>{{ form.password.label }}</strong></li>
                                 {% for error in form.password.errors %}
                                     <li>{{ error|escape }}</li>
                                 {% endfor %}
@@ -92,10 +89,14 @@
                     </li>
                     <li style="padding: 3px 0">
                         <a href="{% url 'auth_password_reset' %}">
-                            <i class="glyphicon glyphicon-refresh"></i> {% trans 'Password reset' %}</a>
+                            <i class="glyphicon glyphicon-refresh"></i>
+                            {% trans 'Forgotten your password or username?' %}
+                        </a>
                     </li>
                 </ul>
             </form>
+
+
         {% endif %}
     </div> <!-- /container -->
 {% endblock %}

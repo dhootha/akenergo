@@ -65,17 +65,13 @@
 
                 <div class="col-lg-6">
                     {{ form.username }}
-                    {% if form.username.errors %}
-                        <span class="help-block">
-                        {% for error in form.username.errors %}
-                            {{ error|escape }} &nbsp;&nbsp;
-                        {% endfor %}
-                        </span>
-                    {% endif %}
 
-                    <div class="help-block">
-                        <span class="text-warning">{% trans 'English letters only' %}</span>
-                    </div>
+                    <ul class="help-block list-unstyled">
+                        {% for error in form.username.errors %}
+                            <li>{{ error|escape }}</li>
+                        {% endfor %}
+                        <li><span class="text-warning">{% trans 'English letters only' %}</span></li>
+                    </ul>
                 </div>
             </div>
 
@@ -84,13 +80,13 @@
 
                 <div class="col-lg-6">
                     {{ form.password1 }}
-                    {% if form.password1.errors %}
-                        <span class="help-block">
+
+                    <ul class="help-block list-unstyled">
                         {% for error in form.password1.errors %}
-                            {{ error|escape }} &nbsp;&nbsp;
+                            <li>{{ error|escape }}</li>
                         {% endfor %}
-                    </span>
-                    {% endif %}
+                    </ul>
+
                 </div>
             </div>
 
@@ -99,13 +95,13 @@
 
                 <div class="col-lg-6">
                     {{ form.password2 }}
-                    {% if form.password2.errors %}
-                        <span class="help-block">
+
+                    <ul class="help-block list-unstyled">
                         {% for error in form.password2.errors %}
-                            {{ error|escape }} &nbsp;&nbsp;
+                            <li>{{ error|escape }}</li>
                         {% endfor %}
-                    </span>
-                    {% endif %}
+                    </ul>
+
                 </div>
             </div>
 
@@ -115,13 +111,13 @@
 
                 <div class="col-lg-6">
                     {{ form.email }}
-                    {% if form.email.errors %}
-                        <span class="help-block">
+
+                    <ul class="help-block list-unstyled">
                         {% for error in form.email.errors %}
-                            {{ error|escape }} &nbsp;&nbsp;
+                            <li>{{ error|escape }}</li>
                         {% endfor %}
-                    </span>
-                    {% endif %}
+                    </ul>
+
                 </div>
             </div>
 
@@ -130,24 +126,18 @@
 
                 <div class="col-lg-6">
                     {{ form.nls }}
-                    {% if form.nls.errors %}
-                        <span class="help-block">
-                        {% for error in form.nls.errors %}
-                            {{ error|escape }} &nbsp;&nbsp;
-                        {% endfor %}
-                    </span>
-                    {% endif %}
 
-                    <div class="help-block">
-                        <ul class="list-unstyled" style="margin-bottom: 0">
-                            <li>
-                                <a href="{% url 'search_fio' %}">{% trans 'Search by surname' %}</a>
-                            </li>
-                            <li>
-                                <a href="{% url 'search_address' %}">{% trans 'Search by address' %}</a>
-                            </li>
-                        </ul>
-                    </div>
+                    <ul class="help-block list-unstyled">
+                        {% for error in form.nls.errors %}
+                            <li>{{ error|escape }}</li>
+                        {% endfor %}
+                        <li>
+                            <a href="{% url 'search_fio' %}">{% trans 'Search by surname' %}</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'search_address' %}">{% trans 'Search by address' %}</a>
+                        </li>
+                    </ul>
                 </div>
             </div>
 
@@ -159,17 +149,13 @@
                         <span class="input-group-addon">+7</span>
                         {{ form.home_phone }}
                     </div>
-                    {% if form.home_phone.errors %}
-                        <span class="help-block">
-                        {% for error in form.home_phone.errors %}
-                            {{ error|escape }} &nbsp;&nbsp;
-                        {% endfor %}
-                    </span>
-                    {% endif %}
 
-                    <div class="help-block">
-                        <span class="text-warning">7132 * * * * * *</span>
-                    </div>
+                    <ul class="help-block list-unstyled">
+                        {% for error in form.home_phone.errors %}
+                            <li>{{ error|escape }}</li>
+                        {% endfor %}
+                        <li><span class="text-warning">7132 * * * * * *</span></li>
+                    </ul>
                 </div>
             </div>
 
@@ -181,13 +167,13 @@
                         <span class="input-group-addon">+7</span>
                         {{ form.mobile_phone }}
                     </div>
-                    {% if form.mobile_phone.errors %}
-                        <span class="help-block">
+
+                    <ul class="help-block list-unstyled">
                         {% for error in form.mobile_phone.errors %}
-                            {{ error|escape }} &nbsp;&nbsp;
+                            <li>{{ error|escape }}</li>
                         {% endfor %}
-                    </span>
-                    {% endif %}
+                    </ul>
+
                 </div>
             </div>
 
@@ -196,13 +182,13 @@
 
                 <div class="col-lg-4">
                     {{ form.captcha }}
-                    {% if form.captcha.errors %}
-                        <span class="help-block">
+
+                    <ul class="help-block list-unstyled">
                         {% for error in form.captcha.errors %}
-                            {{ error|escape }} &nbsp;&nbsp;
+                            <li>{{ error|escape }}</li>
                         {% endfor %}
-                    </span>
-                    {% endif %}
+                    </ul>
+
                 </div>
             </div>
 
@@ -213,13 +199,13 @@
                             {{ form.mailing }} {{ form.mailing.label }}
                         </label>
                     </div>
-                    {% if form.mailing.errors %}
-                        <span class="help-block">
-                            {% for error in form.mailing.errors %}
-                                {{ error|escape }} &nbsp;&nbsp;
-                            {% endfor %}
-                    </span>
-                    {% endif %}
+
+                    <ul class="help-block list-unstyled">
+                        {% for error in form.mailing.errors %}
+                            <li>{{ error|escape }}</li>
+                        {% endfor %}
+                    </ul>
+
                 </div>
             </div>
 
@@ -267,7 +253,7 @@
             $('#id_email').attr('required', true);
             $('#id_nls').attr('required', true);
             $('#id_captcha_1').attr('required', true);
-            $('#registration_form').find('.captcha').css('margin-bottom', 6);
+            $('#registration_form').find('.captcha').css('margin-bottom', 5);
         });
     </script>
 {% endblock %}

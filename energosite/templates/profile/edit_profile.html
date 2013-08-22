@@ -32,24 +32,19 @@
 
             <div class="col-lg-6">
                 {{ form.nls }}
-                {% if form.nls.errors %}
-                    <span class="help-block">
-                        {% for error in form.nls.errors %}
-                            {{ error|escape }} &nbsp;&nbsp;
-                        {% endfor %}
-                    </span>
-                {% endif %}
 
-                <div class="help-block">
-                    <ul class="list-unstyled" style="margin-bottom: 0">
-                        <li>
-                            <a href="{% url 'search_fio' %}">{% trans 'Search by surname' %}</a>
-                        </li>
-                        <li>
-                            <a href="{% url 'search_address' %}">{% trans 'Search by address' %}</a>
-                        </li>
-                    </ul>
-                </div>
+                <ul class="help-block list-unstyled">
+                    {% for error in form.nls.errors %}
+                        <li>{{ error|escape }}</li>
+                    {% endfor %}
+                    <li>
+                        <a href="{% url 'search_fio' %}">{% trans 'Search by surname' %}</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'search_address' %}">{% trans 'Search by address' %}</a>
+                    </li>
+                </ul>
+
             </div>
         </div>
 
@@ -61,17 +56,12 @@
                     <span class="input-group-addon">+7</span>
                     {{ form.home_phone }}
                 </div>
-                {% if form.home_phone.errors %}
-                    <span class="help-block">
-                        {% for error in form.home_phone.errors %}
-                            {{ error|escape }} &nbsp;&nbsp;
-                        {% endfor %}
-                    </span>
-                {% endif %}
-
-                <div class="help-block">
-                    <span class="text-warning">7132 * * * * * *</span>
-                </div>
+                <ul class="help-block list-unstyled">
+                    {% for error in form.home_phone.errors %}
+                        <li>{{ error|escape }}</li>
+                    {% endfor %}
+                    <li><span class="text-warning">7132 * * * * * *</span></li>
+                </ul>
             </div>
         </div>
 
@@ -83,13 +73,11 @@
                     <span class="input-group-addon">+7</span>
                     {{ form.mobile_phone }}
                 </div>
-                {% if form.mobile_phone.errors %}
-                    <span class="help-block">
-                        {% for error in form.mobile_phone.errors %}
-                            {{ error|escape }} &nbsp;&nbsp;
-                        {% endfor %}
-                    </span>
-                {% endif %}
+                <ul class="help-block list-unstyled">
+                    {% for error in form.mobile_phone.errors %}
+                        <li>{{ error|escape }}</li>
+                    {% endfor %}
+                </ul>
             </div>
         </div>
 
@@ -101,13 +89,11 @@
                         {{ form.mailing }} {{ form.mailing.label }}
                     </label>
                 </div>
-                {% if form.mailing.errors %}
-                    <span class="help-block">
-                            {% for error in form.mailing.errors %}
-                                {{ error|escape }} &nbsp;&nbsp;
-                            {% endfor %}
-                    </span>
-                {% endif %}
+                <ul class="help-block list-unstyled">
+                    {% for error in form.mailing.errors %}
+                        <li>{{ error|escape }}</li>
+                    {% endfor %}
+                </ul>
             </div>
         </div>
 

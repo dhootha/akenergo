@@ -35,11 +35,13 @@
     <div id="myTabContent" class="tab-content">
         <div class="tab-pane fade in active" id="contact_us">
             {% trans 'Send message' as submCaptrans %}
+            <div style="margin-top: 10px">
             {% include 'blocks/standard_form.html' %}
+            </div>
         </div>
         <div class="tab-pane fade" id="find_us">
 
-            <div class="row">
+            <div class="row" style="margin-top: 10px">
                 <div class="col-md-3">
                     <h4>{% trans 'Find Us' %}</h4>
                     <address>
@@ -67,9 +69,9 @@
     <script>
         $(document).ready(function () {
             $('#id_subject').focus();
-            $('#id_message').css('width', 360);
-            $('#id_captcha_1').addClass('input-sm');
+{#            $('#id_message').css('width', 360);           #}
             mySubmitAjaxForm('#standard_form');
+            $('#standard_form').find('.captcha').css('margin-bottom', 5);
         });
     </script>
 {% endblock %}

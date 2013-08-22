@@ -1,0 +1,31 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+
+<h2>Greetings</h2>
+
+<div class="container">
+    <div class="inner">Hello</div>
+    <div class="inner">Goodbye</div>
+</div>
+
+
+<ul class="help-block list-unstyled">
+    {% for error in form.home_phone.errors %}
+        <li>{{ error|escape }}</li>
+    {% endfor %}
+    <li><span class="text-warning">7132 * * * * * *</span></li>
+</ul>
+
+<script src="{% static "js/jquery-2.0.3.min.js" %}"></script>
+<script>
+    $(".inner").append("<p>Test</p>");
+    $('.help-block').append('<li>rrgtgg</li>');
+</script>
+
+</body>
+</html>
