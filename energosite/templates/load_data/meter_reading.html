@@ -15,9 +15,9 @@
 
 
         <div class="form-group{% if form.nls.errors %} has-error{% endif %}">
-            <label class="col-lg-3 control-label" for="id_nls">{{ form.nls.label }}:</label>
+            <label class="col-md-3 control-label" for="id_nls">{{ form.nls.label }}:</label>
 
-            <div class="col-lg-6">
+            <div class="col-md-6">
                 {{ form.nls }}
                 <ul class="help-block list-unstyled">
                     {% for error in form.nls.errors %}
@@ -35,9 +35,9 @@
 
 
         <div class="form-group{% if form.fio.errors %} has-error{% endif %}">
-            <label class="col-lg-3 control-label" for="id_fio">{{ form.fio.label }}:</label>
+            <label class="col-md-3 control-label" for="id_fio">{{ form.fio.label }}:</label>
 
-            <div class="col-lg-6">
+            <div class="col-md-6">
                 {{ form.fio }}
                 <ul class="help-block list-unstyled">
                     {% for error in form.fio.errors %}
@@ -48,9 +48,9 @@
         </div>
 
         <div class="form-group{% if form.address.errors %} has-error{% endif %}">
-            <label class="col-lg-3 control-label" for="id_address">{{ form.address.label }}:</label>
+            <label class="col-md-3 control-label" for="id_address">{{ form.address.label }}:</label>
 
-            <div class="col-lg-6">
+            <div class="col-md-6">
                 {{ form.address }}
                 <ul class="help-block list-unstyled">
                     {% for error in form.address.errors %}
@@ -66,9 +66,9 @@
 
 
             <div class="form-group{% if form.tariff.errors %} has-error{% endif %}">
-                <label class="col-lg-3 control-label" for="id_tariff"> {{ form.tariff.label }}:</label>
+                <label class="col-md-3 control-label" for="id_tariff"> {{ form.tariff.label }}:</label>
 
-                <div class="col-lg-6">
+                <div class="col-md-6">
                     {{ form.tariff }}
                     <ul class="help-block list-unstyled">
                         {% for error in form.tariff.errors %}
@@ -80,9 +80,9 @@
 
 
             <div id="day_pok" class="form-group{% if form.pok1.errors %} has-error{% endif %}">
-                <label class="col-lg-3 control-label" for="id_pok1">{{ form.pok1.label }}:</label>
+                <label class="col-md-3 control-label" for="id_pok1">{{ form.pok1.label }}:</label>
 
-                <div class="col-lg-6">
+                <div class="col-md-6">
                     {{ form.pok1 }}
                     <ul class="help-block list-unstyled">
                         {% for error in form.pok1.errors %}
@@ -94,9 +94,9 @@
 
 
             <div id="night_pok" class="form-group{% if form.pok2.errors %} has-error{% endif %}">
-                <label class="col-lg-3 control-label" for="id_pok2">{{ form.pok2.label }}:</label>
+                <label class="col-md-3 control-label" for="id_pok2">{{ form.pok2.label }}:</label>
 
-                <div class="col-lg-6">
+                <div class="col-md-6">
                     {{ form.pok2 }}
                     <ul class="help-block list-unstyled">
                         {% for error in form.pok2.errors %}
@@ -112,23 +112,24 @@
         {{ form.date }}
 
 
-        {% if form.non_field_errors %}
-            <div class="alert alert-danger">
-                <button type="button" class="close" data-dismiss="alert">&times;</button>
+    {% if form.non_field_errors %}
+        <div class="alert alert-danger">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <ul class="list-unstyled">
                 {% for error in form.non_field_errors %}
-                    <ol class="list-unstyled">
-                        <li>{{ error|escape }}</li>
-                    </ol>
+                    <li>{{ error|escape }}</li>
                 {% endfor %}
-            </div>
-        {% endif %}
+            </ul>
+        </div>
+    {% endif %}
+
 
         {#    <div id="ajax_non_field_errors" style="display: none;" class="alert alert-danger">#}
         {#    </div>#}
 
 
         <div class="form-group">
-            <div class="col-lg-offset-3 col-lg-6">
+            <div class="col-md-offset-3 col-md-6">
                 <button type="submit" class="btn btn-primary">{% trans 'Save' %}</button>
                 <button id="another_mtr" type="button" data-toggle="popover" data-placement="top"
                         data-content="{% trans 'Add another electric meter readings' %}" class="btn btn-warning">

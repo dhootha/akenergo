@@ -69,7 +69,7 @@
     <script>
         $(document).ready(function () {
             $('#id_subject').focus();
-{#            $('#id_message').css('width', 360);           #}
+            $('#id_message').closest('div').addClass('col-md-7');
             mySubmitAjaxForm('#standard_form');
             $('#standard_form').find('.captcha').css('margin-bottom', 5);
         });

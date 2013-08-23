@@ -58,12 +58,12 @@
         </div><!-- /.modal -->
 
 
-        <form id="registration_form" class="form-horizontal" method="post">
+        <form id="registration_form" class="form-horizontal" method="post" action="">
             {% csrf_token %}
             <div style="margin-bottom: 10px;" class="form-group{% if form.username.errors %} has-error{% endif %}">
-                <label class="col-lg-3 control-label" for="id_username">{{ form.username.label }}:</label>
+                <label class="col-md-3 control-label" for="id_username">{{ form.username.label }}:</label>
 
-                <div class="col-lg-6">
+                <div class="col-md-6">
                     {{ form.username }}
 
                     <ul class="help-block list-unstyled">
@@ -76,9 +76,9 @@
             </div>
 
             <div style="margin-bottom: 10px;" class="form-group{% if form.password1.errors %} has-error{% endif %}">
-                <label class="col-lg-3 control-label" for="id_password1">{{ form.password1.label }}:</label>
+                <label class="col-md-3 control-label" for="id_password1">{{ form.password1.label }}:</label>
 
-                <div class="col-lg-6">
+                <div class="col-md-6">
                     {{ form.password1 }}
 
                     <ul class="help-block list-unstyled">
@@ -91,9 +91,9 @@
             </div>
 
             <div style="margin-bottom: 10px;" class="form-group{% if form.password2.errors %} has-error{% endif %}">
-                <label class="col-lg-3 control-label" for="id_password2">{{ form.password2.label }}:</label>
+                <label class="col-md-3 control-label" for="id_password2">{{ form.password2.label }}:</label>
 
-                <div class="col-lg-6">
+                <div class="col-md-6">
                     {{ form.password2 }}
 
                     <ul class="help-block list-unstyled">
@@ -107,9 +107,9 @@
 
 
             <div style="margin-bottom: 10px;" class="form-group{% if form.email.errors %} has-error{% endif %}">
-                <label class="col-lg-3 control-label" for="id_email">{{ form.email.label }}:</label>
+                <label class="col-md-3 control-label" for="id_email">{{ form.email.label }}:</label>
 
-                <div class="col-lg-6">
+                <div class="col-md-6">
                     {{ form.email }}
 
                     <ul class="help-block list-unstyled">
@@ -122,9 +122,9 @@
             </div>
 
             <div style="margin-bottom: 10px;" class="form-group{% if form.nls.errors %} has-error{% endif %}">
-                <label class="col-lg-3 control-label" for="id_nls">{{ form.nls.label }}:</label>
+                <label class="col-md-3 control-label" for="id_nls">{{ form.nls.label }}:</label>
 
-                <div class="col-lg-6">
+                <div class="col-md-6">
                     {{ form.nls }}
 
                     <ul class="help-block list-unstyled">
@@ -142,9 +142,9 @@
             </div>
 
             <div style="margin-bottom: 10px;" class="form-group{% if form.home_phone.errors %} has-error{% endif %}">
-                <label class="col-lg-3 control-label" for="id_home_phone">{{ form.home_phone.label }}:</label>
+                <label class="col-md-3 control-label" for="id_home_phone">{{ form.home_phone.label }}:</label>
 
-                <div class="col-lg-6">
+                <div class="col-md-6">
                     <div class="input-group">
                         <span class="input-group-addon">+7</span>
                         {{ form.home_phone }}
@@ -160,9 +160,9 @@
             </div>
 
             <div style="margin-bottom: 10px;" class="form-group{% if form.mobile_phone.errors %} has-error{% endif %}">
-                <label class="col-lg-3 control-label" for="id_mobile_phone">{{ form.mobile_phone.label }}:</label>
+                <label class="col-md-3 control-label" for="id_mobile_phone">{{ form.mobile_phone.label }}:</label>
 
-                <div class="col-lg-6">
+                <div class="col-md-6">
                     <div class="input-group">
                         <span class="input-group-addon">+7</span>
                         {{ form.mobile_phone }}
@@ -178,9 +178,9 @@
             </div>
 
             <div style="margin-bottom: 10px;" class="form-group{% if form.captcha.errors %} has-error{% endif %}">
-                <label class="col-lg-3 control-label" for="id_captcha">{{ form.captcha.label }}:</label>
+                <label class="col-md-3 control-label" for="id_captcha">{{ form.captcha.label }}:</label>
 
-                <div class="col-lg-4">
+                <div class="col-md-4">
                     {{ form.captcha }}
 
                     <ul class="help-block list-unstyled">
@@ -193,7 +193,7 @@
             </div>
 
             <div style="margin-bottom: 10px;" class="form-group{% if form.mailing.errors %} has-error{% endif %}">
-                <div class="col-lg-offset-3 col-lg-6">
+                <div class="col-md-offset-3 col-md-6">
                     <div class="checkbox">
                         <label>
                             {{ form.mailing }} {{ form.mailing.label }}
@@ -211,7 +211,7 @@
 
 
             {#            <div class="form-group">#}
-            {#                <div class="col-lg-offset-3 col-lg-6">#}
+            {#                <div class="col-md-offset-3 col-md-6">#}
             {#                    <div class="checkbox">#}
             {#                        <label>#}
             {#                            <input type="checkbox"> Remember me#}
@@ -225,16 +225,17 @@
             {% if form.non_field_errors %}
                 <div class="alert alert-danger">
                     <button type="button" class="close" data-dismiss="alert">&times;</button>
-                    {% for error in form.non_field_errors %}
-                        <ol class="list-unstyled">
+                    <ul class="list-unstyled">
+                        {% for error in form.non_field_errors %}
                             <li>{{ error|escape }}</li>
-                        </ol>
-                    {% endfor %}
+                        {% endfor %}
+                    </ul>
                 </div>
             {% endif %}
 
+
             <div class="form-group">
-                <div class="col-lg-offset-3 col-lg-6">
+                <div class="col-md-offset-3 col-md-6">
                     <button type="submit" class="btn btn-primary">{% trans 'Create an account' %}</button>
                 </div>
             </div>

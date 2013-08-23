@@ -24,36 +24,41 @@ class EditProfileForm(ModelForm):
     class Meta:
         model = UserProfile
         fields = ('nls', 'home_phone', 'mobile_phone', 'mailing')
-    home_phone = forms.CharField(required=False, min_length=10, max_length=10, label=_('Home phone'))
-    mobile_phone = forms.CharField(required=False, min_length=10, max_length=10, label=_('Mobile phone'))
+
+    home_phone = forms.CharField(required=False, max_length=10, label=_('Home phone'))
+    mobile_phone = forms.CharField(required=False, max_length=10, label=_('Mobile phone'))
     #mailing = forms.BooleanField(required=False, initial=True, label=_('I agree to receive newsletter'))
 
     def clean_nls(self):
         return check_nls(self)
 
     def clean_home_phone(self):
-        val = self.cleaned_data['home_phone']
+        val = self.cleaned_data['home_phone'].strip()
         if val:
+            if not val.__len__() == 10:
+                raise forms.ValidationError(_("Incorrect information"))
             try:
                 int(val)
-            except ValueError:
+            except (ValueError, TypeError):
                 raise forms.ValidationError(_("Incorrect information"))
         return val
 
     def clean_mobile_phone(self):
-        val = self.cleaned_data['mobile_phone']
+        val = self.cleaned_data['mobile_phone'].strip()
         if val:
+            if not val.__len__() == 10:
+                raise forms.ValidationError(_("Incorrect information"))
             try:
                 int(val)
-            except ValueError:
+            except (ValueError, TypeError):
                 raise forms.ValidationError(_("Incorrect information"))
         return val
 
 
 class MyRegistrationForm(RegistrationFormUniqueEmail):
     nls = forms.DecimalField(max_digits=7, decimal_places=0, required=True, label=_('Personal number'))
-    home_phone = forms.CharField(required=False, min_length=10, max_length=10, label=_('Home phone'))
-    mobile_phone = forms.CharField(required=False, min_length=10, max_length=10, label=_('Mobile phone'))
+    home_phone = forms.CharField(required=False, max_length=10, label=_('Home phone'))
+    mobile_phone = forms.CharField(required=False, max_length=10, label=_('Mobile phone'))
     mailing = forms.BooleanField(required=False, initial=True, label=_('I agree to receive newsletter'))
     captcha = CaptchaField(label=_('Captcha'))
 
@@ -61,22 +66,27 @@ class MyRegistrationForm(RegistrationFormUniqueEmail):
         return check_nls(self)
 
     def clean_home_phone(self):
-        val = self.cleaned_data['home_phone']
+        val = self.cleaned_data['home_phone'].strip()
         if val:
+            if not val.__len__() == 10:
+                raise forms.ValidationError(_("Incorrect information"))
             try:
                 int(val)
-            except ValueError:
+            except (ValueError, TypeError):
                 raise forms.ValidationError(_("Incorrect information"))
         return val
 
     def clean_mobile_phone(self):
-        val = self.cleaned_data['mobile_phone']
+        val = self.cleaned_data['mobile_phone'].strip()
         if val:
+            if not val.__len__() == 10:
+                raise forms.ValidationError(_("Incorrect information"))
             try:
                 int(val)
-            except ValueError:
+            except (ValueError, TypeError):
                 raise forms.ValidationError(_("Incorrect information"))
         return val
+
 
 # Сигналы
 def create_user_profile(sender, user, request, **kwargs):
@@ -109,7 +119,9 @@ class MeterReadingForm(ModelForm):
         widgets = {
             'date': forms.HiddenInput(),
         }
-    # date = forms.CharField(widget=forms.HiddenInput)
+
+        # date = forms.CharField(widget=forms.HiddenInput)
+
     CHOICES = (('one-tariff', _('one-tariff')), ('two-tariff', _('two-tariff')))
     tariff = forms.ChoiceField(label=_("Counter type"), initial='one-tariff', choices=CHOICES)
 
@@ -146,7 +158,7 @@ class SearchFioForm(forms.Form):
 class ContactForm(forms.Form):
     # CHOICES = ((_('Question'), _('Question')), (_('Proposal'), _('Proposal')), (_('Gratitude'), _('Gratitude')))
     subject = forms.CharField(max_length=128, label=_('Subject'))
-    message = forms.CharField(max_length=512, widget=forms.widgets.Textarea(attrs={'rows': '9'}), label=_('Message'))
+    message = forms.CharField(max_length=512, widget=forms.widgets.Textarea(attrs={'rows': '12'}), label=_('Message'))
     captcha = CaptchaField(label=_('Captcha'))
     #attrs={'cols': '60', 'rows': '5'}
 

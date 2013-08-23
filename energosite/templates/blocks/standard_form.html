@@ -14,11 +14,11 @@
     {% for field in form %}
 
         <div class="form-group{% if field.errors %} has-error{% endif %}">
-            {#                <label class="col-lg-2 control-label" for="id_username">{% trans 'Username' %}:</label>#}
+            {#                <label class="col-md-2 control-label" for="id_username">{% trans 'Username' %}:</label>#}
 
-            <label class="col-lg-2 control-label" for="{{ field.auto_id }}">{{ field.label }}: </label>
+            <label class="col-md-2 control-label" for="{{ field.auto_id }}">{{ field.label }}: </label>
 
-            <div class="col-lg-5 {% if field.field.required %}input-required{% endif %}">
+            <div class="col-md-5 {% if field.field.required %}input-required{% endif %}">
 
                 {{ field }}
 
@@ -44,11 +44,11 @@
     {% if form.non_field_errors %}
         <div class="alert alert-danger">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
-            {% for error in form.non_field_errors %}
-                <ol class="list-unstyled">
+            <ul class="list-unstyled">
+                {% for error in form.non_field_errors %}
                     <li>{{ error|escape }}</li>
-                </ol>
-            {% endfor %}
+                {% endfor %}
+            </ul>
         </div>
     {% endif %}
 
@@ -56,7 +56,7 @@
     {#    </div>#}
 
     <div class="form-group">
-        <div class="col-lg-offset-2 col-lg-5">
+        <div class="col-md-offset-2 col-md-5">
             <button type="submit" class="btn btn-primary">{{ submCaptrans|default:'OK' }}</button>
         </div>
     </div>

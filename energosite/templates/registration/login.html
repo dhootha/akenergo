@@ -67,7 +67,7 @@
                     {% if form.password.errors %}
                         <div class="alert alert-danger" style="margin-bottom: 10px;">
                             <ul class="list-unstyled">
-                                <li><strong>{{ form.password.label }}</strong></li>
+                                <li><strong>{{ form.password.label }}:</strong></li>
                                 {% for error in form.password.errors %}
                                     <li>{{ error|escape }}</li>
                                 {% endfor %}
