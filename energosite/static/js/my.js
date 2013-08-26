@@ -83,10 +83,10 @@ function myDisplayNonfieldError($form, error) {
 function myDisplayFormErrors($form, errors) {
     for (var k in errors) if (errors.hasOwnProperty(k)) {
         $form.find(':input[name=' + k + ']').closest(".form-group").addClass('has-error');
-        $form.find(':input[name=' + k + ']').closest(".form-group").find('.help-block').append('<li class="ajax_field_error">' + errors[k] + '</li>');
+        $form.find(':input[name=' + k + ']').closest(".form-group").find('.help-block').prepend('<li class="ajax_field_error">' + errors[k] + '</li>');
         if (k === 'captcha') {
             $form.find('input[name=captcha_1]').closest(".form-group").addClass('has-error');
-            $form.find('input[name=captcha_1]').closest(".form-group").find('.help-block').append('<li class="ajax_field_error">' + errors[k] + '</li>');
+            $form.find('input[name=captcha_1]').closest(".form-group").find('.help-block').prepend('<li class="ajax_field_error">' + errors[k] + '</li>');
         }
         if (k === 'non_field') {
             myDisplayNonfieldError($form, errors[k]);

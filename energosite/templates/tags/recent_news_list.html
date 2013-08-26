@@ -6,7 +6,7 @@
         <h3 class="panel-title">{% trans 'Site news' %}</h3>
     </div>
     <div class="panel-body" style="padding: 1px">
-        <ul class="nav nav-pills nav-stacked" style="max-width: 300px;">
+        <ul class="nav nav-pills nav-stacked">
             {% if news_list %}
                 {% for news in news_list %}
                     <li class="{% current_nav news.get_absolute_url %}">

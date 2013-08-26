@@ -7,8 +7,6 @@
     <link rel="stylesheet" href="{% static "css/signin.css" %}">
 {% endblock %}
 
-{% block page_title %}{% trans 'Authorization for the site' %} {% trans 'Aktobeenergosnab' %}{% endblock %}
-
 {% block body %}
 
     <div class="container">
@@ -78,7 +76,7 @@
 
 
                 <button class="btn btn-lg btn-primary btn-block" type="submit">{% trans 'Log in' %}</button>
-                <ul class="list-unstyled" style="margin-top: 20px">
+                <ul class="list-unstyled text-center" style="margin-top: 20px">
                     <li style="padding: 3px 0">
                         <a href="{% url 'home' %}">
                             <i class="glyphicon glyphicon-home"></i> {% trans 'Home' %}</a>
@@ -90,11 +88,15 @@
                     <li style="padding: 3px 0">
                         <a href="{% url 'auth_password_reset' %}">
                             <i class="glyphicon glyphicon-refresh"></i>
-                            {% trans 'Forgotten your password or username?' %}
+                            {% trans 'Password reset' %}
                         </a>
                     </li>
                 </ul>
             </form>
+
+
+            {#            <div style="padding: 15px; margin: 0 auto; max-width: 345px;">#}
+            {#            </div>#}
 
 
         {% endif %}
@@ -105,9 +107,11 @@
 {% block js %}
     <script>
         $(document).ready(function () {
-            $('#id_username').focus();
+            //     $('#id_username').focus();
             $('#id_username').attr('placeholder', '{% trans 'Username' %} (E-mail)');
             $('#id_password').attr('placeholder', '{% trans 'Password' %}');
+            $('#id_username').attr('required', true);
+            $('#id_password').attr('required', true);
         });
     </script>
 {% endblock %}
