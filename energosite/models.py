@@ -321,7 +321,8 @@ class TopMenu(MPTTModel):
 
     def save(self, force_insert=False, force_update=False, using=None):
         super(TopMenu, self).save()
-        TopMenu.tree.rebuild()
+        TopMenu.objects.rebuild()
+
 
 
 class UserProfile(models.Model):
