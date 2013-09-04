@@ -66,11 +66,11 @@
                 <div class="col-md-6">
                     {{ form.username }}
 
-                    <ul class="help-block list-unstyled">
+                    <ul class="help-block list-unstyled" style="margin: 1px 0">
                         {% for error in form.username.errors %}
                             <li>{{ error|escape }}</li>
                         {% endfor %}
-                        <li><span class="text-warning">{% trans 'English letters only' %}</span></li>
+{#                        <li><span class="text-warning">{% trans 'English letters only' %}</span></li>#}
                     </ul>
                 </div>
             </div>
@@ -81,7 +81,7 @@
                 <div class="col-md-6">
                     {{ form.password1 }}
 
-                    <ul class="help-block list-unstyled">
+                    <ul class="help-block list-unstyled" style="margin: 1px 0">
                         {% for error in form.password1.errors %}
                             <li>{{ error|escape }}</li>
                         {% endfor %}
@@ -96,7 +96,7 @@
                 <div class="col-md-6">
                     {{ form.password2 }}
 
-                    <ul class="help-block list-unstyled">
+                    <ul class="help-block list-unstyled" style="margin: 1px 0">
                         {% for error in form.password2.errors %}
                             <li>{{ error|escape }}</li>
                         {% endfor %}
@@ -112,7 +112,7 @@
                 <div class="col-md-6">
                     {{ form.email }}
 
-                    <ul class="help-block list-unstyled">
+                    <ul class="help-block list-unstyled" style="margin: 1px 0">
                         {% for error in form.email.errors %}
                             <li>{{ error|escape }}</li>
                         {% endfor %}
@@ -127,7 +127,7 @@
                 <div class="col-md-6">
                     {{ form.nls }}
 
-                    <ul class="help-block list-unstyled">
+                    <ul class="help-block list-unstyled" style="margin: 1px 0">
                         {% for error in form.nls.errors %}
                             <li>{{ error|escape }}</li>
                         {% endfor %}
@@ -150,7 +150,7 @@
                         {{ form.home_phone }}
                     </div>
 
-                    <ul class="help-block list-unstyled">
+                    <ul class="help-block list-unstyled" style="margin: 1px 0">
                         {% for error in form.home_phone.errors %}
                             <li>{{ error|escape }}</li>
                         {% endfor %}
@@ -168,7 +168,7 @@
                         {{ form.mobile_phone }}
                     </div>
 
-                    <ul class="help-block list-unstyled">
+                    <ul class="help-block list-unstyled" style="margin: 1px 0">
                         {% for error in form.mobile_phone.errors %}
                             <li>{{ error|escape }}</li>
                         {% endfor %}
@@ -183,7 +183,7 @@
                 <div class="col-md-4">
                     {{ form.captcha }}
 
-                    <ul class="help-block list-unstyled">
+                    <ul class="help-block list-unstyled" style="margin: 1px 0">
                         {% for error in form.captcha.errors %}
                             <li>{{ error|escape }}</li>
                         {% endfor %}
@@ -200,7 +200,7 @@
                         </label>
                     </div>
 
-                    <ul class="help-block list-unstyled">
+                    <ul class="help-block list-unstyled" style="margin: 1px 0">
                         {% for error in form.mailing.errors %}
                             <li>{{ error|escape }}</li>
                         {% endfor %}
@@ -254,7 +254,6 @@
             $('#id_email').attr('required', true);
             $('#id_nls').attr('required', true);
             $('#id_captcha_1').attr('required', true);
-            $('#registration_form').find('.captcha').css('margin-bottom', 5);
         });
     </script>
 {% endblock %}

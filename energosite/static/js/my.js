@@ -151,6 +151,20 @@ function mySubmitAjaxForm(form_selector) {
 }
 
 
+function myRefreshCaptcha(captcha_url) {
+    $('.js-captcha-refresh').click(function () {
+        var $form = $(this).closest('form');
+        $.getJSON(captcha_url, function (data) {
+            $form.find("img.captcha").attr('src', data['image_url']);
+            $form.find('#id_captcha_0').val(data['key']);
+            $form.find('#id_captcha_1').val('');
+        });
+        return false;
+    });
+}
+
+
+
 //$(function () {
 
 

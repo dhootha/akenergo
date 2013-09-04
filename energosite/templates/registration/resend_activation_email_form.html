@@ -15,7 +15,7 @@
 
             <div class="col-md-6">
                 {{ form.email }}
-                <ul class="help-block list-unstyled">
+                <ul class="help-block list-unstyled" style="margin: 1px 0">
                     {% for error in form.email.errors %}
                         <li>{{ error|escape }}</li>
                     {% endfor %}
@@ -28,7 +28,7 @@
 
             <div class="col-md-4">
                 {{ form.captcha }}
-                <ul class="help-block list-unstyled">
+                <ul class="help-block list-unstyled" style="margin: 1px 0">
                     {% for error in form.captcha.errors %}
                         <li>{{ error|escape }}</li>
                     {% endfor %}
@@ -63,7 +63,6 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $('#id_email').focus();
-            $('#resend_activation_form').find('.captcha').css('margin-bottom', 5);
             mySubmitAjaxForm("#resend_activation_form");
         });
     </script>

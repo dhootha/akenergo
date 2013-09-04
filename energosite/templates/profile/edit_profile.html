@@ -33,7 +33,7 @@
             <div class="col-md-6">
                 {{ form.nls }}
 
-                <ul class="help-block list-unstyled">
+                <ul class="help-block list-unstyled" style="margin: 1px 0">
                     {% for error in form.nls.errors %}
                         <li>{{ error|escape }}</li>
                     {% endfor %}
@@ -56,7 +56,7 @@
                     <span class="input-group-addon">+7</span>
                     {{ form.home_phone }}
                 </div>
-                <ul class="help-block list-unstyled">
+                <ul class="help-block list-unstyled" style="margin: 1px 0">
                     {% for error in form.home_phone.errors %}
                         <li>{{ error|escape }}</li>
                     {% endfor %}
@@ -73,7 +73,7 @@
                     <span class="input-group-addon">+7</span>
                     {{ form.mobile_phone }}
                 </div>
-                <ul class="help-block list-unstyled">
+                <ul class="help-block list-unstyled" style="margin: 1px 0">
                     {% for error in form.mobile_phone.errors %}
                         <li>{{ error|escape }}</li>
                     {% endfor %}
@@ -89,7 +89,7 @@
                         {{ form.mailing }} {{ form.mailing.label }}
                     </label>
                 </div>
-                <ul class="help-block list-unstyled">
+                <ul class="help-block list-unstyled" style="margin: 1px 0">
                     {% for error in form.mailing.errors %}
                         <li>{{ error|escape }}</li>
                     {% endfor %}

@@ -9,12 +9,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <meta name="description" content="Сайт энергоснабжающей организации Актобе и Актюбинской области">
-    <meta name="author" content="Igor Maydanenko">
+    <meta name="author" content="Igor Maydanenko (supermet@list.ru)">
 
     <meta name='yandex-verification' content='66ce583f5c149a57'/>
     <meta name="google-site-verification" content="sGSmTDCsGw370b8uc_lO9VDdiu6kf2yDVj9u6jS5oXw"/>
 
-{# {% trans 'LLP Aktobeenergosnab' %}#}
+    {# {% trans 'LLP Aktobeenergosnab' %}#}
 
     <title>{% block title %}{% endblock %} </title>
 
@@ -25,20 +25,44 @@
         <link rel="stylesheet" type="text/css" href="{% static "css/datepicker.css" %}"/>
     {% endblock %}
 
-    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
-      <script src="{% static "js/html5.js" %}"></script>
+      <script src="{% static "js/html5shiv.js" %}"></script>
+      <script src="{% static "js/respond.min.js" %}"></script>
     <![endif]-->
 
-    <!--[if lt IE 8]>
-       <div style=' clear: both; text-align:center; position: relative;'>
-         <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
-           <img src="http://storage.ie6countdown.com/assets/100/images/banners/warning_bar_0000_us.jpg" border="0" height="42" width="820" alt="Ваш браузер устарел! Для более быстрого и безопасного просмотра обновитесь." />
-        </a>
-      </div>
-    <![endif]-->
 
     <link rel="shortcut icon" href="{% static "img/favicon.ico" %}">
+
+
+    <script src="{% static "js/jquery-2.0.3.min.js" %}"></script>
+    <script src="{% static "js/bootstrap.js" %}"></script>
+    <script src="//yandex.st/share/share.js" charset="utf-8"></script>
+    <script src="{% static "js/bootstrap-datepicker.js" %}"></script>
+    <script src="{% static 'js/my.js' %}"></script>
+    <script src="{% static 'js/scrollup_button.js' %}"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            $('div.input-required > input, div.input-required > textarea, div.input-required > select').attr('required', true);
+            $('a[data-toggle=tooltip]').tooltip();
+            $("a[data-toggle=popover], button[data-toggle=popover]").popover({ trigger: "hover focus", delay: 127 });
+
+            $('#google_search_form').submit(function () {
+                return $.trim($(this).find(':input[name=q]').val()) != '';
+            });
+            $(':input', $('form')).not(':button, :submit, :reset, :hidden, :radio, :checkbox').addClass('form-control');
+            $('img.captcha').css({"margin-bottom": 5, "width": 100, "height": 30});
+            $('img.captcha').after('<a class="js-captcha-refresh" style="display: inline-block; margin-left: 10px; cursor: pointer"><i class="glyphicon glyphicon-refresh"></i> {% trans "Update" %}</a>');
+            myRefreshCaptcha('{% url 'captcha-refresh' %}');
+        });
+    </script>
+
+    {% block js %}
+    {% endblock %}
+
+
 </head>
 
 
@@ -214,32 +238,6 @@
         </footer>
     {% endblock %}
 
-{% endblock %}
-
-{% block js_second %}
-    <script src="{% static "js/jquery-2.0.3.min.js" %}"></script>
-    <script src="{% static "js/bootstrap.js" %}"></script>
-    <script src="//yandex.st/share/share.js" charset="utf-8"></script>
-    <script src="{% static "js/bootstrap-datepicker.js" %}"></script>
-    <script src="{% static 'js/my.js' %}"></script>
-    <script src="{% static 'js/scrollup_button.js' %}"></script>
-{% endblock %}
-
-<script>
-    $(document).ready(function () {
-
-        $('div.input-required > input, div.input-required > textarea, div.input-required > select').attr('required', true);
-        $('a[data-toggle=tooltip]').tooltip();
-        $("a[data-toggle=popover], button[data-toggle=popover]").popover({ trigger: "hover focus", delay: 127 });
-
-        $('#google_search_form').submit(function () {
-            return $.trim($(this).find(':input[name=q]').val()) != '';
-        });
-        $(':input', $('form')).not(':button, :submit, :reset, :hidden, :radio, :checkbox').addClass('form-control');
-    });
-</script>
-
-{% block js %}
 {% endblock %}
 
 </body>
