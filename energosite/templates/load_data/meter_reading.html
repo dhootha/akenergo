@@ -1,18 +1,25 @@
 {% extends "base.html" %}
-{% load i18n %}
+{% load i18n staticfiles %}
 
 {% block title %}{% trans 'Readings input' %}{% endblock %}
 
 {% block page_title %} {% trans 'Readings input' %} {% endblock %}
 
 {% block page_content %}
-    <div id="label_info" style="margin-bottom: 20px;">
-        <span class="label label-warning">{% trans 'Transfer readings from the 20 th to 31 th' %}</span>
+
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <img style="width: 120px; height: 145px" src="{% static 'img/schetchik2.png' %}" alt="">
+        </div>
+        <div class="col-md-6 col-md-offset-3">
+            <div id="label_info" style="margin-top: 20px; margin-bottom: 20px;">
+                <span class="label label-warning">{% trans 'Transfer readings from the 20 th to 31 th' %}</span>
+            </div>
+        </div>
     </div>
 
     <form id="mrform" class="form-horizontal" action="" method="post">
         {% csrf_token %}
-
 
         <div class="form-group{% if form.nls.errors %} has-error{% endif %}">
             <label class="col-md-3 control-label" for="id_nls">{{ form.nls.label }}:</label>
@@ -112,16 +119,16 @@
         {{ form.date }}
 
 
-    {% if form.non_field_errors %}
-        <div class="alert alert-danger">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
-            <ul class="list-unstyled">
-                {% for error in form.non_field_errors %}
-                    <li>{{ error|escape }}</li>
-                {% endfor %}
-            </ul>
-        </div>
-    {% endif %}
+        {% if form.non_field_errors %}
+            <div class="alert alert-danger">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <ul class="list-unstyled">
+                    {% for error in form.non_field_errors %}
+                        <li>{{ error|escape }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
 
 
         {#    <div id="ajax_non_field_errors" style="display: none;" class="alert alert-danger">#}

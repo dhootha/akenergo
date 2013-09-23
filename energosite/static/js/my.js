@@ -151,7 +151,10 @@ function mySubmitAjaxForm(form_selector) {
 }
 
 
-function myRefreshCaptcha(captcha_url) {
+function myRefreshCaptcha(captcha_url, caption) {
+    $("img.captcha").css({"margin-bottom": 5, "width": 100, "height": 30});
+    $("img.captcha").after('<a class="js-captcha-refresh" style="display: inline-block; margin-left: 10px; cursor: pointer"><i class="glyphicon glyphicon-refresh"></i> ' +
+        caption + '</a>');
     $('.js-captcha-refresh').click(function () {
         var $form = $(this).closest('form');
         $.getJSON(captcha_url, function (data) {
@@ -159,10 +162,8 @@ function myRefreshCaptcha(captcha_url) {
             $form.find('#id_captcha_0').val(data['key']);
             $form.find('#id_captcha_1').val('');
         });
-        return false;
     });
 }
-
 
 
 //$(function () {
