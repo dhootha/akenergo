@@ -157,13 +157,11 @@ function myRefreshCaptcha(captcha_url, caption) {
         caption + '</a>');
     $('.js-captcha-refresh').click(function () {
         var $form = $(this).closest('form');
-        $.ajaxSetup({ cache: false });
         $.getJSON(captcha_url, function (data) {
             $form.find("img.captcha").attr('src', data['image_url']);
             $form.find('#id_captcha_0').val(data['key']);
             $form.find('#id_captcha_1').val('');
         });
-        $.ajaxSetup({ cache: true });
     });
 }
 

@@ -20,7 +20,7 @@
 
 
     {% block css %}
-        <link rel="stylesheet" type="text/css" href="{% static "css/bootstrap.css" %}"/>
+        <link rel="stylesheet" type="text/css" href="{% static "css/bootstrap.min.css" %}"/>
         <link rel="stylesheet" type="text/css" href="{% static "css/my_new.css" %}"/>
         <link rel="stylesheet" type="text/css" href="{% static "css/datepicker.css" %}"/>
     {% endblock %}
@@ -53,6 +53,7 @@
                 return $.trim($(this).find(':input[name=q]').val()) != '';
             });
             $(':input', $('form')).not(':button, :submit, :reset, :hidden, :radio, :checkbox').addClass('form-control');
+            $.ajaxSetup({ cache: false });
             myRefreshCaptcha('{% url 'captcha-refresh' %}', '{% trans 'Update' %}');
         });
     </script>

@@ -180,9 +180,20 @@ def is_fizlica_rayon(kod):
 
 @login_required
 def view_debtors(request, kod):
+
+    if Department.objects.filter(pk=kod).count() == 0:
+        raise Http404
+
     today = getActualDate("debtors", kod)
     debs = cache.get('debs' + str(kod))
+    ur_lica = is_ur_lica(kod)
+    if ur_lica:
+        order_by = "B.NLS"
+    else:
+        order_by = "B.UL, B.ND, B.NKOR, B.NKW"
+
     # sec = time.time()
+
     if not debs:
         debs = []
         debtors = Debtors.objects.raw("SELECT A.ID, A.NLS, A.DOLG, B.FIO, B.UL||' '||B.ND||"
@@ -195,14 +206,15 @@ def view_debtors(request, kod):
                                       " AS ADDRESS "
                                       " FROM DEBTORS A "
                                       " JOIN ABONBAZA B ON (A.NLS=B.NLS) "
-                                      " WHERE A.DEPARTMENT_ID=%s ORDER BY B.UL, B.ND, B.NKOR, B.NKW", [kod])
+                                      " WHERE A.DEPARTMENT_ID=%s ORDER BY "+order_by, [kod])
 
         for nomer, debtor in enumerate(debtors):
             val = dict(nomer=nomer + 1, address=debtor.address, nls=debtor.nls, dolg=debtor.dolg, fio=debtor.fio)
             debs.append(val)
-        cache.set('debs' + str(kod), debs)
         if not debs:
             raise Http404
+        cache.set('debs' + str(kod), debs)
+
 
     paginator = Paginator(debs, 100)
     page = request.GET.get('page')
@@ -216,8 +228,6 @@ def view_debtors(request, kod):
         debtors_pages = paginator.page(paginator.num_pages)
 
     # print "\n", time.time() - sec
-
-    ur_lica = is_ur_lica(kod)
 
     trail = []
     menus = TopMenu.objects.filter(link=reverse('view_debtors', args=[kod]))

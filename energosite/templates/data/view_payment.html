@@ -7,7 +7,7 @@
 {% block page_title %}
     {% trans 'View your payment and debt' %}
     <br>
-   <span style="font-size: 25px"> {% trans 'Personal number' %}: {{ nls }} </span>
+    <span style="font-size: 25px"> {% trans 'Personal number' %}: {{ nls }} </span>
 {% endblock %}
 {% block page_content %}
 
@@ -41,11 +41,6 @@
                 </tbody>
             </table>
 
-            {% if actual_pay_date %}
-                <p>
-                    <strong>{% trans 'Actual date' %}: </strong> {{ actual_pay_date }}
-                </p>
-            {% endif %}
             <p>
                 <strong>{% trans 'Debt' %}
                     {% if actual_kvit_date %}
@@ -58,6 +53,11 @@
                 </strong>
                 &nbsp;{{ dolg|currency }} тг.
             </p>
+            {% if actual_pay_date %}
+                <p>
+                    <strong>{% trans 'Actual date' %}: </strong> {{ actual_pay_date }}
+                </p>
+            {% endif %}
         </div>
     </div>
 
