@@ -4,5 +4,6 @@ Crawl-delay: 10
 # Directories
 Disallow: /admin/
 Disallow: /accounts/
+Sitemap: http://akenergosnab.kz/sitemap.xml
 
 
