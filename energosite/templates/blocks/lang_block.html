@@ -46,7 +46,7 @@
     {% endfor %}
 </ul>
 
-<form id="langForm" action="/i18n/setlang/" method="post" style="display:none;">
+<form id="langForm" action="{% url 'set_language' %}" method="post" style="display:none;">
     {% csrf_token %}
     <select id="langFormSelect" name="language">
         {% for lang in LANGUAGES %}

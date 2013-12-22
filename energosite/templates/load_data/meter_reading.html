@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n staticfiles %}
+{% load i18n staticfiles tags %}
 
 {% block title %}{% trans 'Readings input' %}{% endblock %}
 
@@ -146,6 +146,22 @@
         </div>
 
     </form>
+
+    <h3 style="margin-top: 30px;">{% trans 'Sent readings' %}</h3>
+    <table class="table table-bordered">
+        <tr>
+            <th class="text-center">{% trans 'Personal number' %}</th>
+            <th class="text-center">{% trans 'Readings date' %}</th>
+            <th class="text-center">{% trans 'Day reading' %}</th>
+            <th class="text-center">{% trans 'Night reading' %}</th>
+        </tr>
+        <tr>
+            <td class="text-center" id="nls_val">{{ nls_val }}</td>
+            <td class="text-center" id="data_val">{{ data_val|date:'d.m.Y H:m:s' }}</td>
+            <td class="text-center" id="pok1_val">{% if pok1_val %} {{ pok1_val }} {% endif %}</td>
+            <td class="text-center" id="pok2_val">{% if pok2_val %} {{ pok2_val }} {% endif %}</td>
+        </tr>
+    </table>
 
 {% endblock %}
 

@@ -72,7 +72,7 @@ urlpatterns = patterns('',
         name='users_statistics'),
 
 
-    # url(r'^prodject/', include('prodject.foo.urls')),
+    # url(r'^akenergo_project/', include('akenergo_project.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
 #    url(r'^admin/doc/', include('django.contrib.admindocs.urls')),

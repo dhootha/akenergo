@@ -58,7 +58,6 @@ def ajaxResponse(form_errors, success_in_modal=False, form=None, response_body='
             errors['non_field'] = '; '.join(form.non_field_errors())
             # errors['non_field'] = '; '.join(['ff', 'rrr3w'])
 
-
         return HttpResponse(json.dumps({'errors': errors,
                                         'captcha_key': captcha_key, 'captcha_image': captcha_image, 'result': 'error'}),
                             content_type="application/json")
@@ -180,7 +179,6 @@ def is_fizlica_rayon(kod):
 
 @login_required
 def view_debtors(request, kod):
-
     if Department.objects.filter(pk=kod).count() == 0:
         raise Http404
 
@@ -206,7 +204,7 @@ def view_debtors(request, kod):
                                       " AS ADDRESS "
                                       " FROM DEBTORS A "
                                       " JOIN ABONBAZA B ON (A.NLS=B.NLS) "
-                                      " WHERE A.DEPARTMENT_ID=%s ORDER BY "+order_by, [kod])
+                                      " WHERE A.DEPARTMENT_ID=%s ORDER BY " + order_by, [kod])
 
         for nomer, debtor in enumerate(debtors):
             val = dict(nomer=nomer + 1, address=debtor.address, nls=debtor.nls, dolg=debtor.dolg, fio=debtor.fio)
@@ -214,7 +212,6 @@ def view_debtors(request, kod):
         if not debs:
             raise Http404
         cache.set('debs' + str(kod), debs)
-
 
     paginator = Paginator(debs, 100)
     page = request.GET.get('page')
@@ -234,7 +231,6 @@ def view_debtors(request, kod):
     if menus.count():
         menu = menus[0].get_root()
         trail = [(reverse('list_submenus', args=[menu.id]), menu.title)]
-
 
     return render(request, 'data/view_debtors.html',
                   {'debtors_pages': debtors_pages, 'today': today, 'ur_lica': ur_lica, 'trail': trail})
@@ -345,31 +341,45 @@ def edit_profile(request):
 def meter_reading(request):
     user = request.user
     profile = get_profile(user)
+    nls = profile.nls
 
-    if is_ur_lica(get_depid(profile.nls)):
+    if is_ur_lica(get_depid(nls)):
         error = _("You don't have permission's")
         return render(request, 'load_data/data_error.html', {'error': error})
+
+    year = timezone.now().year
+    month = timezone.now().month
+    objects = MeterReading.objects.filter(nls=nls, date__year=year, date__month=month)
+    nls_val, pok1_val, pok2_val, data_val = nls, '', '', ''
+    if objects.count():
+        mr = objects[0]
+        nls_val, pok1_val, pok2_val, data_val = nls, mr.pok1, mr.pok2, mr.date
 
     if request.method == 'POST' and request.is_ajax():
         form = MeterReadingForm(request.POST)
         if form.is_valid():
             nls = form.cleaned_data['nls']
-            year = timezone.now().year
-            month = timezone.now().month
             objects = MeterReading.objects.filter(nls=nls, date__year=year, date__month=month)
-            if not objects.count():
-                mr = MeterReading(nls=nls)
-                mr.date = timezone.now()
-            else:
+            if objects.count():
                 mr = objects[0]
+            else:
+                mr = MeterReading(nls=nls)
+
             mr.fio = form.cleaned_data['fio']
             mr.address = form.cleaned_data['address']
             mr.pok1 = form.cleaned_data['pok1']
             mr.pok2 = form.cleaned_data['pok2']
             mr.pok3 = form.cleaned_data['pok3']
+            mr.date = timezone.now()
             mr.save()
-            # messages.add_message(request, messages.SUCCESS, _('Thank you!'))
-            return ajaxResponse(False, response_header=_('Thank you!'))
+
+            # DATETIME_FORMAT = '%Y-%m-%d %H:%M:%S'
+            DATETIME_FORMAT = '%d.%m.%Y %H:%M:%S'
+            data_val = timezone.datetime.strftime(mr.date, DATETIME_FORMAT)
+            update_values = {'nls_val': str(nls), 'pok1_val': str(mr.pok1), 'pok2_val': str(mr.pok2),
+                             'data_val': data_val}
+
+            return ajaxResponse(False, response_header=_('Thank you!'), update_values=update_values)
         else:
             return ajaxResponse(True, form=form)
 
@@ -377,7 +387,8 @@ def meter_reading(request):
     address = get_address(profile.nls)
     dict___ = {'nls': profile.nls, 'fio': fio, 'address': address, 'date': timezone.now()}
     form = MeterReadingForm(initial=dict___)
-    return render(request, 'load_data/meter_reading.html', {'form': form})
+    return render(request, 'load_data/meter_reading.html',
+                  {'form': form, 'nls_val': nls_val, 'pok1_val': pok1_val, 'pok2_val': pok2_val, 'data_val': data_val})
 
 
 def encStr(str_, dest):
@@ -674,6 +685,9 @@ def print_recon_rep(request):
 def recon_rep_page(request):
     user = request.user
     nls = get_profile(user).nls
+    if is_ur_lica(get_depid(nls)):
+        error = _("You don't have permission's")
+        return render(request, 'load_data/data_error.html', {'error': error})
     reports_table = render_recon_rep(nls)
     return render(request, 'data/recon_rep_page.html', {'nls': nls, 'reports_table': reports_table})
 

@@ -96,7 +96,10 @@ function myDisplayFormErrors($form, errors) {
 
 function myUpdateValues(values) {
     for (var key in values) if (values.hasOwnProperty(key)) {
-        $('#' + key).text(values[key]);
+        if ($.trim(values[key]) === 'None')
+            $('#' + key).text('');
+        else
+            $('#' + key).text(values[key]);
     }
 }
 
@@ -106,47 +109,47 @@ function mySubmitAjaxForm(form_selector) {
         event.preventDefault();
         $.ajax({ // create an AJAX call...
 //                    context: $this,
-            data: $this.serialize(), // get the form data
-            type: $this.attr('method'), // GET or POST
-            url: $this.attr('action'), // the file to call
-            dataType: 'json',
-            timeout: 60000,
-            beforeSend: function (jqXHR, settings) {
-                $this.find('input, select').attr('disabled', true); // запрещаем редактировать инпуты
-                $this.css("visibility", 'hidden');
-                $('footer').css("visibility", 'hidden');
+                   data: $this.serialize(), // get the form data
+                   type: $this.attr('method'), // GET or POST
+                   url: $this.attr('action'), // the file to call
+                   dataType: 'json',
+                   timeout: 60000,
+                   beforeSend: function (jqXHR, settings) {
+                       $this.find('input, select').attr('disabled', true); // запрещаем редактировать инпуты
+                       $this.css("visibility", 'hidden');
+                       $('footer').css("visibility", 'hidden');
 
-                myClearForm($this);
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                myDisplayNonfieldError($this, "ERROR: " + errorThrown);
-            },
-            success: function (data, textStatus, jqXHR) {
-                if (data["captcha_key"] && data["captcha_image"]) {
-                    $this.find("img.captcha").attr('src', data["captcha_image"]);
-                    $this.find('#id_captcha_0').val(data["captcha_key"]);
-                    $this.find('#id_captcha_1').val('');
-                }
-                if (data["result"] === 'success') {
-                    myUpdateValues(data["update_values"]);
-                    if (data['success_in_modal'])
-                        myShowModal(data['response_header'], data["response_body"]);
-                    else {
-                        myShowFormSuccess($this, data['response_header'], data["response_body"]);
-                        myScrollPage("#ajax_form_success", 55);
-                    }
+                       myClearForm($this);
+                   },
+                   error: function (jqXHR, textStatus, errorThrown) {
+                       myDisplayNonfieldError($this, "ERROR: " + errorThrown);
+                   },
+                   success: function (data, textStatus, jqXHR) {
+                       if (data["captcha_key"] && data["captcha_image"]) {
+                           $this.find("img.captcha").attr('src', data["captcha_image"]);
+                           $this.find('#id_captcha_0').val(data["captcha_key"]);
+                           $this.find('#id_captcha_1').val('');
+                       }
+                       if (data["result"] === 'success') {
+                           myUpdateValues(data["update_values"]);
+                           if (data['success_in_modal'])
+                               myShowModal(data['response_header'], data["response_body"]);
+                           else {
+                               myShowFormSuccess($this, data['response_header'], data["response_body"]);
+                               myScrollPage("#ajax_form_success", 55);
+                           }
 
-                }
-                else if (data["result"] === 'error') {
-                    myDisplayFormErrors($this, data["errors"]);
-                }
-            },
-            complete: function (jqXHR, textStatus) {
-                $this.css("visibility", 'visible');
-                $('footer').css("visibility", 'visible');
-                $this.find('input, select').removeAttr('disabled'); // разрешаем редактировать инпуты
-            }
-        });
+                       }
+                       else if (data["result"] === 'error') {
+                           myDisplayFormErrors($this, data["errors"]);
+                       }
+                   },
+                   complete: function (jqXHR, textStatus) {
+                       $this.css("visibility", 'visible');
+                       $('footer').css("visibility", 'visible');
+                       $this.find('input, select').removeAttr('disabled'); // разрешаем редактировать инпуты
+                   }
+               });
     });
 }
 
@@ -154,7 +157,7 @@ function mySubmitAjaxForm(form_selector) {
 function myRefreshCaptcha(captcha_url, caption) {
     $("img.captcha").css({"margin-bottom": 5, "width": 100, "height": 30});
     $("img.captcha").after('<a class="js-captcha-refresh" style="display: inline-block; margin-left: 10px; cursor: pointer"><i class="glyphicon glyphicon-refresh"></i> ' +
-        caption + '</a>');
+                               caption + '</a>');
     $('.js-captcha-refresh').click(function () {
         var $form = $(this).closest('form');
         $.getJSON(captcha_url, function (data) {

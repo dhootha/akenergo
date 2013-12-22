@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Django settings for prodject project.
+# Django settings for akenergo_project project.
 import warnings
 
 warnings.filterwarnings("ignore", category=DeprecationWarning)
@@ -30,7 +30,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
         'NAME': 'energosite', # Or path to database file if using sqlite3.
         'USER': 'energosite', # Not used with sqlite3.
-        'PASSWORD': '11111111111111', # Not used with sqlite3.
+        'PASSWORD': '1111111111', # Not used with sqlite3.
         'HOST': '', # Set to empty string for localhost. Not used with sqlite3.
         'PORT': '', # Set to empty string for default. Not used with sqlite3.
     }
@@ -126,14 +126,14 @@ MIDDLEWARE_CLASSES = (
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'prodject.urls'
+ROOT_URLCONF = 'akenergo_project.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
-WSGI_APPLICATION = 'prodject.wsgi.application'
+WSGI_APPLICATION = 'akenergo_project.wsgi.application'
 
 TEMPLATE_DIRS = (
     os.path.join(PROJECTS_PATH, "energosite", "templates"),
-    os.path.join(PROJECTS_PATH, "energosite", "templatetags"),
+    # os.path.join(PROJECTS_PATH, "energosite", "templatetags"),
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = ('django.contrib.auth.context_processors.auth',
