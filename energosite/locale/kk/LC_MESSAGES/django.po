@@ -461,7 +461,7 @@ msgstr "Басқа электр есептеуіш"
 
 #: templates/load_data/meter_reading.html:150
 msgid "Sent readings"
-msgstr "Есептегіштің көрсеткіші"
+msgstr "Жіберілген корсеткіш"
 
 #: templates/load_data/meter_reading.html:154
 msgid "Readings date"
