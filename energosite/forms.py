@@ -115,7 +115,8 @@ user_activated.connect(login_on_activation)
 class MeterReadingForm(ModelForm):
     class Meta:
         model = MeterReading
-        fields = ('nls', 'fio', 'address', 'pok1', 'pok2', 'pok3', 'date')
+        #fields = ('nls', 'fio', 'address', 'pok1', 'pok2', 'pok3', 'date')
+        fields = ('nls', 'fio', 'address', 'pok1', 'pok2', 'date')
         widgets = {
             'date': forms.HiddenInput(),
         }

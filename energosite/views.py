@@ -369,7 +369,7 @@ def meter_reading(request):
             mr.address = form.cleaned_data['address']
             mr.pok1 = form.cleaned_data['pok1']
             mr.pok2 = form.cleaned_data['pok2']
-            mr.pok3 = form.cleaned_data['pok3']
+            #mr.pok3 = form.cleaned_data['pok3']
             mr.date = timezone.now()
             mr.save()
 

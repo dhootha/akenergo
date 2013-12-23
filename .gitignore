@@ -3,6 +3,8 @@
 *.pyc
 local_settings.py
 .idea
+dbfpy
+
 
 
 
