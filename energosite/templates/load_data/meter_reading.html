@@ -158,8 +158,8 @@
         <tr>
             <td class="text-center" id="nls_val">{{ nls_val }}</td>
             <td class="text-center" id="data_val">{{ data_val|date:'d.m.Y H:m:s' }}</td>
-            <td class="text-center" id="pok1_val">{% if pok1_val %} {{ pok1_val }} {% endif %}</td>
-            <td class="text-center" id="pok2_val">{% if pok2_val %} {{ pok2_val }} {% endif %}</td>
+            <td class="text-center" id="pok1_val">{% ifnotequal pok1_val None %} {{ pok1_val }} {% endifnotequal %}</td>
+            <td class="text-center" id="pok2_val">{% ifnotequal pok2_val None %} {{ pok2_val }} {% endifnotequal %}</td>
         </tr>
     </table>
 
