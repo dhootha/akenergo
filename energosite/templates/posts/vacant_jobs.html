@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load i18n staticfiles tags %}
+
+{% block title %}
+    {% trans 'Vacant jobs' %}
+{% endblock %}
+
+
+{% block page_title %}
+    {% trans 'Vacant jobs' %}
+{% endblock %}
+
+{% block page_content %}
+
+    {% for vac in vacant_jobs %}
+
+        <h4 style="margin-top: 15px;">{{ vac.title }}</h4>
+        {% autoescape off %}
+            {{ vac.summary }}
+        {% endautoescape %}
+        <p style="margin-left: 10px;">
+            <em>{{ vac.date|date:"d.m.y H:i" }}</em>
+        </p>
+        <p style="margin-left: 10px;">
+            <a class="btn btn-primary" href="{% url "show_vacancy" vac.pk %}">{% trans 'More...' %}</a>
+        </p>
+
+        {% if not forloop.last %}
+            <hr style="margin: 10px 0 0">
+        {% endif %}
+    {% endfor %}
+
+    {% show_pager vacant_jobs 4 %}
+
+
+
+{% endblock %}

@@ -115,7 +115,7 @@ def show_page(request, link):
 
 
 def show_article(request, link_id):
-    article = get_object_or_404(Article, pk=link_id, published=True)
+    article = get_object_or_404(Article, pk=link_id, published=True, tip=1)
     # trail = []
     # menus = TopMenu.objects.filter(link=reverse('news_list'))
     # if menus.count():
@@ -123,6 +123,12 @@ def show_article(request, link_id):
     trail = [(reverse('news_list'), _('Site news'))]
 
     return render(request, 'posts/base_post.html', {'post': article, 'show_comments': True, 'trail': trail})
+
+
+def show_vacancy(request, link_id):
+    vacancy = get_object_or_404(Article, pk=link_id, published=True, tip=2)
+    trail = [(reverse('vacant_jobs'), _('Vacant jobs'))]
+    return render(request, 'posts/base_post.html', {'post': vacancy, 'show_comments': False, 'trail': trail})
 
 
 def list_submenus(request, menu_id):
@@ -151,6 +157,22 @@ def news_list(request):
         news_list = paginator.page(paginator.num_pages)
 
     return render(request, 'posts/news_list.html', {"news_list": news_list})
+
+
+def vacant_jobs(request):
+    objects = Article.objects.filter(published=True, tip=2).order_by('-date')
+    paginator = Paginator(objects, 10)
+
+    page = request.GET.get('page')
+    try:
+        vacant_jobs = paginator.page(page)
+    except PageNotAnInteger:
+        vacant_jobs = paginator.page(1)
+    except EmptyPage:
+        vacant_jobs = paginator.page(paginator.num_pages)
+
+    return render(request, 'posts/vacant_jobs.html', {"vacant_jobs": vacant_jobs})
+
 
 # def getLastMonthPayment(nls):
 #     sel = "SELECT nls, sum(opl) as opl FROM oplbaza " \

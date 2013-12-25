@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-23 01:13+0500\n"
+"POT-Creation-Date: 2013-12-25 12:00+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 
-#: forms.py:19 forms.py:132
+#: forms.py:19 forms.py:133
 msgid "Incorrect personal number"
 msgstr "Неправильный лицевой счёт"
 
@@ -32,7 +32,7 @@ msgid "Mobile phone"
 msgstr "Сотовый телефон"
 
 #: forms.py:39 forms.py:43 forms.py:50 forms.py:54 forms.py:72 forms.py:76
-#: forms.py:83 forms.py:87 forms.py:168 forms.py:175
+#: forms.py:83 forms.py:87 forms.py:169 forms.py:176
 msgid "Incorrect information"
 msgstr "Неправильные данные"
 
@@ -49,61 +49,61 @@ msgstr "Лицевой счёт"
 msgid "I agree to receive newsletter"
 msgstr "Я согласен получать рассылки"
 
-#: forms.py:63 forms.py:162 forms.py:203
+#: forms.py:63 forms.py:163 forms.py:204
 msgid "Captcha"
 msgstr "Символы"
 
-#: forms.py:125
+#: forms.py:126
 msgid "one-tariff"
 msgstr "однозонный"
 
-#: forms.py:125
+#: forms.py:126
 msgid "two-tariff"
 msgstr "многозонный"
 
-#: forms.py:126
+#: forms.py:127
 msgid "Counter type"
 msgstr "Тип счётчика"
 
-#: forms.py:134 views.py:347 views.py:689
+#: forms.py:135 views.py:369 views.py:711
 msgid "You don't have permission's"
 msgstr "Извините, но у вас нет прав"
 
-#: forms.py:146 forms.py:154
+#: forms.py:147 forms.py:155
 msgid "Department"
 msgstr "Отделение"
 
-#: forms.py:147
+#: forms.py:148
 msgid "Street"
 msgstr "Улица"
 
-#: forms.py:148
+#: forms.py:149
 msgid "House number"
 msgstr "Номер дома"
 
-#: forms.py:149
+#: forms.py:150
 msgid "Corps"
 msgstr "Корпус"
 
-#: forms.py:150
+#: forms.py:151
 msgid "Apartment"
 msgstr "Квартира"
 
-#: forms.py:155 models.py:150 templates/profile/edit_profile.html:18
+#: forms.py:156 models.py:150 templates/profile/edit_profile.html:18
 #: templates/search/result_table.html:7
 #: templates/search/search_results.html:15
 msgid "Client name"
 msgstr "Имя"
 
-#: forms.py:160
+#: forms.py:161
 msgid "Subject"
 msgstr "Тема"
 
-#: forms.py:161
+#: forms.py:162
 msgid "Message"
 msgstr "Сообщение"
 
-#: forms.py:202
+#: forms.py:203
 msgid "E-mail"
 msgstr "Адрес электронной почты"
 
@@ -129,38 +129,43 @@ msgstr "Вечернее показание"
 msgid "Site news"
 msgstr "Новости сайта"
 
-#: views.py:331
+#: views.py:130 templates/posts/vacant_jobs.html:5
+#: templates/posts/vacant_jobs.html:10
+msgid "Vacant jobs"
+msgstr "Наши вакансии"
+
+#: views.py:353
 msgid "Your profile was saved"
 msgstr "Ваш профиль сохранён"
 
-#: views.py:382
+#: views.py:404
 msgid "Thank you!"
 msgstr "Спасибо!"
 
-#: views.py:521 views.py:584 templates/search/google_search.html:4
+#: views.py:543 views.py:606 templates/search/google_search.html:4
 #: templates/search/google_search.html:7
 msgid "Search results"
 msgstr "Результаты поиска"
 
-#: views.py:527 views.py:566 templates/blocks/standard_form.html:34
+#: views.py:549 views.py:588 templates/blocks/standard_form.html:34
 #: templates/load_data/meter_reading.html:37
 #: templates/profile/edit_profile.html:44
 #: templates/registration/registration_form.html:138
 msgid "Search by address"
 msgstr "Поиск по адресу"
 
-#: views.py:527 views.py:589 templates/tags/top_menu.html:85
+#: views.py:549 views.py:611 templates/tags/top_menu.html:85
 msgid "Find"
 msgstr "Найти"
 
-#: views.py:589 views.py:608 templates/blocks/standard_form.html:31
+#: views.py:611 views.py:630 templates/blocks/standard_form.html:31
 #: templates/load_data/meter_reading.html:34
 #: templates/profile/edit_profile.html:41
 #: templates/registration/registration_form.html:135
 msgid "Search by surname"
 msgstr "Поиск по фамилии/наименованию"
 
-#: views.py:731 views.py:746 templates/data/recrep_shablon.html:80
+#: views.py:753 views.py:768 templates/data/recrep_shablon.html:80
 #: templates/data/view_debtors.html:6 templates/data/view_debtors.html:19
 #: templates/posts/base_post.html:9 templates/posts/base_post.html.py:19
 #: templates/posts/list_submenus.html:11 templates/search/result_table.html:23
@@ -168,23 +173,23 @@ msgstr "Поиск по фамилии/наименованию"
 msgid "Not found"
 msgstr "Не найдено"
 
-#: views.py:776
+#: views.py:798
 msgid "Message was sent. Thank you!"
 msgstr "Сообщение отправлено. Спасибо!"
 
-#: views.py:779
+#: views.py:801
 msgid "Error sending mail"
 msgstr "Ошибка отправки почты"
 
-#: views.py:919
+#: views.py:941
 msgid "Account for email address is not registered or already activated."
 msgstr "Пользователь с этим email не зарегистрирован или уже активирован."
 
-#: views.py:932
+#: views.py:954
 msgid "Resend activation link done"
 msgstr "Ссылка активации отправлена"
 
-#: views.py:949
+#: views.py:971
 msgid "This account is inactive."
 msgstr "Этот пользователь отключен"
 
@@ -467,7 +472,8 @@ msgstr "Переданные показания"
 msgid "Readings date"
 msgstr "Дата показаний"
 
-#: templates/posts/news_list.html:33 templates/tags/recent_news_list.html:23
+#: templates/posts/news_list.html:33 templates/posts/vacant_jobs.html:25
+#: templates/tags/recent_news_list.html:23
 #: templates/tags/recent_news_list.html:24
 msgid "More..."
 msgstr "Подробнее..."

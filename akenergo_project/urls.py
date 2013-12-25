@@ -24,7 +24,7 @@ page_dict = {
 }
 
 article_dict = {
-    'queryset': Article.objects.filter(published=True),
+    'queryset': Article.objects.filter(published=True, tip=1),
     # 'date_field': 'date',
 }
 
@@ -36,10 +36,15 @@ sitemaps = {
 urlpatterns = patterns('',
     # url(r'^$', TemplateView.as_view(template_name='posts/index.html'), name='home'),
     url(r'^$', 'energosite.views.index', name='home'),
+
     url(r'^page/(?P<link>.+)/$', 'energosite.views.show_page', name='show_page'),
     url(r'^article/(?P<link_id>\d+)/$', 'energosite.views.show_article', name='show_article'),
+    url(r'^vacancy/(?P<link_id>\d+)/$', 'energosite.views.show_vacancy', name='show_vacancy'),
+
     url(r'^list_submenus/(?P<menu_id>\d+)/$', 'energosite.views.list_submenus', name='list_submenus'),
+
     url(r'^news_list/$', 'energosite.views.news_list', name='news_list'),
+    url(r'^vacant_jobs/$', 'energosite.views.vacant_jobs', name='vacant_jobs'),
 
     url(r'^meter_reading/input/$', 'energosite.views.meter_reading', name='meter_reading'),
     url(r'^meter_reading/load/$', 'energosite.views.load_reading', name='load_reading'),
