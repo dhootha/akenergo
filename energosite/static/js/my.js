@@ -116,7 +116,8 @@ function mySubmitAjaxForm(form_selector) {
                    timeout: 60000,
                    beforeSend: function (jqXHR, settings) {
                        $this.find('input, select').attr('disabled', true); // запрещаем редактировать инпуты
-                       $this.css("visibility", 'hidden');
+                       //$this.css("visibility", 'hidden');
+                       $this.closest('div').css("visibility", "hidden");
                        $('footer').css("visibility", 'hidden');
 
                        myClearForm($this);
@@ -145,7 +146,8 @@ function mySubmitAjaxForm(form_selector) {
                        }
                    },
                    complete: function (jqXHR, textStatus) {
-                       $this.css("visibility", 'visible');
+                       //$this.css("visibility", 'visible');
+                       $this.closest('div').css("visibility", "visible");
                        $('footer').css("visibility", 'visible');
                        $this.find('input, select').removeAttr('disabled'); // разрешаем редактировать инпуты
                    }
