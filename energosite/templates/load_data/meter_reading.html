@@ -170,7 +170,7 @@
 
         $(document).ready(function () {
 
-            $('#id_nls').focus();
+            $('#day_pok').focus();
             {#            $('#id_fio').css('width', 360);#}
             {#            $('#id_address').css('width', 360);#}
 
@@ -204,13 +204,12 @@
 
             $("#another_mtr").on("click", function () {
                 var $form = $('#mrform');
-                $form.find('input:text, input:password, input:file, textarea').val('');
-                $form.find('input:radio, input:checkbox, select option').removeAttr('checked').removeAttr('selected');
-                $form.find('select option:first').attr('selected', true);
+                $form.find(':input').not(':button, :submit, :reset, :hidden').removeAttr('checked').removeAttr('selected').not(':checkbox, :radio, select').val('');
+                $("select option").each(function () {
+                    $(this).attr('selected', false);
+                });
+                {#                $form.find('select').val($form.find('select option:first').val());#}
                 $("#night_pok").animate({ opacity: 'hide' }, "slow");
-                {#            $(':input', $form).not(':button, :submit, :reset, :hidden').attr('required', false);#}
-                $form.find('input:text:visible:first').focus();
-                {#                $('html, body').animate({scrollTop: $form.offset().top - 176}, 'fast');#}
                 $form.find('#id_nls').focus();
             });
 
