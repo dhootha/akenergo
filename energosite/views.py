@@ -28,6 +28,7 @@ from django.utils.encoding import force_unicode
 import json
 from captcha.models import CaptchaStore
 from captcha.helpers import captcha_image_url
+import calendar
 
 
 def index(request):
@@ -68,6 +69,7 @@ def ajaxResponse(form_errors, success_in_modal=False, form=None, response_body='
                                         'captcha_key': captcha_key, 'captcha_image': captcha_image, 'result': 'success',
                                         'success_in_modal': success_in_modal}),
                             content_type="application/json")
+
 
 #
 # from django.utils.http import is_safe_url
@@ -144,7 +146,7 @@ def list_submenus(request, menu_id):
 
 def news_list(request):
     news_objects = Article.objects.filter(published=True, tip=1).order_by('-date')
-    paginator = Paginator(news_objects, 10) # Show 10 contacts per page
+    paginator = Paginator(news_objects, 10)  # Show 10 contacts per page
 
     page = request.GET.get('page')
     try:
@@ -196,6 +198,7 @@ def is_fizlica(kod):
 
 def is_fizlica_rayon(kod):
     return int(kod) == 3
+
 
 # import time
 
@@ -425,9 +428,9 @@ def toInt(value):
         try:
             return int(value)
         except ValueError:
-            return 0
+            return -1
     else:
-        return 0
+        return -1
 
 
 def getToday():
@@ -446,42 +449,49 @@ def getDay():
     return timezone.now().day
 
 
+def firstMonthDay():
+    return timezone.datetime(getYear(), getMonth(), 1)
+
+
+def lastMonthDay():
+    return timezone.datetime(getYear(), getMonth(), calendar.monthrange(getYear(), getMonth())[1])
+
+
 @login_required
 def load_reading(request):
-
-#    for i in range(1, 50000):
-#        mr = MeterReading(nls=i, fio='tty', address='trytyt', pok1=i, pok2=45, pok3=2, date=datetime.datetime.now())
-#        mr.save()
-
+    #    for i in range(1, 50000):
+    #        mr = MeterReading(nls=i, fio='tty', address='trytyt', pok1=i, pok2=45, pok3=2, date=datetime.datetime.now())
+    #        mr.save()
     user = request.user
     if not user.has_perm('energosite.view_meter_reading'):
         error = "У вас нет прав для загрузки показаний!"
         return render(request, 'load_data/data_error.html', {'error': error})
 
-    MONTHS = [(0, 'Все месяцы')] + [(rang, str(rang)) for rang in range(1, 13)]
-    YEARS = [(rang, str(rang)) for rang in range(getToday().year - 2, getToday().year + 3)]
+    # MONTHS = [(0, 'Все месяцы')] + [(rang, str(rang)) for rang in range(1, 13)]
+    # YEARS = [(rang, str(rang)) for rang in range(getToday().year - 2, getToday().year + 3)]
     if request.method == 'POST':
         form = LoadReading(request.POST)
-        form.fields['month'].choices, form.fields['month'].initial = MONTHS, getMonth()
-        form.fields['year'].choices, form.fields['year'].initial = YEARS, getYear()
+        # form.fields['month'].choices, form.fields['month'].initial = MONTHS, getMonth()
+        # form.fields['year'].choices, form.fields['year'].initial = YEARS, getYear()
+        form.fields['date1'].initial = firstMonthDay()
+        form.fields['date2'].initial = lastMonthDay()
+
         if form.is_valid():
-            year = int(form.cleaned_data['year'])
-            month = int(form.cleaned_data['month'])
+            date1 = form.cleaned_data['date1']
+            date2 = form.cleaned_data['date2'] + timezone.timedelta(days=1)
             charset = form.cleaned_data['charset']
-            date_filter = {'date__year': year}
-            if month:
-                date_filter['date__month'] = month
-            mrss = MeterReading.objects.filter(**date_filter)
-            #print MeterReading._meta.get_all_field_names()
-            fileName = os.path.join(settings.MEDIA_ROOT, hashlib.md5(str(random.random())).hexdigest() + '.dbf')
-            dbfFile = dbf.Dbf(fileName, new=True)
+            # date_filter = {'date__year': date1}
+            # if date2:
+            #     date_filter['date__month'] = date2
+            mrss = MeterReading.objects.filter(date__range=(date1, date2)).order_by('date')
+            filename = os.path.join(settings.MEDIA_ROOT, hashlib.md5(str(random.random())).hexdigest() + '.dbf')
+            dbfFile = dbf.Dbf(filename, new=True)
             dbfFile.addField(
                 ("NLS", "N", 7, 0),
                 ("FIO", "C", 50),
                 ("ADDRESS", "C", 75),
                 ("POK1", "N", 7, 0),
                 ("POK2", "N", 7, 0),
-                ("POK3", "N", 7, 0),
                 ("DATE", "D"),
             )
             for mr in mrss:
@@ -489,7 +499,7 @@ def load_reading(request):
                 try:
                     rec['NLS'] = toInt(mr.nls)
                     rec['FIO'], rec['ADDRESS'] = encStr(mr.fio, charset), encStr(mr.address, charset)
-                    rec['POK1'], rec['POK2'], rec['POK3'] = toInt(mr.pok1), toInt(mr.pok2), toInt(mr.pok3)
+                    rec['POK1'], rec['POK2'] = toInt(mr.pok1), toInt(mr.pok2)
                     rec['DATE'] = mr.date
                     rec.store()
                 except TypeError:
@@ -498,18 +508,20 @@ def load_reading(request):
             dbfFile.close()
             response = HttpResponse(content_type='application/dbf')
             response['Content-Disposition'] = 'attachment; filename=poks.dbf'
-            file2read = open(fileName, 'rb')
+            file2read = open(filename, 'rb')
             response.write(file2read.read())
             file2read.close()
             try:
-                os.remove(fileName)
+                os.remove(filename)
             except OSError:
                 pass
             return response
     else:
         form = LoadReading()
-        form.fields['month'].choices, form.fields['month'].initial = MONTHS, getMonth()
-        form.fields['year'].choices, form.fields['year'].initial = YEARS, getYear()
+        # form.fields['month'].choices, form.fields['month'].initial = MONTHS, getMonth()
+        # form.fields['year'].choices, form.fields['year'].initial = YEARS, getYear()
+        form.fields['date1'].initial = firstMonthDay()
+        form.fields['date2'].initial = lastMonthDay()
 
     return render(request, 'load_data/load_reading.html', {'form': form})
 
@@ -567,7 +579,7 @@ def search_address(request):
 
         if SearchAddressForm(request.GET).is_valid():
 
-        # department = form.cleaned_data['department'].id
+            # department = form.cleaned_data['department'].id
             # ul = unicode(form.cleaned_data['ul']).upper() + "%"
             # nd = unicode(form.cleaned_data['nd']).upper()
             # nkor = unicode(form.cleaned_data['nkor']).upper()
@@ -922,6 +934,7 @@ def delete_loaded(request, item_id):
         tabs[0].delete()
     return HttpResponseRedirect(reverse('upload_data'))
 
+
 ##############################################################
 
 def resend_activation_link(request):
@@ -967,7 +980,7 @@ def login(request, template_name='registration/login.html'):
             non_field_errors = form.non_field_errors()
 
             if non_field_errors:
-            # test if the account is not active
+                # test if the account is not active
                 user_inactive = non_field_errors[0].find(_("This account is inactive.")) != -1
                 #                user_inactive = User.objects.filter(username=request.POST.get('username'), is_active=0).count() == 1
 

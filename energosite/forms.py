@@ -138,8 +138,10 @@ class MeterReadingForm(ModelForm):
 
 class LoadReading(forms.Form):
     CHARSET_CHOICES = (('cp866', 'DOS'), ('cp1251', 'ANSI' ))
-    month = forms.ChoiceField(label="Месяц")
-    year = forms.ChoiceField(label="Год")
+    # month = forms.ChoiceField(label="Месяц")
+    # year = forms.ChoiceField(label="Год")
+    date1 = forms.DateField(label="Начальная дата", input_formats=('%d.%m.%Y', '%d.%m.%y', '%Y-%m-%d',))
+    date2 = forms.DateField(label="Конечная дата", input_formats=('%d.%m.%Y', '%d.%m.%y', '%Y-%m-%d',))
     charset = forms.ChoiceField(label="Кодировка DBF", initial="cp866", choices=CHARSET_CHOICES)
 
 

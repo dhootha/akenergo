@@ -21,8 +21,8 @@
 
     {% block css %}
         <link rel="stylesheet" type="text/css" href="{% static "css/bootstrap.min.css" %}"/>
+        <link rel="stylesheet" type="text/css" href="{% static "css/datepicker3.css" %}"/>
         <link rel="stylesheet" type="text/css" href="{% static "css/my_new.css" %}"/>
-        <link rel="stylesheet" type="text/css" href="{% static "css/datepicker.css" %}"/>
     {% endblock %}
 
     <!--[if lt IE 9]>
@@ -42,6 +42,8 @@
     <script src="{% static "js/bootstrap.js" %}"></script>
     <script src="//yandex.st/share/share.js" charset="utf-8"></script>
     <script src="{% static "js/bootstrap-datepicker.js" %}"></script>
+    <script src="{% static "js/locales/bootstrap-datepicker.ru.js" %}" charset="UTF-8"></script>
+    <script src="{% static "js/locales/bootstrap-datepicker.kk.js" %}" charset="UTF-8"></script>
     <script src="{% static 'js/my.js' %}"></script>
     <script src="{% static 'js/scrollup_button.js' %}"></script>
 

@@ -1,11 +1,12 @@
 {% extends "base.html" %}
+{% load i18n %}
+
+{% get_current_language as LANGUAGE_CODE %}
 
 {% block title %}Загрузка данных по абонентам{% endblock %}
 {% block page_title %}Загрузка данных по абонентам{% endblock %}
 
 {% block page_content %}
-
-
 
     {#    <form enctype="multipart/form-data" method="post" action="">#}
     {#        {% csrf_token %}#}
@@ -42,6 +43,7 @@
     {#    </form>#}
 
 
+
     <form class="form-horizontal" enctype="multipart/form-data" method="post" action="">
         {% csrf_token %}
         {% for field in form %}
@@ -60,16 +62,16 @@
             </div>
         {% endfor %}
 
-    {% if form.non_field_errors %}
-        <div class="alert alert-danger">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
-            <ul class="list-unstyled">
-                {% for error in form.non_field_errors %}
-                    <li>{{ error|escape }}</li>
-                {% endfor %}
-            </ul>
-        </div>
-    {% endif %}
+        {% if form.non_field_errors %}
+            <div class="alert alert-danger">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <ul class="list-unstyled">
+                    {% for error in form.non_field_errors %}
+                        <li>{{ error|escape }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-4">
@@ -194,12 +196,13 @@
 
     <script>
         $(function () {
-            var checkin = $('#id_actual_date').datepicker({
-                format: 'dd.mm.yyyy',
-                weekStart: 1
-            }).on('changeDate',function () {
-                        checkin.hide();
-                    }).data('datepicker');
+            $('#id_actual_date').datepicker({
+                format: "dd.mm.yyyy",
+                weekStart: 1,
+                language: "{{ LANGUAGE_CODE|slice:":2" }}",
+                autoclose: true,
+                todayHighlight: true
+            });
         });
     </script>
 
