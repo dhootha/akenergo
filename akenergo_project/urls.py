@@ -9,13 +9,12 @@ from energosite.models import Page, Article
 from energosite.forms import MyRegistrationForm
 from registration.backends.default.views import RegistrationView
 
+
 class RegistrationViewUniqueEmail(RegistrationView):
     form_class = MyRegistrationForm
 
 
-
 admin.autodiscover()
-
 
 
 page_dict = {
@@ -76,6 +75,9 @@ urlpatterns = patterns('',
     url(r'^users_statistics/$', login_required(TemplateView.as_view(template_name='statistics/users.html')),
         name='users_statistics'),
 
+     # url(r'^save_search_page/(?P<path>.+)/$', 'energosite.views.save_search_page', name='save_search_page'),
+     # url(r'^save_found_nls/(?P<nls>\d+)/$', 'energosite.views.save_found_nls', name='save_found_nls'),
+
 
     # url(r'^akenergo_project/', include('akenergo_project.foo.urls')),
 
@@ -90,6 +92,7 @@ urlpatterns = patterns('',
     url(r'^users/my_profile/$', 'energosite.views.edit_profile', name='edit_profile'),
     url(r'^accounts/login/$', 'energosite.views.login', {'template_name': 'registration/login.html'},
         name='auth_login'),
+    url(r'^accounts/logout/$', 'django.contrib.auth.views.logout_then_login', name='auth_logout'),
     url(r'^accounts/register/$', RegistrationViewUniqueEmail.as_view(), name='registration_register'),
     url(r'^accounts/activate/resend/$', 'energosite.views.resend_activation_link', name='resend_activation_link'),
     url(r'^accounts/', include('registration.backends.default.urls')),

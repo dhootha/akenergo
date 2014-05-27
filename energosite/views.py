@@ -29,6 +29,7 @@ import json
 from captcha.models import CaptchaStore
 from captcha.helpers import captcha_image_url
 import calendar
+from django.template import RequestContext
 
 
 def index(request):
@@ -527,6 +528,10 @@ def load_reading(request):
 
 
 def ajax_search_address(request):
+    if request.method == 'GET':
+        referer = request.META.get('HTTP_REFERER')
+        if referer:
+            request.session['search_refered_from'] = referer
     # abonents = None
     if request.method == 'POST' and request.is_ajax():
         form = SearchAddressForm(request.POST)
@@ -549,9 +554,10 @@ def ajax_search_address(request):
                 condits.append("upper(nkw) = %s")
                 params.append(nkw.upper())
 
-            abonents = Abonbaza.objects.extra(where=condits, params=params).order_by("nls")[:100]
+            abonents = Abonbaza.objects.extra(where=condits, params=params).order_by("nls")[:200]
             return ajaxResponse(False, success_in_modal=True,
-                                response_body=render_to_string('search/result_table.html', {'abonents': abonents}),
+                                response_body=render_to_string('search/result_table.html', {'abonents': abonents},
+                                                               context_instance=RequestContext(request)),
                                 response_header=_('Search results'))
 
         else:
@@ -562,46 +568,11 @@ def ajax_search_address(request):
                                                           'form': form})
 
 
-def search_address(request):
-    abonents = None
-    form = SearchAddressForm()
-    if request.method == 'GET':
-        department = request.GET.get('department', 0)
-        ul = force_unicode(request.GET.get('ul', ''))
-        nd = force_unicode(request.GET.get('nd', ''))
-        nkor = force_unicode(request.GET.get('nkor', ''))
-        nkw = force_unicode(request.GET.get('nkw', ''))
-        form.fields['department'].initial = department
-        form.fields['ul'].initial = ul
-        form.fields['nd'].initial = nd
-        form.fields['nkor'].initial = nkor
-        form.fields['nkw'].initial = nkw
-
-        if SearchAddressForm(request.GET).is_valid():
-
-            # department = form.cleaned_data['department'].id
-            # ul = unicode(form.cleaned_data['ul']).upper() + "%"
-            # nd = unicode(form.cleaned_data['nd']).upper()
-            # nkor = unicode(form.cleaned_data['nkor']).upper()
-            # nkw = unicode(form.cleaned_data['nkw']).upper()
-
-            condits = ["department_id = %s", "upper(ul) like %s", "upper(nd) = %s"]
-            params = [department, ul.upper() + "%", nd.upper()]
-
-            if nkor:
-                condits.append("upper(nkor) = %s")
-                params.append(nkor.upper())
-            if nkw:
-                condits.append("upper(nkw) = %s")
-                params.append(nkw.upper())
-
-            abonents = Abonbaza.objects.extra(where=condits, params=params).order_by("nls")[:100]
-
-    return render(request, 'search/search_abonent.html', {'ssheader': _('Search by address'),
-                                                          'form': form, 'abonents': abonents, 'REQ_METHOD': 'GET'})
-
-
 def ajax_search_fio(request):
+    if request.method == 'GET':
+        referer = request.META.get('HTTP_REFERER')
+        if referer:
+            request.session['search_refered_from'] = referer
     # abonents = None
     if request.method == 'POST' and request.is_ajax():
         form = SearchFioForm(request.POST)
@@ -611,10 +582,11 @@ def ajax_search_fio(request):
             fio = request.POST.get('fio', '').upper() + '%'
             department = request.POST.get('department', 0)
             abonents = Abonbaza.objects.extra(where=["department_id = %s", "upper(fio) like %s"],
-                                              params=[department, fio]).order_by("nls")[:100]
+                                              params=[department, fio]).order_by("nls")[:200]
 
             return ajaxResponse(False, success_in_modal=True,
-                                response_body=render_to_string('search/result_table.html', {'abonents': abonents}),
+                                response_body=render_to_string('search/result_table.html', {'abonents': abonents},
+                                                               context_instance=RequestContext(request)),
                                 response_header=_('Search results'))
         else:
             return ajaxResponse(True, form=form)
@@ -622,25 +594,6 @@ def ajax_search_fio(request):
     form = SearchFioForm()
     return render(request, 'search/search_abonent.html', {'ssheader': _('Search by surname'), 'submCaptrans': _('Find'),
                                                           'form': form})
-
-
-def search_fio(request):
-    abonents = None
-    form = SearchFioForm()
-    if request.method == 'GET':
-        department = request.GET.get('department', 0)
-        fio = force_unicode(request.GET.get('fio', ''))
-        form.fields['department'].initial = department
-        form.fields['fio'].initial = fio
-
-        if SearchFioForm(request.GET).is_valid():
-            # department = form.cleaned_data['department'].id
-            # fio = unicode(form.cleaned_data['fio']).upper() + "%"
-            abonents = Abonbaza.objects.extra(where=["department_id = %s", "upper(fio) like %s"],
-                                              params=[department, fio.upper() + '%']).order_by("nls")[:100]
-
-    return render(request, 'search/search_abonent.html', {'ssheader': _('Search by surname'),
-                                                          'form': form, 'abonents': abonents, 'REQ_METHOD': 'GET'})
 
 
 def getActualDate(dbtable, department):
@@ -990,7 +943,14 @@ def login(request, template_name='registration/login.html'):
     return django_login(request)
 
 
-
+# @login_required
+# def set_session_return(request, nls):
+#     if request.method == 'GET':
+#         if request.session.get('has_commented', False):
+#             return HttpResponse("You've already commented.")
+#
+#     form = EditProfileForm(instance=profile)
+#     return render(request, 'profile/edit_profile.html', {'form': form, 'fio': fio, 'address': address, 'email': email})
 
 
 

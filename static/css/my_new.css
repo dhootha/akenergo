@@ -1,0 +1,118 @@
+/*Google fonts*/
+/*@font-face {*/
+/*font-family: 'Telex';*/
+/*font-style: normal;*/
+/*font-weight: 400;*/
+/*src: local('Telex-Regular'), url(QBUn5F7b-9Ulki7K75J1Bw.woff) format('woff');*/
+/*}*/
+
+/* Footer
+-------------------------------------------------- */
+
+.footer {
+    text-align: center;
+    /*padding: 30px 0;*/
+    padding: 15px 10px;
+    margin-top: 70px;
+    border-top: 1px solid #e5e5e5;
+    background-color: #f5f5f5;
+}
+
+.footer p {
+    margin-bottom: 0;
+    color: #777;
+}
+
+.footer-links {
+    margin: 10px 0;
+}
+
+.footer-links li {
+    display: inline;
+    padding: 0 2px;
+}
+
+.footer-links li:first-child {
+    padding-left: 0;
+}
+
+/* Table formatting */
+th.center_text, td.center_text {
+    text-align: center !important;
+}
+
+th.middle_vertical, td.middle_vertical {
+    vertical-align: middle !important;
+}
+
+th.center_middle, td.center_middle {
+    text-align: center !important;;
+    vertical-align: middle !important;
+}
+
+/*New styles*/
+body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+.sidebar-nav {
+    padding: 9px 0 !important;
+}
+
+/*Go Top*/
+#scrollup_button {
+    position: fixed;
+    top: 80px;
+    right: 15px;
+    height: 41px;
+    width: 42px;
+    background: url('../img/scrollup_button.png') no-repeat 0 0;
+    cursor: pointer;
+    z-index: 1004;
+}
+
+#scrollup_button:hover {
+    background-position: 0 -41px;
+}
+
+#scrollup_button.scrl_disabled {
+    display: none;
+}
+
+/*For nav */
+.nav .divider {
+    height: 1px;
+    /*margin: 9px 0;*/
+    overflow: hidden;
+    background-color: #e5e5e5;
+}
+
+.nav-pills > li > a {
+    padding: 6px 11px !important;
+}
+
+/*Panels */
+.panel:first-child {
+    margin-top: 20px;
+}
+
+/*Alert errors like alert-danger  */
+.alert-error {
+    color: #b94a48;
+    background-color: #f2dede;
+    border-color: #eed3d7;
+}
+
+.alert-error hr {
+    border-top-color: #e6c1c7;
+}
+
+.alert-error .alert-link {
+    color: #953b39;
+}
+
+
+
+
+

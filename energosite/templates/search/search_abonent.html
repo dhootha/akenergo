@@ -1,18 +1,18 @@
 {% extends "base.html" %}
-{% load i18n %}
+{% load i18n tags %}
 
 {% block title %}{{ ssheader }}{% endblock %}
 {% block page_title %}{{ ssheader }}{% endblock %}
 {% block page_content %}
 
-    {% include 'blocks/standard_form.html' %}
+   {% standard_form form form_id='search_form' submitCaption=submCaptrans %}
 
 {% endblock %}
 
 {% block js %}
     <script>
         $(function () {
-            mySubmitAjaxForm('#standard_form');
+            mySubmitAjaxForm('#search_form');
         });
     </script>
 {% endblock %}

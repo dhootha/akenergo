@@ -110,7 +110,7 @@
 {% block js %}
     <script>
         $(document).ready(function () {
-            //     $('#id_username').focus();
+            $('#id_username').focus();
             $('#id_username').attr('placeholder', '{% trans 'Username' %} (E-mail)');
             $('#id_password').attr('placeholder', '{% trans 'Password' %}');
             $('#id_username').attr('required', true);

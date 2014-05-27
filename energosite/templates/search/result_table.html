@@ -11,7 +11,10 @@
         <tbody>
         {% for abonent in abonents %}
             <tr>
-                <td> {{ abonent.nls }}</td>
+                <td>
+                    <a href="{{ request.session.search_refered_from|default:'#' }}"
+                       title="{{ abonent.nls }}">{{ abonent.nls }}</a>
+                </td>
                 <td> {{ abonent.fio }}</td>
             </tr>
         {% endfor %}

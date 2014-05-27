@@ -1,8 +1,8 @@
-# -*- coding: utf-8 -*-
 from django import template
 from django.utils.translation import ugettext as _
 
 from energosite.models import *
+
 
 
 register = template.Library()
@@ -31,14 +31,6 @@ def recent_news_list(context, num=10):
         'request': context.get('request'),
     }
 
-
-#def current_nav(parser, token):
-#    args = token.split_contents()
-#    template_tag = args[0]
-#    if len(args) < 2:
-#        raise template.TemplateSyntaxError, "%r tag requires at least one argument" % template_tag
-#    return NavSelectedNode(args[1])
-
 @register.simple_tag(takes_context=True)
 def current_nav(context, url):
     if not context.get('request'):
@@ -53,52 +45,6 @@ def current_nav(context, url):
 
 
 # ------------------------------------------------------------------------
-
-#@register.inclusion_tag("tags/breadcrumbs.html", takes_context=True)
-#def breadcrumbs(context):
-#    """
-#    Generate a list of the page's ancestors suitable for use as breadcrumb navigation.
-#    By default, generates an unordered list with the id "breadcrumbs" -
-#    override breadcrumbs.html to change this.
-#    """
-#    trail = []
-#
-#    if not context.get('request'):
-#        return {"trail": trail}
-#    current_link = context['request'].path
-#    match = resolve(current_link)
-#    if match.url_name == 'show_page':
-#        menus = TopMenu.objects.filter(page__link=match.kwargs.get('link', None))
-#        if menus:
-#            menu = menus[0]
-#            ancs = menu.get_ancestors()
-#            trail = [(reverse('list_submenus', args=[anc.id]), anc.title) for anc in ancs]
-#    elif match.url_name == 'show_article':
-#        menus = TopMenu.objects.filter(link=reverse('news_list'))
-#        if menus:
-#            menu = menus[0]
-#            trail = [(menu.get_absolute_url(), menu.title)]
-#    elif match.url_name == 'contact_form':
-#        menus = TopMenu.objects.filter(link=reverse('contact_form'))
-#        if menus:
-#            menu = menus[0].get_root()
-#            trail = [(reverse('list_submenus', args=[menu.id]), menu.title)]
-#    elif match.url_name == 'comments':
-#        menus = TopMenu.objects.filter(link=reverse('comments'))
-#        if menus:
-#            menu = menus[0].get_root()
-#            trail = [(reverse('list_submenus', args=[menu.id]), menu.title)]
-#    elif match.url_name == 'list_submenus':
-#        id = match.kwargs.get('menu_id')
-#        menus = TopMenu.objects.filter(pk=id)
-#        if menus:
-#            menu = menus[0]
-#            ancs = menu.get_ancestors()
-#            trail = [(reverse('list_submenus', args=[anc.id]), anc.title) for anc in ancs]
-#
-#            #   trail.append((None, menu.title))
-#            #    trail.insert (0, (reverse('home'), _('Home')))
-#    return {"trail": trail}
 
 @register.inclusion_tag("tags/breadcrumbs.html", takes_context=True)
 def breadcrumbs(context, show_home=True):
@@ -223,3 +169,9 @@ def show_pager(pager, num_pages=4, pager_class='pagination'):
 
 
     return {'pages': pages, 'pager_class': pager_class}
+
+
+
+@register.inclusion_tag("blocks/standard_form.html")
+def standard_form(form, form_id='standard_form', action='', req_method='POST', submitCaption='OK'):
+    return {'form':form, 'formId': form_id, 'ACTION': action, 'REQ_METHOD': req_method, 'submCaptrans': submitCaption}

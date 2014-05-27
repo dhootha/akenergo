@@ -34,9 +34,9 @@
     </ul>
     <div id="myTabContent" class="tab-content">
         <div class="tab-pane fade in active" id="contact_us">
-            {% trans 'Send message' as submCaptrans %}
+            {% trans 'Send message' as submitCaption %}
             <div style="margin-top: 10px">
-            {% include 'blocks/standard_form.html' %}
+            {% standard_form form form_id='contact_form' submitCaption=submitCaption %}
             </div>
         </div>
         <div class="tab-pane fade" id="find_us">
@@ -70,7 +70,7 @@
         $(document).ready(function () {
             $('#id_subject').focus();
             $('#id_message').closest('div').addClass('col-md-7');
-            mySubmitAjaxForm('#standard_form');
+            mySubmitAjaxForm('#contact_form');
         });
     </script>
 {% endblock %}

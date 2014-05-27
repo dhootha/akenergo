@@ -1,0 +1,7 @@
+Django
+django-simple-captcha
+django-ckeditor
+django-registration
+django-mptt
+psycopg2
+

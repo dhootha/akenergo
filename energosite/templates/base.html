@@ -38,7 +38,7 @@
     <link rel="shortcut icon" href="{% static "img/favicon.ico" %}">
 
 
-    <script src="{% static "js/jquery-2.1.0.min.js" %}"></script>
+    <script src="{% static "js/jquery-2.1.1.min.js" %}"></script>
     <script src="{% static "js/bootstrap.js" %}"></script>
     <script src="//yandex.st/share/share.js" charset="utf-8"></script>
     <script src="{% static "js/bootstrap-datepicker.js" %}"></script>
@@ -86,6 +86,32 @@
 
 
 <body {% block body_style %}{% endblock %}>
+
+{% block ajax_results %}
+    <div id="ajax_results" class="modal fade" tabindex="-1" role="dialog"
+         aria-labelledby="myModalLab" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLab"></h4>
+                </div>
+                <div class="modal-body">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+                </div>
+
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+{% endblock %}
 
 {% block body %}
 
@@ -168,47 +194,6 @@
                                 </div>
                             {% endfor %}
                         {% endif %}
-                    {% endblock %}
-
-                    {% block ajax_results %}
-                        {#                        <div id="ajax_results" class="modal hide fade" tabindex="-1">#}
-                        {#                            <div class="modal-header">#}
-                        {#                                <button type="button" class="close" data-dismiss="modal"#}
-                        {#                                        aria-hidden="true">&times;</button>#}
-                        {#                                <h3>Modal header</h3>#}
-                        {#                            </div>#}
-                        {#                            <div class="modal-body">#}
-                        {#                                <p>One fine body…</p>#}
-                        {#                            </div>#}
-                        {#                            <div class="modal-footer">#}
-                        {#                                <button class="btn btn-default" data-dismiss="modal">OK</button>#}
-                        {#                            </div>#}
-                        {#                        </div>#}
-
-
-                        <div id="ajax_results" class="modal fade" tabindex="-1" role="dialog"
-                             aria-labelledby="myModalLab" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal"
-                                                aria-hidden="true">&times;</button>
-                                        <h4 class="modal-title" id="myModalLab"></h4>
-                                    </div>
-                                    <div class="modal-body">
-
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
-                                    </div>
-
-                                </div>
-                                <!-- /.modal-content -->
-                            </div>
-                            <!-- /.modal-dialog -->
-                        </div><!-- /.modal -->
-
                     {% endblock %}
 
                     {% block page_content %}
