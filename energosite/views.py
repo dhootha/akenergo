@@ -528,10 +528,6 @@ def load_reading(request):
 
 
 def ajax_search_address(request):
-    if request.method == 'GET':
-        referer = request.META.get('HTTP_REFERER')
-        if referer:
-            request.session['search_refered_from'] = referer
     # abonents = None
     if request.method == 'POST' and request.is_ajax():
         form = SearchAddressForm(request.POST)
@@ -569,10 +565,6 @@ def ajax_search_address(request):
 
 
 def ajax_search_fio(request):
-    if request.method == 'GET':
-        referer = request.META.get('HTTP_REFERER')
-        if referer:
-            request.session['search_refered_from'] = referer
     # abonents = None
     if request.method == 'POST' and request.is_ajax():
         form = SearchFioForm(request.POST)
@@ -943,23 +935,9 @@ def login(request, template_name='registration/login.html'):
     return django_login(request)
 
 
-# @login_required
-# def set_session_return(request, nls):
-#     if request.method == 'GET':
-#         if request.session.get('has_commented', False):
-#             return HttpResponse("You've already commented.")
-#
-#     form = EditProfileForm(instance=profile)
-#     return render(request, 'profile/edit_profile.html', {'form': form, 'fio': fio, 'address': address, 'email': email})
-
-
-
-
-
-
-
-
-
-
-
-
+# def get_form(request, form):
+#     if request.method == 'GET' and request.is_ajax():
+#         return HttpResponse(json.dumps({'form_html': render_to_string('blocks/standard_form.html', {'abonents': ''},
+#                             context_instance=RequestContext(request))}), content_type="application/json")
+#     else:
+#          return HttpResponse('no response')

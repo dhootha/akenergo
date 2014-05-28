@@ -2,7 +2,7 @@ from django import template
 from django.utils.translation import ugettext as _
 
 from energosite.models import *
-
+from energosite.forms import *
 
 
 register = template.Library()
@@ -173,5 +173,15 @@ def show_pager(pager, num_pages=4, pager_class='pagination'):
 
 
 @register.inclusion_tag("blocks/standard_form.html")
-def standard_form(form, form_id='standard_form', action='', req_method='POST', submitCaption='OK'):
-    return {'form':form, 'formId': form_id, 'ACTION': action, 'REQ_METHOD': req_method, 'submCaptrans': submitCaption}
+def standard_form(form, form_id='standard_form', form_class='', action='', req_method='POST', submitCaption='OK'):
+    return {'form':form, 'form_id': form_id, 'form_class':form_class, 'action': action, 'req_method': req_method, 'submitCaption': submitCaption}
+
+
+@register.assignment_tag
+def get_search_fio_form():
+    return SearchFioForm()
+
+@register.assignment_tag
+def get_search_address_form():
+    return SearchAddressForm
+

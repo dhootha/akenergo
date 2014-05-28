@@ -12,8 +12,7 @@
         {% for abonent in abonents %}
             <tr>
                 <td>
-                    <a href="{{ request.session.search_refered_from|default:'#' }}"
-                       title="{{ abonent.nls }}">{{ abonent.nls }}</a>
+                    <a href="#" title="{{ abonent.nls }}">{{ abonent.nls }}</a>
                 </td>
                 <td> {{ abonent.fio }}</td>
             </tr>

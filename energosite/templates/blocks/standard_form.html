@@ -7,8 +7,7 @@
 {#    </div>#}
 {#{% endif %}#}
 
-<form id="{{ formId }}" class="form-horizontal" action="{{ ACTION }}"
-      method="{{ REQ_METHOD }}">
+<form id="{{ form_id }}" class="form-horizontal {{ form_class }}" action="{{ action }}" method="{{ req_method }}">
     {% csrf_token %}
 
     {% for field in form %}
@@ -57,7 +56,7 @@
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-5">
-            <button type="submit" class="btn btn-primary">{{ submCaptrans }}</button>
+            <button type="submit" class="btn btn-primary">{{ submitCaption }}</button>
         </div>
     </div>
 

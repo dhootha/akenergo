@@ -14,6 +14,14 @@
 {% endblock %}
 
 {% block page_content %}
+
+    {% get_search_fio_form as search_fio_form %}
+    {% get_search_address_form as search_address_form %}
+    {% trans 'Search by surname' as findByNameT %}
+    {% trans 'Search by address' as findByAddressT %}
+    {% include 'search/search_abonent_modal.html' with formAction='/search/fio/' searchFormId='search_form_name' searchModalId='modalSearchName' searchModalTitle=findByNameT form_variable=search_fio_form %}
+    {% include 'search/search_abonent_modal.html' with formAction='/search/address/' searchFormId='search_form_address' searchModalId='modalSearchAddress' searchModalTitle=findByAddressT form_variable=search_address_form %}
+
     {% if user.is_authenticated %}
 
         <ul class="nav nav-pills nav-stacked">
@@ -70,7 +78,7 @@
                         {% for error in form.username.errors %}
                             <li>{{ error|escape }}</li>
                         {% endfor %}
-{#                        <li><span class="text-warning">{% trans 'English letters only' %}</span></li>#}
+                        {#                        <li><span class="text-warning">{% trans 'English letters only' %}</span></li>#}
                     </ul>
                 </div>
             </div>
@@ -132,10 +140,10 @@
                             <li>{{ error|escape }}</li>
                         {% endfor %}
                         <li>
-                            <a href="{% url 'search_fio' %}">{% trans 'Search by surname' %}</a>
+                            <a data-toggle="modal" href="#modalSearchName">{% trans 'Search by surname' %}</a>
                         </li>
                         <li>
-                            <a href="{% url 'search_address' %}">{% trans 'Search by address' %}</a>
+                            <a data-toggle="modal" href="#modalSearchAddress">{% trans 'Search by address' %}</a>
                         </li>
                     </ul>
                 </div>
@@ -254,6 +262,9 @@
             $('#id_email').attr('required', true);
             $('#id_nls').attr('required', true);
             $('#id_captcha_1').attr('required', true);
+
+            mySubmitAjaxForm("#search_form_name");
+            mySubmitAjaxForm("#search_form_address");
         });
     </script>
 {% endblock %}

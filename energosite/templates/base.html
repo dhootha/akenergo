@@ -1,6 +1,8 @@
 {% load i18n %}
 {% load tags %}
 {% load staticfiles %}
+{% get_current_language as LANGUAGE_CODE %}
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -45,6 +47,16 @@
     <script src="{% static "js/locales/bootstrap-datepicker.ru.js" %}" charset="UTF-8"></script>
     <script src="{% static "js/locales/bootstrap-datepicker.kk.js" %}" charset="UTF-8"></script>
     <script src="{% static 'js/my.js' %}"></script>
+    <script src="{% static 'js/jquery.validate.min.js' %}"></script>
+    <script src="{% static 'js/additional-methods.min.js' %}"></script>
+   {% ifequal LANGUAGE_CODE|slice:":2" 'ru' %}
+    <script src="{% static 'js/locales/messages_ru.js' %}" charset="UTF-8"></script>
+   {% endifequal %}
+   {% ifequal LANGUAGE_CODE|slice:":2" 'kk' %}
+    <script src="{% static 'js/locales/messages_kk.js' %}" charset="UTF-8"></script>
+   {% endifequal %}
+
+
     <script src="{% static 'js/scrollup_button.js' %}"></script>
 
     <script>
@@ -57,7 +69,7 @@
             $('#google_search_form').submit(function () {
                 return $.trim($(this).find(':input[name=q]').val()) != '';
             });
-            $(':input', $('form')).not(':button, :submit, :reset, :hidden, :radio, :checkbox').addClass('form-control');
+            $(':input', $('form')).not(':button, :submit, :reset, :radio, :checkbox').addClass('form-control');
             $.ajaxSetup({ cache: false });
             myRefreshCaptcha('{% url 'captcha-refresh' %}', '{% trans 'Update' %}');
         });
@@ -89,14 +101,14 @@
 
 {% block ajax_results %}
     <div id="ajax_results" class="modal fade" tabindex="-1" role="dialog"
-         aria-labelledby="myModalLab" aria-hidden="true">
+         aria-labelledby="myAjaxModalLab" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
 
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal"
                             aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="myModalLab"></h4>
+                    <h4 class="modal-title" id="myAjaxModalLab"></h4>
                 </div>
                 <div class="modal-body">
 
