@@ -6,11 +6,6 @@
  * To change this template use File | Settings | File Templates.
  */
 
-//(function ($) {
-//    if ($ == undefined) {
-//        return;
-//    }
-
 function myPrintWindow() {
     window.print();
     setTimeout("window.close();", 300);
@@ -30,13 +25,13 @@ function mySortDict(dict) {
 }
 
 
-function myShowModal(modal_header, modal_body) {
+function myShowDatasInModal(data) {
     var $this = $("#ajax_results");
-    $this.find('.modal-header h4').text(modal_header);
-    if (!modal_body)
+    $this.find('.modal-header h4').text(data['response_header']);
+    if (!data["response_body"])
         $this.find('.modal-body').hide();
     else
-        $this.find('.modal-body').show().html(modal_body);
+        $this.find('.modal-body').show().html(data["response_body"]);
     $this.modal();
 //        .css({'margin-top': ($(window).height() - $this.height()) / 2, 'top': 0});
 }
@@ -56,11 +51,11 @@ function myScrollPage(selector, step) {
 }
 
 
-function myShowFormSuccess($form, header, body) {
+function myShowInfoInAlert($form, data) {
     var html = '<div id="ajax_form_success" class="alert alert-success">' +
         '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>';
-    if (header) html += '<h4>' + header + '</h4>';
-    html += body +
+    if (data['response_header']) html += '<h4>' + data['response_header'] + '</h4>';
+    html += data['response_body'] +
         '</div>';
     $form.prepend(html);
 }
@@ -103,55 +98,60 @@ function myUpdateValues(values) {
     }
 }
 
-function mySubmitAjaxForm(form_selector) {
+function myUpdCaptcha(data) {
+    if (data["captcha_key"] && data["captcha_image"]) {
+        $form.find("img.captcha").attr('src', data["captcha_image"]);
+        $form.find('#id_captcha_0').val(data["captcha_key"]);
+        $form.find('#id_captcha_1').val('');
+    }
+}
+
+function mySubmitAjaxForm(form_selector, type, hide_elements, results_element) {
     var $form = $(form_selector);
     $form.submit(function (event) {
         event.preventDefault();
         $.ajax({ // create an AJAX call...
-//                    context: $form,
-                   data: $form.serialize(), // get the form data
-                   type: $form.attr('method'), // GET or POST
-                   url: $form.attr('action'), // the file to call
-                   dataType: 'json',
-                   timeout: 60000,
-                   beforeSend: function (jqXHR, settings) {
-                       $form.find('input, select').attr('disabled', true); // запрещаем редактировать инпуты
-                       //$form.css("visibility", 'hidden');
-                       $form.closest('div').css("visibility", "hidden");
-                       $('footer').css("visibility", 'hidden');
+            data: $form.serialize(), // get the form data
+            type: $form.attr('method'), // GET or POST
+            url: $form.attr('action'), // the file to call
+            dataType: 'json',
+            timeout: 60000,
+            beforeSend: function (jqXHR, settings) {
+                $form.find('input, select').attr('disabled', true); // запрещаем редактировать инпуты
+                $form.closest('div').css("visibility", "hidden");
 
-                       myClearForm($form);
-                   },
-                   error: function (jqXHR, textStatus, errorThrown) {
-                       myDisplayNonfieldError($form, "ERROR: " + errorThrown);
-                   },
-                   success: function (data, textStatus, jqXHR) {
-                       if (data["captcha_key"] && data["captcha_image"]) {
-                           $form.find("img.captcha").attr('src', data["captcha_image"]);
-                           $form.find('#id_captcha_0').val(data["captcha_key"]);
-                           $form.find('#id_captcha_1').val('');
-                       }
-                       if (data["result"] === 'success') {
-                           myUpdateValues(data["update_values"]);
-                           if (data['success_in_modal'])
-                               myShowModal(data['response_header'], data["response_body"]);
-                           else {
-                               myShowFormSuccess($form, data['response_header'], data["response_body"]);
-                               myScrollPage("#ajax_form_success", 55);
-                           }
+                for (var i = 0; i < hide_elements.length; i++) {
+                    hide_elements[i].css("visibility", 'hidden');
+                }
 
-                       }
-                       else if (data["result"] === 'error') {
-                           myDisplayFormErrors($form, data["errors"]);
-                       }
-                   },
-                   complete: function (jqXHR, textStatus) {
-                       //$form.css("visibility", 'visible');
-                       $form.closest('div').css("visibility", "visible");
-                       $('footer').css("visibility", 'visible');
-                       $form.find('input, select').removeAttr('disabled'); // разрешаем редактировать инпуты
-                   }
-               });
+                myClearForm($form);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                myDisplayNonfieldError($form, "ERROR: " + errorThrown);
+            },
+            success: function (data, textStatus, jqXHR) {
+                myUpdCaptcha(data);
+                if (data["result"] === 'success') {
+                    myUpdateValues(data["update_values"]);
+                    if (type === 'datas')
+                        myShowDatasInModal(data);
+                    else if (type === 'info') {
+                        myShowInfoInAlert($form, data);
+                        myScrollPage("#ajax_form_success", 55);
+                    }
+                }
+                else if (data["result"] === 'error') {
+                    myDisplayFormErrors($form, data["errors"]);
+                }
+            },
+            complete: function (jqXHR, textStatus) {
+                for (var i = 0; i < hide_elements.length; i++) {
+                    hide_elements[0].css("visibility", 'visible');
+                }
+                $form.closest('div').css("visibility", "visible");
+                $form.find('input, select').removeAttr('disabled'); // разрешаем редактировать инпуты
+            }
+        });
     });
 }
 
@@ -159,7 +159,7 @@ function mySubmitAjaxForm(form_selector) {
 function myRefreshCaptcha(captcha_url, caption) {
     $("img.captcha").css({"margin-bottom": 5, "width": 100, "height": 30});
     $("img.captcha").after('<a class="js-captcha-refresh" style="display: inline-block; margin-left: 10px; cursor: pointer"><i class="glyphicon glyphicon-refresh"></i> ' +
-                               caption + '</a>');
+        caption + '</a>');
     $('.js-captcha-refresh').click(function () {
         var $form = $(this).closest('form');
         $.getJSON(captcha_url, function (data) {
@@ -171,35 +171,3 @@ function myRefreshCaptcha(captcha_url, caption) {
 }
 
 
-//$(function () {
-
-
-//    $('#standard_form').submit(function () {
-//        $.ajax({ // create an AJAX call...
-//            context: $('#standard_form'),
-//            data: $(this).serialize(), // get the form data
-//            type: $(this).attr('method'), // GET or POST
-//            url: $(this).attr('action'), // the file to call
-//            dataType: 'json',
-//            beforeSend: function (jqXHR, settings) {
-//                $(this).find('input, select').attr('disabled', 'disabled'); // запрещаем редактировать инпуты
-//                myClearForm($(this));
-//                $('#results').hide();
-//            },
-//            success: function (data) { // on success..
-//                if (data["result"] == 'success') {
-//                    $('#results').html(data["response"]).fadeIn();
-//                }
-//                else if (data["result"] == 'error') {
-//                    display_errors(data["response"], $(this));
-//                }
-//            },
-//            complete: function (jqXHR, textStatus) {
-//                $(this).find('input, select').removeAttr('disabled'); // разрешаем редактировать инпуты
-//            }
-//        });
-//        return false;
-//    });
-//});
-
-//})(jQuery);
