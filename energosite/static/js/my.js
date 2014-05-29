@@ -26,14 +26,14 @@ function mySortDict(dict) {
 
 
 function myShowDatasInModal(data) {
-    var $this = $("#ajax_results");
-    $this.find('.modal-header h4').text(data['response_header']);
+    var $dialog_modal = $("#ajax_results");
+    $dialog_modal.find('.modal-header h4').text(data['response_header']);
     if (!data["response_body"])
-        $this.find('.modal-body').hide();
+        $dialog_modal.find('.modal-body').hide();
     else
-        $this.find('.modal-body').show().html(data["response_body"]);
-    $this.modal();
-//        .css({'margin-top': ($(window).height() - $this.height()) / 2, 'top': 0});
+        $dialog_modal.find('.modal-body').show().html(data["response_body"]);
+    $dialog_modal.modal();
+//        .css({'margin-top': ($(window).height() - $dialog_modal.height()) / 2, 'top': 0});
 }
 
 
@@ -99,6 +99,7 @@ function myUpdateValues(values) {
 }
 
 function myUpdCaptcha(data) {
+    if (!data) return;
     if (data["captcha_key"] && data["captcha_image"]) {
         $form.find("img.captcha").attr('src', data["captcha_image"]);
         $form.find('#id_captcha_0').val(data["captcha_key"]);
@@ -106,8 +107,8 @@ function myUpdCaptcha(data) {
     }
 }
 
-function mySubmitAjaxForm(form_selector, type, hide_elements, results_element) {
-    var $form = $(form_selector);
+function mySubmitAjaxForm(form_element, type, results_element, hide_elements) {
+    var $form = $(form_element);
     $form.submit(function (event) {
         event.preventDefault();
         $.ajax({ // create an AJAX call...
@@ -119,10 +120,7 @@ function mySubmitAjaxForm(form_selector, type, hide_elements, results_element) {
             beforeSend: function (jqXHR, settings) {
                 $form.find('input, select').attr('disabled', true); // запрещаем редактировать инпуты
                 $form.closest('div').css("visibility", "hidden");
-
-                for (var i = 0; i < hide_elements.length; i++) {
-                    hide_elements[i].css("visibility", 'hidden');
-                }
+//                hide_elements.css("visibility", "hidden");
 
                 myClearForm($form);
             },
@@ -133,8 +131,11 @@ function mySubmitAjaxForm(form_selector, type, hide_elements, results_element) {
                 myUpdCaptcha(data);
                 if (data["result"] === 'success') {
                     myUpdateValues(data["update_values"]);
-                    if (type === 'datas')
-                        myShowDatasInModal(data);
+                    if (type === 'datas'){
+//                        myShowDatasInModal(data);
+                        if (results_element)
+                        $(results_element).html(data['response_body']);
+                     }
                     else if (type === 'info') {
                         myShowInfoInAlert($form, data);
                         myScrollPage("#ajax_form_success", 55);
@@ -145,9 +146,7 @@ function mySubmitAjaxForm(form_selector, type, hide_elements, results_element) {
                 }
             },
             complete: function (jqXHR, textStatus) {
-                for (var i = 0; i < hide_elements.length; i++) {
-                    hide_elements[0].css("visibility", 'visible');
-                }
+//                hide_elements.css("visibility", "visible");
                 $form.closest('div').css("visibility", "visible");
                 $form.find('input, select').removeAttr('disabled'); // разрешаем редактировать инпуты
             }
@@ -160,7 +159,8 @@ function myRefreshCaptcha(captcha_url, caption) {
     $("img.captcha").css({"margin-bottom": 5, "width": 100, "height": 30});
     $("img.captcha").after('<a class="js-captcha-refresh" style="display: inline-block; margin-left: 10px; cursor: pointer"><i class="glyphicon glyphicon-refresh"></i> ' +
         caption + '</a>');
-    $('.js-captcha-refresh').click(function () {
+    $('.js-captcha-refresh').click(function (e) {
+        e.preventDefault();
         var $form = $(this).closest('form');
         $.getJSON(captcha_url, function (data) {
             $form.find("img.captcha").attr('src', data['image_url']);
@@ -169,5 +169,4 @@ function myRefreshCaptcha(captcha_url, caption) {
         });
     });
 }
-
 

@@ -173,8 +173,8 @@ def show_pager(pager, num_pages=4, pager_class='pagination'):
 
 
 @register.inclusion_tag("blocks/standard_form.html")
-def standard_form(form, form_id='standard_form', form_class='', action='', req_method='POST', submitCaption='OK'):
-    return {'form':form, 'form_id': form_id, 'form_class':form_class, 'action': action, 'req_method': req_method, 'submitCaption': submitCaption}
+def standard_form(form, form_id='standard_form', action='', req_method='POST', submitCaption='OK'):
+    return {'form':form, 'form_id': form_id, 'action': action, 'req_method': req_method, 'submitCaption': submitCaption}
 
 
 @register.assignment_tag

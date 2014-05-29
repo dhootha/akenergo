@@ -36,7 +36,7 @@ urlpatterns = patterns('',
     # url(r'^$', TemplateView.as_view(template_name='posts/index.html'), name='home'),
     url(r'^$', 'energosite.views.index', name='home'),
 
-    url(r'^page/(?P<link>.+)/$', 'energosite.views.show_page', name='show_page'),
+    url(r'^page/(?P<link>[\w|\W]+)/$', 'energosite.views.show_page', name='show_page'),
     url(r'^article/(?P<link_id>\d+)/$', 'energosite.views.show_article', name='show_article'),
     url(r'^vacancy/(?P<link_id>\d+)/$', 'energosite.views.show_vacancy', name='show_vacancy'),
 
@@ -75,7 +75,9 @@ urlpatterns = patterns('',
     url(r'^users_statistics/$', login_required(TemplateView.as_view(template_name='statistics/users.html')),
         name='users_statistics'),
 
-     # url(r'^save_search_page/(?P<path>.+)/$', 'energosite.views.save_search_page', name='save_search_page'),
+    url(r'^load_form_modal/$', 'energosite.views.load_form_modal', name='load_form_modal'),
+
+     # url(r'^save_search_page/(?P<path>[\w|\W]+)/$', 'energosite.views.save_search_page', name='save_search_page'),
      # url(r'^save_found_nls/(?P<nls>\d+)/$', 'energosite.views.save_found_nls', name='save_found_nls'),
 
 

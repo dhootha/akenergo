@@ -30,6 +30,18 @@ from captcha.models import CaptchaStore
 from captcha.helpers import captcha_image_url
 import calendar
 from django.template import RequestContext
+import importlib
+
+
+def class_for_name(module_name, class_name):
+    # load the module, will raise ImportError if module cannot be loaded
+    m = importlib.import_module(module_name)
+    # get the class, will raise AttributeError if class cannot be found
+    try:
+        c = getattr(m, class_name)
+    except AttributeError:
+        return None
+    return c
 
 
 def index(request):
@@ -47,7 +59,7 @@ def index(request):
 #                                           'non_f_err': non_f_err, 'result': 'error'}), content_type="application/json")
 
 
-def ajaxResponse(form_errors, success_in_modal=False, form=None, response_body='', response_header='',
+def ajaxResponse(form_errors, form=None, response_body='', response_header='',
                  update_values=None,
                  captcha_key=None, captcha_image=None):
     errors = {}
@@ -68,7 +80,7 @@ def ajaxResponse(form_errors, success_in_modal=False, form=None, response_body='
         return HttpResponse(json.dumps({'response_body': response_body, 'response_header': response_header,
                                         'update_values': update_values,
                                         'captcha_key': captcha_key, 'captcha_image': captcha_image, 'result': 'success',
-                                        'success_in_modal': success_in_modal}),
+        }),
                             content_type="application/json")
 
 
@@ -551,17 +563,15 @@ def ajax_search_address(request):
                 params.append(nkw.upper())
 
             abonents = Abonbaza.objects.extra(where=condits, params=params).order_by("nls")[:200]
-            return ajaxResponse(False, success_in_modal=True,
-                                response_body=render_to_string('search/result_table.html', {'abonents': abonents},
-                                                               context_instance=RequestContext(request)),
-                                response_header=_('Search results'))
+            return ajaxResponse(False,
+                                response_body=render_to_string('search/search_results_table.html',
+                                                               {'abonents': abonents, 'results_caption': _('Search results')},
+                                                               context_instance=RequestContext(request)))
 
         else:
             return ajaxResponse(True, form=form)
 
-    form = SearchAddressForm()
-    return render(request, 'search/search_abonent.html', {'ssheader': _('Search by address'), 'submCaptrans': _('Find'),
-                                                          'form': form})
+    return HttpResponse('{}', content_type="application/json")
 
 
 def ajax_search_fio(request):
@@ -576,16 +586,14 @@ def ajax_search_fio(request):
             abonents = Abonbaza.objects.extra(where=["department_id = %s", "upper(fio) like %s"],
                                               params=[department, fio]).order_by("nls")[:200]
 
-            return ajaxResponse(False, success_in_modal=True,
-                                response_body=render_to_string('search/result_table.html', {'abonents': abonents},
-                                                               context_instance=RequestContext(request)),
-                                response_header=_('Search results'))
+            return ajaxResponse(False,
+                                response_body=render_to_string('search/search_results_table.html',
+                                                               {'abonents': abonents, 'results_caption': _('Search results')},
+                                                               context_instance=RequestContext(request)))
         else:
             return ajaxResponse(True, form=form)
 
-    form = SearchFioForm()
-    return render(request, 'search/search_abonent.html', {'ssheader': _('Search by surname'), 'submCaptrans': _('Find'),
-                                                          'form': form})
+    return HttpResponse('{}', content_type="application/json")
 
 
 def getActualDate(dbtable, department):
@@ -935,9 +943,18 @@ def login(request, template_name='registration/login.html'):
     return django_login(request)
 
 
-# def get_form(request, form):
-#     if request.method == 'GET' and request.is_ajax():
-#         return HttpResponse(json.dumps({'form_html': render_to_string('blocks/standard_form.html', {'abonents': ''},
-#                             context_instance=RequestContext(request))}), content_type="application/json")
-#     else:
-#          return HttpResponse('no response')
+def load_form_modal(request):
+    empty_response = HttpResponse('{}', content_type="application/json")
+    if (not request.method == 'GET') or (not request.is_ajax()):
+        return empty_response
+    request_form = class_for_name('energosite.forms', request.GET.get('form'))
+    if not request_form:
+        return empty_response
+    form_html = render_to_string('blocks/standard_form.html',
+                                 {'form': request_form(), 'form_id': request.GET.get('form_id'),
+                                  'action': request.GET.get('action'),
+                                  'submitCaption': request.GET.get('submit_caption')},
+                                 context_instance=RequestContext(request))
+    return HttpResponse(json.dumps({'form': form_html}), content_type="application/json")
+
+

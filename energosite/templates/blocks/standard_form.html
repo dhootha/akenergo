@@ -7,7 +7,7 @@
 {#    </div>#}
 {#{% endif %}#}
 
-<form id="{{ form_id }}" class="form-horizontal {{ form_class }}" action="{{ action }}" method="{{ req_method }}">
+<form id="{{ form_id|default:'standard_form' }}" class="form-horizontal" action="{{ action }}" method="{{ req_method|default:'post' }}">
     {% csrf_token %}
 
     {% for field in form %}
@@ -62,3 +62,8 @@
 
 </form>
 
+<script>
+      $(document).ready(function () {
+     $(':input', $('form')).not(':button, :submit, :reset, :radio, :checkbox').addClass('form-control');
+      });
+</script>

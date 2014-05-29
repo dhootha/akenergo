@@ -25,12 +25,12 @@
                 {% autoescape off %}
                     {{ news.summary }}
                 {% endautoescape %}
-                <p>
-                    <em>{{ news.date|date:"d.m.y H:i" }}</em>
+                <p class="text-muted">
+                    {{ news.date|date:"d.m.y H:i" }}
                 </p>
 
                 <p>
-                    <a class="btn btn-lg btn-primary" href="{{ news.get_absolute_url }}">{% trans 'More...' %}</a>
+                    <a class="btn btn-primary" href="{{ news.get_absolute_url }}">{% trans 'More...' %}</a>
                 </p>
                 {#                {% endif %}#}
             </div>
