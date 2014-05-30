@@ -17,57 +17,54 @@
         <h3 class="panel-title">{% trans 'User menu' %}</h3>
     </div>
     <div class="panel-body" style="padding: 1px">
-        <ul class="nav nav-pills nav-stacked">
+        <div class="list-group" style="margin-bottom: 0">
 
             {% if user.is_authenticated %}
-                <li class="{% current_nav edit_profile %}">
-                    <a href="{{ edit_profile }}"><i class="glyphicon glyphicon-edit"></i> {% trans 'Edit profile' %}</a>
-                </li>
-                <li class="divider"></li>
+                <a class="list-group-item {% current_nav edit_profile %}" href="{{ edit_profile }}">
+                    <i class="glyphicon glyphicon-edit"></i> {% trans 'Edit profile' %}
+                </a>
             {% endif %}
 
-            <li class="{% current_nav kvit_page %}">
-                <a href="{{ kvit_page }}"><i class="glyphicon glyphicon-file"></i> {% trans 'Receipt' %}</a>
-            </li>
+            <a class="list-group-item {% current_nav kvit_page %}" href="{{ kvit_page }}">
+                <i class="glyphicon glyphicon-file"></i> {% trans 'Receipt' %}
+            </a>
 
             {% get_department as depid %}
 
-{#            {% if depid == 1 or depid == 3 %}#}
-                <li class="{% current_nav view_recon_rep %}">
-                    <a href="{{ view_recon_rep }}"><i
-                            class="glyphicon glyphicon-eye-open"></i> {% trans 'Reconciliation report' %}</a>
-                </li>
-{#            {% endif %}#}
 
-            <li class="{% current_nav view_payment %}">
-                <a href="{{ view_payment }}"><i
-                        class="glyphicon glyphicon-eye-open"></i> {% trans 'View payment and debt' %}</a>
-            </li>
+            <a class="list-group-item {% current_nav view_recon_rep %}" href="{{ view_recon_rep }}">
+                <i class="glyphicon glyphicon-eye-open"></i> {% trans 'Reconciliation report' %}
+            </a>
 
-            {#            {% if depid == 1 or depid == 3 %}#}
-            <li class="{% current_nav meter_reading %}">
-                <a href="{{ meter_reading }}"><i
-                        class="glyphicon glyphicon-arrow-down"></i> {% trans 'Readings input' %}</a>
-            </li>
-            {#            {% endif %}#}
+
+            <a class="list-group-item {% current_nav view_payment %}" href="{{ view_payment }}">
+                <i class="glyphicon glyphicon-eye-open"></i> {% trans 'View payment and debt' %}
+            </a>
+
+
+            <a class="list-group-item {% current_nav meter_reading %}" href="{{ meter_reading }}">
+                <i class="glyphicon glyphicon-arrow-down"></i> {% trans 'Readings input' %}
+            </a>
+
             {% if perms.energosite %}
                 {% if perms.energosite.add_tables %}
-                    <li class="divider"></li>
-                    <li class="{% current_nav upload_data %}">
-                        <a href="{{ upload_data }}"><i class="glyphicon glyphicon-download-alt"></i>
-                            Загрузка данных по абонентам</a>
-                    </li>
+
+                    <a class="list-group-item {% current_nav upload_data %}" href="{{ upload_data }}">
+                        <i class="glyphicon glyphicon-download-alt"></i>
+                        Загрузка данных по абонентам
+                    </a>
+
                 {% endif %}
 
                 {% if perms.energosite.view_meter_reading %}
-                    <li class="divider"></li>
-                    <li class="{% current_nav load_reading %}">
-                        <a href="{{ load_reading }}"><i class="glyphicon glyphicon-download-alt"></i>
-                            Скачать показания</a>
-                    </li>
+                    <a class="list-group-item {% current_nav load_reading %}" href="{{ load_reading }}">
+                        <i class="glyphicon glyphicon-download-alt"></i>
+                        Скачать показания
+                    </a>
+
                 {% endif %}
             {% endif %}
-        </ul>
+        </div>
     </div>
 </div>
 

@@ -6,25 +6,24 @@
         <h3 class="panel-title">{% trans 'Site news' %}</h3>
     </div>
     <div class="panel-body" style="padding: 1px">
-        <ul class="nav nav-pills nav-stacked">
+        <div class="list-group" style="margin-bottom: 0">
             {% if news_list %}
                 {% for news in news_list %}
-                    <li class="{% current_nav news.get_absolute_url %}">
-                        <a title="{{ news.title }}" href="{{ news.get_absolute_url }}">
-                            <i class="glyphicon glyphicon-list-alt"></i> {{ news.title|truncatewords:3 }}
-                        </a>
-                    </li>
+                    <a class="list-group-item {% current_nav news.get_absolute_url %}"
+                       title="{{ news.title }}" href="{{ news.get_absolute_url }}">
+                        <i class="glyphicon glyphicon-list-alt"></i> {{ news.title|truncatewords:3 }}
+                    </a>
                 {% endfor %}
             {% else %}
-                <li><a title="{% trans 'Not found' %}" href="#">{% trans 'Not found' %}</a></li>
+                <a class="list-group-item" title="{% trans 'Not found' %}" href="#">{% trans 'Not found' %}</a>
             {% endif %}
-            <li class="divider"></li>
-            <li class="pull-right">
-                <a title="{% trans 'More...' %}" href="{{ news_url }}" data-toggle="tooltip" data-placement="top">
-                    {% trans "More..." %}
-                </a>
-            </li>
-        </ul>
+
+            <a class="list-group-item {% current_nav news_url %}"
+               title="{% trans 'More...' %}" href="{{ news_url }}" data-toggle="tooltip" data-placement="top">
+                {% trans "More..." %}
+            </a>
+
+        </div>
     </div>
 </div>
 

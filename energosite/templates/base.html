@@ -66,7 +66,7 @@
             $('a[data-toggle=tooltip]').tooltip();
             $("a[data-toggle=popover], button[data-toggle=popover]").popover({ trigger: "hover focus", delay: 127 });
 
-            $('#google_search_form').submit(function () {
+            $('#google_search_form').submit(function (event) {
                 return $.trim($(this).find(':input[name=q]').val()) != '';
             });
             $(':input', $('form')).not(':button, :submit, :reset, :radio, :checkbox').addClass('form-control');
@@ -137,7 +137,7 @@
                     <div class="modal-body-body"></div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'close' %}</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Log out' %}</button>
                 </div>
             </div>
         </div>

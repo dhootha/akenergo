@@ -92,6 +92,10 @@ body {
     padding: 6px 11px !important;
 }
 
+.panel-body > .list-group > .list-group-item {
+    padding: 6px 11px !important;
+}
+
 /*Panels */
 .panel:first-child {
     margin-top: 20px;

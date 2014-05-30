@@ -14,34 +14,34 @@
 {% endblock %}
 
 {% block page_content %}
-{% trans 'Find' as findText %}
-{% url 'search_fio' as search_fio_url %}
-{% url 'search_address' as search_address_url %}
+    {% trans 'Find' as findText %}
+    {% url 'search_fio' as search_fio_url %}
+    {% url 'search_address' as search_address_url %}
 
-     {% get_page 'how_register' as page_info %}
+    {% get_page 'how_register' as page_info %}
     <!-- Modal -->
-        <div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-             aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
+    <div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
 
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title" id="myModalLabel">{{ page_info.title }}</h4>
-                    </div>
-                    <div class="modal-body">
-                        {% autoescape off %}
-                            {{ page_info.content }}
-                        {% endautoescape %}
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">{% trans "OK" %}</button>
-                    </div>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">{{ page_info.title }}</h4>
                 </div>
-                <!-- /.modal-content -->
+                <div class="modal-body">
+                    {% autoescape off %}
+                        {{ page_info.content }}
+                    {% endautoescape %}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">{% trans "OK" %}</button>
+                </div>
             </div>
-            <!-- /.modal-dialog -->
-        </div><!-- /.modal -->
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 
 
     {% if user.is_authenticated %}
@@ -267,18 +267,7 @@
             $form.find('#id_nls').attr('required', true);
             $form.find('#id_captcha_1').attr('required', true);
 
-            $('#aSearchFio, #aSearchAddress').click(function (e) {
-                e.preventDefault();
-                $('.modal-body-body', '#modalSearch').empty();
-                var $link = $(this);
-                var $url = $(this).attr('data-formurl');
-                $.getJSON($url, function (data) {
-                    $('.modal-title', '#modalSearch').text($link.text());
-                    $('.modal-body-form', '#modalSearch').html(data['form']);
-                    $('#modalSearch').modal();
-                    mySubmitAjaxForm('#mySearchForm', 'datas', '#modalSearch .modal-body-body', '#modalSearch .modal-body');
-                });
-            });
+            myModalAjaxForm('#aSearchFio, #aSearchAddress', '#modalSearch');
 
         });
     </script>

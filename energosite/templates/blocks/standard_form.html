@@ -7,13 +7,13 @@
 {#    </div>#}
 {#{% endif %}#}
 
-<form id="{{ form_id|default:'standard_form' }}" class="form-horizontal" action="{{ action }}" method="{{ req_method|default:'post' }}">
+<form id="{{ form_id|default:'standard_form' }}" class="form-horizontal" action="{{ action }}"
+      method="{{ req_method|default:'post' }}">
     {% csrf_token %}
 
     {% for field in form %}
 
         <div class="form-group{% if field.errors %} has-error{% endif %}">
-            {#                <label class="col-md-2 control-label" for="id_username">{% trans 'Username' %}:</label>#}
 
             <label class="col-md-2 control-label" for="{{ field.auto_id }}">{{ field.label }}: </label>
 
@@ -63,7 +63,8 @@
 </form>
 
 <script>
-      $(document).ready(function () {
-     $(':input', $('form')).not(':button, :submit, :reset, :radio, :checkbox').addClass('form-control');
-      });
+    $(document).ready(function () {
+        $('div.input-required > input, div.input-required > textarea, div.input-required > select').attr('required', true);
+        $(':input', $('form')).not(':button, :submit, :reset, :radio, :checkbox').addClass('form-control');
+    });
 </script>

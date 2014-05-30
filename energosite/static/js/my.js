@@ -36,6 +36,22 @@ function myShowDatasInModal(data) {
 //        .css({'margin-top': ($(window).height() - $dialog_modal.height()) / 2, 'top': 0});
 }
 
+function myModalAjaxForm(link_selector, modal_selector) {
+    $(link_selector).click(function (e) {
+                e.preventDefault();
+                $('.modal-body-body', modal_selector).empty();
+                var $link = $(this);
+                var $url = $(this).attr('data-formurl');
+                $.getJSON($url, function (data) {
+                    $('.modal-title', modal_selector).text($link.text());
+                    $('.modal-body-form', modal_selector).html(data['form']);
+                    mySubmitAjaxForm(modal_selector+' form', 'datas', modal_selector+ ' .modal-body-body', false);
+                    $(modal_selector).modal();
+                });
+            });
+}
+
+
 
 function myClearForm($form) {
     $form.find('.form-group').removeClass('has-error');
@@ -94,12 +110,14 @@ function myUpdateValues(values) {
         if ($.trim(values[key]) === 'None')
             $('#' + key).text('');
         else
+        {
             $('#' + key).text(values[key]);
+            $('#' + key).val(values[key]);
+        }
     }
 }
 
-function myUpdCaptcha(data) {
-    if (!data) return;
+function myUpdCaptcha($form, data) {
     if (data["captcha_key"] && data["captcha_image"]) {
         $form.find("img.captcha").attr('src', data["captcha_image"]);
         $form.find('#id_captcha_0').val(data["captcha_key"]);
@@ -109,6 +127,7 @@ function myUpdCaptcha(data) {
 
 function mySubmitAjaxForm(form_element, type, results_element, hide_elements) {
     var $form = $(form_element);
+    var $args_length = arguments.length;
     $form.submit(function (event) {
         event.preventDefault();
         $.ajax({ // create an AJAX call...
@@ -119,24 +138,25 @@ function mySubmitAjaxForm(form_element, type, results_element, hide_elements) {
             timeout: 60000,
             beforeSend: function (jqXHR, settings) {
                 $form.find('input, select').attr('disabled', true); // запрещаем редактировать инпуты
-                $form.closest('div').css("visibility", "hidden");
-//                hide_elements.css("visibility", "hidden");
-
+                if ($args_length < 4 || hide_elements) {
+                    $form.closest('div').css("visibility", "hidden");
+                    $('footer').css("visibility", 'hidden');
+                }
                 myClearForm($form);
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 myDisplayNonfieldError($form, "ERROR: " + errorThrown);
             },
             success: function (data, textStatus, jqXHR) {
-                myUpdCaptcha(data);
+                myUpdCaptcha($form, data);
                 if (data["result"] === 'success') {
                     myUpdateValues(data["update_values"]);
-                    if (type === 'datas'){
+                    if ($args_length >= 2 && type === 'datas') {
 //                        myShowDatasInModal(data);
-                        if (results_element)
-                        $(results_element).html(data['response_body']);
-                     }
-                    else if (type === 'info') {
+                        if ($args_length >= 3)
+                            $(results_element).html(data['response_body']);
+                    }
+                    else {
                         myShowInfoInAlert($form, data);
                         myScrollPage("#ajax_form_success", 55);
                     }
@@ -146,8 +166,11 @@ function mySubmitAjaxForm(form_element, type, results_element, hide_elements) {
                 }
             },
             complete: function (jqXHR, textStatus) {
-//                hide_elements.css("visibility", "visible");
-                $form.closest('div').css("visibility", "visible");
+                if ($args_length < 4 || hide_elements) {
+                     $('footer').css("visibility", 'visible');
+                     $form.closest('div').css("visibility", "visible");
+                }
+
                 $form.find('input, select').removeAttr('disabled'); // разрешаем редактировать инпуты
             }
         });

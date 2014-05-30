@@ -565,7 +565,7 @@ def ajax_search_address(request):
             abonents = Abonbaza.objects.extra(where=condits, params=params).order_by("nls")[:200]
             return ajaxResponse(False,
                                 response_body=render_to_string('search/search_results_table.html',
-                                                               {'abonents': abonents, 'results_caption': _('Search results')},
+                                                               {'abonents': abonents, 'results_caption': _('Select personal number')},
                                                                context_instance=RequestContext(request)))
 
         else:
@@ -588,7 +588,7 @@ def ajax_search_fio(request):
 
             return ajaxResponse(False,
                                 response_body=render_to_string('search/search_results_table.html',
-                                                               {'abonents': abonents, 'results_caption': _('Search results')},
+                                                               {'abonents': abonents, 'results_caption': _('Select personal number')},
                                                                context_instance=RequestContext(request)))
         else:
             return ajaxResponse(True, form=form)
@@ -760,8 +760,9 @@ def contact_form(request):
                 emessg.send()
                 #                request.session['email_sent'] = email_count + 1
                 # messages.add_message(request, messages.INFO, _('Message was sent. Thank you!'))
+                update_values = {'id_subject': '', 'id_message': ''}
                 return ajaxResponse(False, response_header=_('Message was sent. Thank you!'), captcha_key=captcha_key,
-                                    captcha_image=captcha_image)
+                                    captcha_image=captcha_image, update_values=update_values)
             except:
                 return ajaxResponse(False, response_header=_('Error sending mail'), captcha_key=captcha_key,
                                     captcha_image=captcha_image)

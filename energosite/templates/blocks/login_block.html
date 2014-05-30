@@ -14,15 +14,13 @@
             <h3 class="panel-title">{% trans 'Hello' %}, {{ user.username }}</h3>
         </div>
         <div class="panel-body" style="padding: 1px">
-            <ul class="nav nav-pills nav-stacked">
-                <li class="{% current_nav auth_password_change %}">
-                    <a href="{{ auth_password_change }}"><i
-                            class="glyphicon glyphicon-pencil"></i> {% trans 'Password change' %}</a>
-                </li>
-                <li>
-                    <a href="{{ auth_logout }}"><i class="glyphicon glyphicon-off"></i> {% trans 'Log out' %}</a>
-                </li>
-
+            <div class="list-group" style="margin-bottom: 0">
+                <a class="list-group-item {% current_nav auth_password_change %}" href="{{ auth_password_change }}">
+                    <i class="glyphicon glyphicon-pencil"></i> {% trans 'Password change' %}
+                </a>
+                <a class="list-group-item list-group-item-danger" href="{{ auth_logout }}">
+                    <i class="glyphicon glyphicon-off"></i> {% trans 'Log out' %}
+                </a>
                 {#        {% else %}#}
                 {##}
                 {#            <li class="{% current_nav auth_login %}">#}
@@ -31,7 +29,7 @@
                 {#            <li class="{% current_nav registration_register %}">#}
                 {#                <a href="{{ registration_register }}"><i class="glyphicon glyphicon-plus-sign"></i> {% trans 'Registration' %}</a>#}
                 {#            </li>#}
-            </ul>
+            </div>
         </div>
     </div>
 {% endif %}

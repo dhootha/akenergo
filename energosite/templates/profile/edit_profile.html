@@ -6,6 +6,10 @@
 {% block page_title %}{% trans 'Edit profile' %}{% endblock %}
 {% block page_content %}
 
+    {% trans 'Find' as findText %}
+    {% url 'search_fio' as search_fio_url %}
+    {% url 'search_address' as search_address_url %}
+
 
     <div style="margin-left: 30px; margin-bottom: 30px;" class="media">
         <a class="pull-left" href="http://www.gravatar.com/" title="Сменить аватар" target="_blank">
@@ -38,10 +42,18 @@
                         <li>{{ error|escape }}</li>
                     {% endfor %}
                     <li>
-                        <a href="{% url 'search_fio' %}">{% trans 'Search by surname' %}</a>
+                        <a id="aSearchFio"
+                           data-formurl="{% url 'load_form_modal' %}?form=SearchFioForm&form_id=mySearchForm&action={{ search_fio_url }}&submit_caption={{ findText }}"
+                           data-toggle="modal" href="#">
+                            {% trans 'Search by surname' %}
+                        </a>
                     </li>
                     <li>
-                        <a href="{% url 'search_address' %}">{% trans 'Search by address' %}</a>
+                        <a id="aSearchAddress"
+                           data-formurl="{% url 'load_form_modal' %}?form=SearchAddressForm&form_id=mySearchForm&action={{ search_address_url }}&submit_caption={{ findText }}"
+                           data-toggle="modal" href="#">
+                            {% trans 'Search by address' %}
+                        </a>
                     </li>
                 </ul>
 
@@ -98,16 +110,16 @@
         </div>
 
 
-    {% if form.non_field_errors %}
-        <div class="alert alert-danger">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
-            <ul class="list-unstyled">
-                {% for error in form.non_field_errors %}
-                    <li>{{ error|escape }}</li>
-                {% endfor %}
-            </ul>
-        </div>
-    {% endif %}
+        {% if form.non_field_errors %}
+            <div class="alert alert-danger">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <ul class="list-unstyled">
+                    {% for error in form.non_field_errors %}
+                        <li>{{ error|escape }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
 
 
         <div class="form-group">
@@ -124,7 +136,8 @@
     <script type="text/javascript">
         $(function () {
             $('#id_nls').focus();
-            mySubmitAjaxForm('#edit_profile_frm');
+            mySubmitAjaxForm('#edit_profile_frm', 'info');
+            myModalAjaxForm('#aSearchFio, #aSearchAddress', '#modalSearch');
         });
     </script>
 {% endblock %}
