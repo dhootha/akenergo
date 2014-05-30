@@ -11,7 +11,7 @@
                 {% for news in news_list %}
                     <a class="list-group-item {% current_nav news.get_absolute_url %}"
                        title="{{ news.title }}" href="{{ news.get_absolute_url }}">
-                        <i class="glyphicon glyphicon-list-alt"></i> {{ news.title|truncatewords:3 }}
+                        <i class="glyphicon glyphicon-list"></i> {{ news.title|truncatewords:3 }}
                     </a>
                 {% endfor %}
             {% else %}

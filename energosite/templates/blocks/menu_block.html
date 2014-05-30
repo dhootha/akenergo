@@ -33,12 +33,12 @@
 
 
             <a class="list-group-item {% current_nav view_recon_rep %}" href="{{ view_recon_rep }}">
-                <i class="glyphicon glyphicon-eye-open"></i> {% trans 'Reconciliation report' %}
+                <i class="glyphicon glyphicon-move"></i> {% trans 'Reconciliation report' %}
             </a>
 
 
             <a class="list-group-item {% current_nav view_payment %}" href="{{ view_payment }}">
-                <i class="glyphicon glyphicon-eye-open"></i> {% trans 'View payment and debt' %}
+                <i class="glyphicon glyphicon-usd"></i> {% trans 'View payment and debt' %}
             </a>
 
 
@@ -50,7 +50,7 @@
                 {% if perms.energosite.add_tables %}
 
                     <a class="list-group-item {% current_nav upload_data %}" href="{{ upload_data }}">
-                        <i class="glyphicon glyphicon-download-alt"></i>
+                        <i class="glyphicon glyphicon-cloud-upload"></i>
                         Загрузка данных по абонентам
                     </a>
 
