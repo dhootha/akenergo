@@ -58,7 +58,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
         'NAME': 'energosite', # Or path to database file if using sqlite3.
         'USER': 'energosite', # Not used with sqlite3.
-        'PASSWORD': '1111111111', # Not used with sqlite3.
+        'PASSWORD': '11122221111111', # Not used with sqlite3.
         'HOST': '', # Set to empty string for localhost. Not used with sqlite3.
         'PORT': '', # Set to empty string for default. Not used with sqlite3.
     }
@@ -142,7 +142,7 @@ AUTHENTICATION_BACKENDS = (
 # EMAIL_HOST = 'smtp.yandex.ru'
 EMAIL_HOST = 'localhost'
 # EMAIL_PORT = 587
-EMAIL_PORT = 2525
+EMAIL_PORT = 25
 # EMAIL_HOST_USER = 'noreply@akenergosnab.kz'
 # EMAIL_HOST_PASSWORD = '111111111111'
 EMAIL_USE_TLS = False
@@ -174,3 +174,5 @@ CAPTCHA_FONT_SIZE = 30
 #CAPTCHA_FLITE_PATH = '/usr/bin/flite'
 
 CKEDITOR_UPLOAD_PATH = os.path.join(MEDIA_ROOT, 'uploads')
+CKEDITOR_IMAGE_BACKEND = 'pillow'
+CKEDITOR_JQUERY_URL = os.path.join(STATIC_URL, 'js/jquery-2.1.1.min.js')

@@ -903,7 +903,7 @@ def resend_activation_link(request):
         form = ResendActivationEmailForm(request.POST)
         if form.is_valid():
             email = form.cleaned_data["email"]
-            users = User.objects.filter(email=email, is_active=False)
+            users = get_user_model().objects.filter(email=email, is_active=False)
             if not users.count():
                 form._errors["email"] = (_("Account for email address is not registered or already activated."),)
             else:

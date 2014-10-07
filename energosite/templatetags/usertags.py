@@ -48,7 +48,7 @@ def online_users(num):
  """
     one_hour_ago = datetime.datetime.now() - datetime.timedelta(hours=1)
     sql_datetime = datetime.datetime.strftime(one_hour_ago, '%Y-%m-%d %H:%M:%S')
-    users = User.objects.filter(last_login__gt=sql_datetime,
+    users = get_user_model().objects.filter(last_login__gt=sql_datetime,
         is_active__exact=1).order_by('-last_login')[:num]
 
     return {
@@ -62,7 +62,7 @@ def last_registers(num):
     """
  Show last registered users.
  """
-    users = User.objects.filter(is_active__exact=1).order_by('-date_joined')[:num]
+    users = get_user_model().objects.filter(is_active__exact=1).order_by('-date_joined')[:num]
     return {
         'users': get_users_data(users),
         'title': "Зарегистрированные пользователи"
@@ -74,7 +74,7 @@ def last_logins(num):
     """
  Show last logins ...
  """
-    users = User.objects.filter(is_active__exact=1).order_by('-last_login')[:num]
+    users = get_user_model().objects.filter(is_active__exact=1).order_by('-last_login')[:num]
     return {
         'users': get_users_data(users),
         'title': "Последние залогинившиеся",

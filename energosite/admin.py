@@ -69,7 +69,7 @@ from django.contrib.auth.admin import UserAdmin
 from energosite.models import UserProfile
 #from django.db.models import Q
 
-admin.site.unregister(User)
+admin.site.unregister(get_user_model())
 
 
 class UserProfileInline(admin.StackedInline):
@@ -92,7 +92,7 @@ class UserProfileAdmin(UserAdmin):
             #        qs = qs.filter(Q(is_staff=True) | Q(is_superuser=True))
             #        return qs
 
-admin.site.register(User, UserProfileAdmin)
+admin.site.register(get_user_model(), UserProfileAdmin)
 
 
 class MailListAdmin(admin.ModelAdmin):

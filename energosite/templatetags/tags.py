@@ -107,7 +107,7 @@ def get_department(context):
     request = context.get('request')
     if request:
         user = getattr(request, 'user')
-    if user and isinstance(user, User):
+    if user and isinstance(user, get_user_model()):
         try:
             profile = UserProfile.objects.get(user=user)
         except UserProfile.DoesNotExist:
