@@ -47,8 +47,8 @@
     <script src="{% static "js/locales/bootstrap-datepicker.ru.js" %}" charset="UTF-8"></script>
     <script src="{% static "js/locales/bootstrap-datepicker.kk.js" %}" charset="UTF-8"></script>
     <script src="{% static 'js/my.js' %}"></script>
-    <script src="{% static 'js/jquery.validate.min.js' %}"></script>
-    <script src="{% static 'js/additional-methods.min.js' %}"></script>
+{#    <script src="{% static 'js/jquery.validate.min.js' %}"></script>#}
+{#    <script src="{% static 'js/additional-methods.min.js' %}"></script>#}
    {% ifequal LANGUAGE_CODE|slice:":2" 'ru' %}
     <script src="{% static 'js/locales/messages_ru.js' %}" charset="UTF-8"></script>
    {% endifequal %}
@@ -62,14 +62,12 @@
     <script>
         $(document).ready(function () {
 
-            $('div.input-required > input, div.input-required > textarea, div.input-required > select').attr('required', true);
+{#            $('div.input-required > input, div.input-required > textarea, div.input-required > select').attr('required', true);#}
             $('a[data-toggle=tooltip]').tooltip();
-            $("a[data-toggle=popover], button[data-toggle=popover]").popover({ trigger: "hover focus", delay: 127 });
-
             $('#google_search_form').submit(function (event) {
                 return $.trim($(this).find(':input[name=q]').val()) != '';
             });
-            $(':input', $('form')).not(':button, :submit, :reset, :radio, :checkbox').addClass('form-control');
+{#            $(':input', $('form')).not(':button, :submit, :reset, :radio, :checkbox').addClass('form-control');#}
             $.ajaxSetup({ cache: false });
             myRefreshCaptcha('{% url 'captcha-refresh' %}', '{% trans 'Update' %}');
         });

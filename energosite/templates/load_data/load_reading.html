@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n %}
+{% load i18n tags %}
 
 {% get_current_language as LANGUAGE_CODE %}
 
@@ -21,7 +21,7 @@
                 <label class="col-md-2 control-label" for="{{ field.auto_id }}">{{ field.label }}: </label>
 
                 <div class="col-md-4">
-                    {{ field }}
+                    {{ field|add_css:'form-control,required:required' }}
                     <ul class="help-block list-unstyled" style="margin: 1px 0">
                         {% for error in field.errors %}
                             <li>

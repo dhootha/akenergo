@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n %}
+{% load tags i18n %}
 {% load gravatar %}
 
 {% block title %}{% trans 'Edit profile' %}{% endblock %}
@@ -35,7 +35,7 @@
             <label class="col-md-3 control-label" for="id_nls">{{ form.nls.label }}:</label>
 
             <div class="col-md-6">
-                {{ form.nls }}
+                {{ form.nls|add_css:'form-control,required:required' }}
 
                 <ul class="help-block list-unstyled" style="margin: 1px 0">
                     {% for error in form.nls.errors %}
@@ -66,7 +66,7 @@
             <div class="col-md-6">
                 <div class="input-group">
                     <span class="input-group-addon">+7</span>
-                    {{ form.home_phone }}
+                    {{ form.home_phone|add_css:'form-control' }}
                 </div>
                 <ul class="help-block list-unstyled" style="margin: 1px 0">
                     {% for error in form.home_phone.errors %}
@@ -83,7 +83,7 @@
             <div class="col-md-6">
                 <div class="input-group">
                     <span class="input-group-addon">+7</span>
-                    {{ form.mobile_phone }}
+                    {{ form.mobile_phone|add_css:'form-control' }}
                 </div>
                 <ul class="help-block list-unstyled" style="margin: 1px 0">
                     {% for error in form.mobile_phone.errors %}

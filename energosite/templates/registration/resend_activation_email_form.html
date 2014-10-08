@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n %}
+{% load tags i18n %}
 
 {% block title %}{% trans 'Resend activation link' %}{% endblock %}
 {% block page_title %}{% trans 'Resend activation link' %}{% endblock %}
@@ -14,7 +14,7 @@
             <label class="col-md-3 control-label" for="id_email">{{ form.email.label }}:</label>
 
             <div class="col-md-6">
-                {{ form.email }}
+                {{ form.email|add_css:'form-control,required:required' }}
                 <ul class="help-block list-unstyled" style="margin: 1px 0">
                     {% for error in form.email.errors %}
                         <li>{{ error|escape }}</li>
@@ -27,7 +27,7 @@
             <label class="col-md-3 control-label" for="id_captcha">{{ form.captcha.label }}:</label>
 
             <div class="col-md-4">
-                {{ form.captcha }}
+                {{ form.captcha|add_css:'form-control,required:required' }}
                 <ul class="help-block list-unstyled" style="margin: 1px 0">
                     {% for error in form.captcha.errors %}
                         <li>{{ error|escape }}</li>

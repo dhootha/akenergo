@@ -1,38 +1,6 @@
 {% load i18n %}
-{#{% load tags %}#}
 {% get_current_language as LANGUAGE_CODE %}
 {% get_available_languages as LANGUAGES %}
-{#<div style="padding: 0 0;">#}
-{#        <h5 style="margin-bottom: 5px">Тіл / Язык</h5>#}
-
-{#    <form id="locale_switcher" method="post" action="/i18n/setlang/">#}
-{#        {% csrf_token %}#}
-{#        <input name="next" type="hidden" value="/"/>#}
-{#        <select name="language" style="width: auto; margin-bottom: 0" onchange="sendForm()">#}
-{#            {% for lang in LANGUAGES %}#}
-{#                <option value="{{ lang.0 }}">#}
-{#                    {{ lang.1 }}#}
-{#                </option>#}
-{#            {% endfor %}#}
-{#        </select>#}
-{#        <noscript>#}
-{#            <input type="submit" value="OK"/>#}
-{#        </noscript>#}
-{#    </form>#}
-
-{#    <div class="btn-group">#}
-{##}
-{#        <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown">#}
-{#            Тіл / Язык <span class="caret"></span>#}
-{#        </a>#}
-{#        <ul class="dropdown-menu">#}
-{#            {% for lang in LANGUAGES %}#}
-{#                <li>#}
-{#                    <a href="/i18n/setlang_my/?language={{ lang.0 }}">{{ lang.1 }}</a>#}
-{#                </li>#}
-{#            {% endfor %}#}
-{#        </ul>#}
-{#    </div>#}
 
 
 <ul class="nav nav-pills">
@@ -66,12 +34,3 @@
     }
 </script>
 
-{#</div>#}
-
-
-{#<script type="text/javascript">#}
-{#    function sendForm() {#}
-{#        document.getElementById('locale_switcher').submit()#}
-{#        return false;#}
-{#    }#}
-{#</script>#}

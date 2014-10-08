@@ -40,6 +40,7 @@ class Abonbaza(models.Model):
 
     iin = models.CharField(max_length=25, blank=True, null=True)
     kpp = models.CharField(max_length=25, blank=True, null=True)
+    kod = models.DecimalField(max_digits=4, decimal_places=0, blank=True, null=True)
 
     department = models.ForeignKey(Department)
 

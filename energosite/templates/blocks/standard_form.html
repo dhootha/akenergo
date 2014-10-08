@@ -1,11 +1,5 @@
-{% load i18n %}
+{% load i18n tags %}
 
-{#{% if form.errors %}#}
-{#    <div class="alert alert-danger">#}
-{#        <button type="button" class="close" data-dismiss="alert">&times;</button>#}
-{#        {% trans 'Please correct the errors below' %}#}
-{#    </div>#}
-{#{% endif %}#}
 
 <form id="{{ form_id|default:'standard_form' }}" class="form-horizontal" action="{{ action }}"
       method="{{ req_method|default:'post' }}">
@@ -17,9 +11,13 @@
 
             <label class="col-md-2 control-label" for="{{ field.auto_id }}">{{ field.label }}: </label>
 
-            <div class="col-md-5 {% if field.field.required %}input-required{% endif %}">
+            <div class="col-md-5">
+                {% add_attr field class='form-control' as new_field %}
+                {% if field.field.required %}
+                    {% add_attr field class='form-control' required='required' as new_field %}
+                {% endif %}
 
-                {{ field }}
+                {{ new_field }}
 
                 <ul class="help-block list-unstyled" style="margin: 1px 0">
                     {% for error in field.errors %}
@@ -51,9 +49,6 @@
         </div>
     {% endif %}
 
-    {#    <div id="ajax_non_field_errors" style="display: none;" class="alert alert-danger">#}
-    {#    </div>#}
-
     <div class="form-group">
         <div class="col-md-offset-2 col-md-5">
             <button type="submit" class="btn btn-primary">{{ submitCaption }}</button>
@@ -62,9 +57,9 @@
 
 </form>
 
-<script>
-    $(document).ready(function () {
-        $('div.input-required > input, div.input-required > textarea, div.input-required > select').attr('required', true);
-        $(':input', $('form')).not(':button, :submit, :reset, :radio, :checkbox').addClass('form-control');
-    });
-</script>
+{#<script>#}
+{#    $(document).ready(function () {#}
+{#        $('div.input-required > input, div.input-required > textarea, div.input-required > select').attr('required', true);#}
+{#        $(':input', $('form')).not(':button, :submit, :reset, :radio, :checkbox').addClass('form-control');#}
+{#    });#}
+{#</script>#}

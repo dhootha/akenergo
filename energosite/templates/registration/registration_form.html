@@ -67,7 +67,7 @@
                 <label class="col-md-3 control-label" for="id_username">{{ form.username.label }}:</label>
 
                 <div class="col-md-6">
-                    {{ form.username }}
+                    {{ form.username|add_css:'form-control,required:required' }}
 
                     <ul class="help-block list-unstyled" style="margin: 1px 0">
                         {% for error in form.username.errors %}
@@ -82,7 +82,7 @@
                 <label class="col-md-3 control-label" for="id_password1">{{ form.password1.label }}:</label>
 
                 <div class="col-md-6">
-                    {{ form.password1 }}
+                    {{ form.password1|add_css:'form-control,required:required' }}
 
                     <ul class="help-block list-unstyled" style="margin: 1px 0">
                         {% for error in form.password1.errors %}
@@ -97,7 +97,7 @@
                 <label class="col-md-3 control-label" for="id_password2">{{ form.password2.label }}:</label>
 
                 <div class="col-md-6">
-                    {{ form.password2 }}
+                    {{ form.password2|add_css:'form-control,required:required' }}
 
                     <ul class="help-block list-unstyled" style="margin: 1px 0">
                         {% for error in form.password2.errors %}
@@ -113,7 +113,7 @@
                 <label class="col-md-3 control-label" for="id_email">{{ form.email.label }}:</label>
 
                 <div class="col-md-6">
-                    {{ form.email }}
+                    {{ form.email|add_css:'form-control,required:required' }}
 
                     <ul class="help-block list-unstyled" style="margin: 1px 0">
                         {% for error in form.email.errors %}
@@ -128,7 +128,7 @@
                 <label class="col-md-3 control-label" for="id_nls">{{ form.nls.label }}:</label>
 
                 <div class="col-md-6">
-                    {{ form.nls }}
+                    {{ form.nls|add_css:'form-control,required:required' }}
 
                     <ul class="help-block list-unstyled" style="margin: 1px 0">
                         {% for error in form.nls.errors %}
@@ -158,7 +158,7 @@
                 <div class="col-md-6">
                     <div class="input-group">
                         <span class="input-group-addon">+7</span>
-                        {{ form.home_phone }}
+                        {{ form.home_phone|add_css:'form-control' }}
                     </div>
 
                     <ul class="help-block list-unstyled" style="margin: 1px 0">
@@ -176,7 +176,7 @@
                 <div class="col-md-6">
                     <div class="input-group">
                         <span class="input-group-addon">+7</span>
-                        {{ form.mobile_phone }}
+                        {{ form.mobile_phone|add_css:'form-control' }}
                     </div>
 
                     <ul class="help-block list-unstyled" style="margin: 1px 0">
@@ -192,7 +192,7 @@
                 <label class="col-md-3 control-label" for="id_captcha">{{ form.captcha.label }}:</label>
 
                 <div class="col-md-4">
-                    {{ form.captcha }}
+                    {{ form.captcha|add_css:'form-control,required:required' }}
 
                     <ul class="help-block list-unstyled" style="margin: 1px 0">
                         {% for error in form.captcha.errors %}
@@ -219,17 +219,6 @@
 
                 </div>
             </div>
-
-
-            {#            <div class="form-group">#}
-            {#                <div class="col-md-offset-3 col-md-6">#}
-            {#                    <div class="checkbox">#}
-            {#                        <label>#}
-            {#                            <input type="checkbox"> Remember me#}
-            {#                        </label>#}
-            {#                    </div>#}
-            {#                </div>#}
-            {#            </div>#}
 
 
 
@@ -260,12 +249,12 @@
         $(document).ready(function () {
             var $form = $('#registration_form');
             $form.find('#id_username').focus();
-            $form.find('#id_username').attr('required', true);
-            $form.find('#id_password1').attr('required', true);
-            $form.find('#id_password2').attr('required', true);
-            $form.find('#id_email').attr('required', true);
-            $form.find('#id_nls').attr('required', true);
-            $form.find('#id_captcha_1').attr('required', true);
+{#            $form.find('#id_username').attr('required', true);#}
+{#            $form.find('#id_password1').attr('required', true);#}
+{#            $form.find('#id_password2').attr('required', true);#}
+{#            $form.find('#id_email').attr('required', true);#}
+{#            $form.find('#id_nls').attr('required', true);#}
+{#            $form.find('#id_captcha_1').attr('required', true);#}
 
             myModalAjaxForm('#aSearchFio, #aSearchAddress', '#modalSearch');
 

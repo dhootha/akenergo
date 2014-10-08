@@ -10,7 +10,7 @@ from django.http import HttpResponse, Http404
 from energosite.models import *
 from energosite.forms import *
 
-#from django.template import loader, Context
+# from django.template import loader, Context
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils.translation import ugettext as _
 from django.conf import settings
@@ -163,15 +163,15 @@ def news_list(request):
 
     page = request.GET.get('page')
     try:
-        news_list = paginator.page(page)
+        newses = paginator.page(page)
     except PageNotAnInteger:
         # If page is not an integer, deliver first page.
-        news_list = paginator.page(1)
+        newses = paginator.page(1)
     except EmptyPage:
         # If page is out of range (e.g. 9999), deliver last page of results.
-        news_list = paginator.page(paginator.num_pages)
+        newses = paginator.page(paginator.num_pages)
 
-    return render(request, 'posts/news_list.html', {"news_list": news_list})
+    return render(request, 'posts/news_list.html', {"news_list": newses})
 
 
 def vacant_jobs(request):
@@ -180,13 +180,13 @@ def vacant_jobs(request):
 
     page = request.GET.get('page')
     try:
-        vacant_jobs = paginator.page(page)
+        jobs = paginator.page(page)
     except PageNotAnInteger:
-        vacant_jobs = paginator.page(1)
+        jobs = paginator.page(1)
     except EmptyPage:
-        vacant_jobs = paginator.page(paginator.num_pages)
+        jobs = paginator.page(paginator.num_pages)
 
-    return render(request, 'posts/vacant_jobs.html', {"vacant_jobs": vacant_jobs})
+    return render(request, 'posts/vacant_jobs.html', {"vacant_jobs": jobs})
 
 
 # def getLastMonthPayment(nls):
@@ -294,7 +294,7 @@ def format_address(ul, nd, nkor, nkw):
     if (not nkor) or len(nkor.strip()) == 0:
         korpus = u""
     else:
-        korpus = u" к." + nkor.strip()
+        korpus = u"/" + nkor.strip()
     if (not nkw) or len(nkw.strip()) == 0:
         kv = u""
     else:
@@ -470,6 +470,16 @@ def lastMonthDay():
     return timezone.datetime(getYear(), getMonth(), calendar.monthrange(getYear(), getMonth())[1])
 
 
+
+def dictfetchall(cursor):
+    """Returns all rows from a cursor as a dict"""
+    desc = cursor.description
+    return [
+        dict(zip([col[0] for col in desc], row))
+        for row in cursor.fetchall()
+    ]
+
+
 @login_required
 def load_reading(request):
     #    for i in range(1, 50000):
@@ -496,7 +506,10 @@ def load_reading(request):
             # date_filter = {'date__year': date1}
             # if date2:
             #     date_filter['date__month'] = date2
-            mrss = MeterReading.objects.filter(date__range=(date1, date2)).order_by('date')
+            mrss = MeterReading.objects.raw("SELECT a.*, kod FROM energosite_meterreading a left join abonbaza b on a.nls=b.nls "
+                                     "WHERE date between %s and %s", [date1, date2])
+
+            # mrss = MeterReading.objects.filter(date__range=(date1, date2)).order_by('date')
             filename = os.path.join(settings.MEDIA_ROOT, hashlib.md5(str(random.random())).hexdigest() + '.dbf')
             dbfFile = dbf.Dbf(filename, new=True)
             dbfFile.addField(
@@ -506,6 +519,7 @@ def load_reading(request):
                 ("POK1", "N", 7, 0),
                 ("POK2", "N", 7, 0),
                 ("DATE", "D"),
+                ("KOD", "N", 4, 0),
             )
             for mr in mrss:
                 rec = dbfFile.newRecord()
@@ -514,6 +528,10 @@ def load_reading(request):
                     rec['FIO'], rec['ADDRESS'] = encStr(mr.fio, charset), encStr(mr.address, charset)
                     rec['POK1'], rec['POK2'] = toInt(mr.pok1), toInt(mr.pok2)
                     rec['DATE'] = mr.date
+                    if mr.kod:
+                        rec['KOD'] = mr.kod
+                    else:
+                        rec['KOD'] = 0
                     rec.store()
                 except TypeError:
                     continue
@@ -565,7 +583,8 @@ def ajax_search_address(request):
             abonents = Abonbaza.objects.extra(where=condits, params=params).order_by("nls")[:200]
             return ajaxResponse(False,
                                 response_body=render_to_string('search/search_results_table.html',
-                                                               {'abonents': abonents, 'results_caption': _('Select personal number')},
+                                                               {'abonents': abonents,
+                                                                'results_caption': _('Select personal number')},
                                                                context_instance=RequestContext(request)))
 
         else:
@@ -588,7 +607,8 @@ def ajax_search_fio(request):
 
             return ajaxResponse(False,
                                 response_body=render_to_string('search/search_results_table.html',
-                                                               {'abonents': abonents, 'results_caption': _('Select personal number')},
+                                                               {'abonents': abonents,
+                                                                'results_caption': _('Select personal number')},
                                                                context_instance=RequestContext(request)))
         else:
             return ajaxResponse(True, form=form)
@@ -834,6 +854,11 @@ def upload_data(request):
         form.fields['year'].choices, form.fields['year'].initial = YEARS, getYear()
         form.fields['actual_date'].initial = getToday()
         if form.is_valid():
+            # fileName, fileExtension = os.path.splitext(request.FILES['filename'].name)
+            # if not fileExtension.lower() in ('dbf', 'txt', 'csv'):
+            #     messages.add_message(request, messages.ERROR, u"Файл {0} не в формате cvs, dbf, txt".format(form.cleaned_data.get('filename')))
+            #     return HttpResponseRedirect(reverse('upload_data'))
+
             dbtable = form.cleaned_data.get('dbtable')
             department = form.cleaned_data.get('department')
             charset = form.cleaned_data.get('charset')

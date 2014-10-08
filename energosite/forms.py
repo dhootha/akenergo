@@ -196,8 +196,9 @@ class TablesForm(forms.Form):
 
     def clean_filename(self):
         data = self.cleaned_data['filename']
-        if not str(data).lower().endswith(".dbf"):
-            raise forms.ValidationError("Файл " + os.path.basename(str(data)) + " - не dbf")
+        fileName, fileExtension = os.path.splitext(data.name)
+        if not fileExtension.lower() in ('.dbf', '.txt', '.csv'):
+            raise forms.ValidationError(u"Файл " + os.path.basename(data.name) + u" - не в формате cvs, dbf, txt")
         return data
 
 #############################3

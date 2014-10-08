@@ -185,3 +185,22 @@ def get_search_fio_form():
 def get_search_address_form():
     return SearchAddressForm
 
+
+@register.assignment_tag()
+def add_attr(field, **kwargs):
+    attrs = {}
+    for k, v in kwargs.items():
+        attrs[k] = v
+    return field.as_widget(attrs=attrs)
+
+@register.filter
+def add_css(field, css):
+    attrs = {}
+    definition = css.split(',')
+    for d in definition:
+        if ':' not in d:
+            attrs['class'] = d
+        else:
+            t, v = d.split(':')
+            attrs[t] = v
+    return field.as_widget(attrs=attrs)

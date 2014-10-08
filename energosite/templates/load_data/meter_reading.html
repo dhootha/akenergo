@@ -28,7 +28,7 @@
             <label class="col-md-3 control-label" for="id_nls">{{ form.nls.label }}:</label>
 
             <div class="col-md-6">
-                {{ form.nls }}
+                {{ form.nls|add_css:'form-control,required:required' }}
                 <ul class="help-block list-unstyled" style="margin: 1px 0">
                     {% for error in form.nls.errors %}
                         <li>{{ error|escape }}</li>
@@ -56,7 +56,7 @@
             <label class="col-md-3 control-label" for="id_fio">{{ form.fio.label }}:</label>
 
             <div class="col-md-6">
-                {{ form.fio }}
+                {{ form.fio|add_css:'form-control,required:required' }}
                 <ul class="help-block list-unstyled" style="margin: 1px 0">
                     {% for error in form.fio.errors %}
                         <li>{{ error|escape }}</li>
@@ -69,7 +69,7 @@
             <label class="col-md-3 control-label" for="id_address">{{ form.address.label }}:</label>
 
             <div class="col-md-6">
-                {{ form.address }}
+                {{ form.address|add_css:'form-control,required:required' }}
                 <ul class="help-block list-unstyled" style="margin: 1px 0">
                     {% for error in form.address.errors %}
                         <li>{{ error|escape }}</li>
@@ -87,7 +87,7 @@
                 <label class="col-md-3 control-label" for="id_tariff"> {{ form.tariff.label }}:</label>
 
                 <div class="col-md-6">
-                    {{ form.tariff }}
+                    {{ form.tariff|add_css:'form-control,required:required' }}
                     <ul class="help-block list-unstyled" style="margin: 1px 0">
                         {% for error in form.tariff.errors %}
                             <li>{{ error|escape }}</li>
@@ -101,7 +101,7 @@
                 <label class="col-md-3 control-label" for="id_pok1">{{ form.pok1.label }}:</label>
 
                 <div class="col-md-6">
-                    {{ form.pok1 }}
+                    {{ form.pok1|add_css:'form-control,required:required' }}
                     <ul class="help-block list-unstyled" style="margin: 1px 0">
                         {% for error in form.pok1.errors %}
                             <li>{{ error|escape }}</li>
@@ -115,7 +115,7 @@
                 <label class="col-md-3 control-label" for="id_pok2">{{ form.pok2.label }}:</label>
 
                 <div class="col-md-6">
-                    {{ form.pok2 }}
+                    {{ form.pok2|add_css:'form-control' }}
                     <ul class="help-block list-unstyled" style="margin: 1px 0">
                         {% for error in form.pok2.errors %}
                             <li>{{ error|escape }}</li>
@@ -149,7 +149,7 @@
         <div class="form-group">
             <div class="col-md-offset-3 col-md-6">
                 <button type="submit" class="btn btn-primary">{% trans 'Save' %}</button>
-                <button id="another_mtr" type="button" data-toggle="popover" data-placement="top"
+                <button id="another_mtr" type="button" data-toggle="popover" data-placement="right"
                         data-content="{% trans 'Add another electric meter readings' %}" class="btn btn-warning">
                     {% trans 'Another electric meter' %}
                 </button>
@@ -216,16 +216,15 @@
             $("#another_mtr").on("click", function () {
                 var $form = $('#mrform');
                 $form.find(':input').not(':button, :submit, :reset, :hidden').removeAttr('checked').removeAttr('selected').not(':checkbox, :radio, select').val('');
-                $("select option").each(function () {
-                    $(this).attr('selected', false);
-                });
-                {#                $form.find('select').val($form.find('select option:first').val());#}
+                $form.find("select option").attr('selected', false);
                 $("#night_pok").animate({ opacity: 'hide' }, "slow");
                 $form.find('#id_nls').focus();
             });
 
             mySubmitAjaxForm('#mrform', 'info');
             myModalAjaxForm('#aSearchFio, #aSearchAddress', '#modalSearch');
+            $("a[data-toggle=popover], button[data-toggle=popover]").popover('show');
+            {#                    .popover({ trigger: "hover focus", delay: 127 });#}
         });
 
 
