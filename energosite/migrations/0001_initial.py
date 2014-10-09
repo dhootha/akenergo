@@ -27,9 +27,9 @@ class Migration(migrations.Migration):
                 ('nkw', models.CharField(max_length=25, null=True, blank=True)),
                 ('iin', models.CharField(max_length=25, null=True, blank=True)),
                 ('kpp', models.CharField(max_length=25, null=True, blank=True)),
+                ('kod', models.DecimalField(null=True, max_digits=4, decimal_places=0, blank=True)),
             ],
             options={
-                'db_table': 'abonbaza',
             },
             bases=(models.Model,),
         ),
@@ -71,7 +71,6 @@ class Migration(migrations.Migration):
                 ('dolg', models.DecimalField(max_digits=12, decimal_places=2)),
             ],
             options={
-                'db_table': 'debtors',
             },
             bases=(models.Model,),
         ),
@@ -119,7 +118,6 @@ class Migration(migrations.Migration):
                 ('department', models.ForeignKey(to='energosite.Department')),
             ],
             options={
-                'db_table': 'kvitbaza',
             },
             bases=(models.Model,),
         ),
@@ -167,7 +165,6 @@ class Migration(migrations.Migration):
                 ('department', models.ForeignKey(to='energosite.Department')),
             ],
             options={
-                'db_table': 'oplbaza',
             },
             bases=(models.Model,),
         ),
@@ -206,7 +203,6 @@ class Migration(migrations.Migration):
                 ('department', models.ForeignKey(to='energosite.Department')),
             ],
             options={
-                'db_table': 'tables',
             },
             bases=(models.Model,),
         ),

@@ -11,6 +11,7 @@ import psycopg2.extensions as ext
 
 from dbfpy import dbf
 
+module_name = 'energosite_'
 
 def getConfigValue(option):
     return config.get('Base', option)
@@ -71,7 +72,7 @@ def deleteData(dbtable, day, month, year, department_id):
     formats.append("department_id={0}".format(department_id))
     if not formats:
         return
-    sql = "delete from {0} where {1}".format(dbtable, " and ".join(formats))
+    sql = "delete from {0} where {1}".format(module_name+dbtable, " and ".join(formats))
     conn = connectDB(autocommit=True)
     cursor = conn.cursor()
     cursor.execute(sql)
@@ -81,9 +82,9 @@ def deleteData(dbtable, day, month, year, department_id):
 
 def clearDBTable(tabname, department_id=None):
     if department_id:
-        sql = "delete from {0} where department_id={1}".format(tabname, department_id)
+        sql = "delete from {0} where department_id={1}".format(module_name+tabname, department_id)
     else:
-        sql = "delete from {0}".format(tabname)
+        sql = "delete from {0}".format(module_name+tabname)
     conn = connectDB(autocommit=True)
     cursor = conn.cursor()
     cursor.execute(sql)
@@ -108,7 +109,7 @@ def insertData(fileName, dbTable, charset, department_id):
     dbFieldNames.append('department_id')
     params = ['%s'] * len(dbFieldNames)
     for rec in DbfFile:
-        select = "insert into {0}({1}) values({2}) ".format(dbTable, ", ".join(dbFieldNames), ", ".join(params))
+        select = "insert into {0}({1}) values({2}) ".format(module_name+dbTable, ", ".join(dbFieldNames), ", ".join(params))
         values = [str(rec[name]).strip().decode(charset).encode('utf8') for name in DbfFile.fieldNames]
         values.append(str(department_id))
         try:
@@ -116,7 +117,7 @@ def insertData(fileName, dbTable, charset, department_id):
         except psycopg2.Error:
             print("Error inserting to " + dbTable + " from " + fileName + " for department_id=" + str(department_id))
             sys.stdout.flush()
-            break
+            continue
 
     conn.commit()
     DbfFile.close()
@@ -174,8 +175,8 @@ def deleteDbfFiles():
     for filename in os.listdir(directory):
         fullPath = os.path.join(directory, filename)
         if os.path.isfile(fullPath):
-            tableName, ext = os.path.splitext(filename)
-            if ext.lower() == '.dbf':
+            tableName, extension = os.path.splitext(filename)
+            if extension.lower() == '.dbf':
                 try:
                     os.remove(fullPath)
                 except OSError:

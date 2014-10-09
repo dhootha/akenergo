@@ -241,7 +241,7 @@ def view_debtors(request, kod):
                                       " END "
                                       " AS ADDRESS "
                                       " FROM DEBTORS A "
-                                      " JOIN ABONBAZA B ON (A.NLS=B.NLS) "
+                                      " JOIN ENERGOSITE_ABONBAZA B ON (A.NLS=B.NLS) "
                                       " WHERE A.DEPARTMENT_ID=%s ORDER BY " + order_by, [kod])
 
         for nomer, debtor in enumerate(debtors):
@@ -482,9 +482,6 @@ def dictfetchall(cursor):
 
 @login_required
 def load_reading(request):
-    #    for i in range(1, 50000):
-    #        mr = MeterReading(nls=i, fio='tty', address='trytyt', pok1=i, pok2=45, pok3=2, date=datetime.datetime.now())
-    #        mr.save()
     user = request.user
     if not user.has_perm('energosite.view_meter_reading'):
         error = "У вас нет прав для загрузки показаний!"
@@ -506,7 +503,7 @@ def load_reading(request):
             # date_filter = {'date__year': date1}
             # if date2:
             #     date_filter['date__month'] = date2
-            mrss = MeterReading.objects.raw("SELECT a.*, kod FROM energosite_meterreading a left join abonbaza b on a.nls=b.nls "
+            mrss = MeterReading.objects.raw("SELECT a.*, kod FROM energosite_meterreading a left join energosite_abonbaza b on a.nls=b.nls "
                                      "WHERE date between %s and %s", [date1, date2])
 
             # mrss = MeterReading.objects.filter(date__range=(date1, date2)).order_by('date')
@@ -813,28 +810,73 @@ def site_comments(request):
     return render(request, 'contact/comments.html', {'trail': trail})
 
 
-def handle_uploaded_file(f, copyto):
+def handleDbfFile(sourceFile, copyToFName):
+    BLOCKSIZE = 1048576
     try:
-        dbfFile = dbf.Dbf(f)
+        with open(copyToFName+'.dbf', 'wb') as destination:
+            while True:
+                contents = sourceFile.read(BLOCKSIZE)
+                if not contents:
+                    break
+                destination.write(contents)
+        dbfFile = dbf.Dbf(sourceFile)
         result = dbfFile.recordCount
-        destination = open(copyto, 'wb+')
-        for chunk in f.chunks():
-            destination.write(chunk)
-        destination.close()
         dbfFile.close()
+
     except ValueError:
-        result = -1
-    return result
+        result = -1, None
+    return result, copyToFName+'.dbf'
+
+import csv
+import codecs
 
 
-#def getDbfRecCount(fileName):
-#    try:
-#        dbfFile = dbf.Dbf(fileName)
-#        result = dbfFile.recordCount
-#        dbfFile.close()
-#    except ValueError:
-#        return -1
-#    return result
+def handleUnicodeTxtFile(sourceFile, destFileBase):
+    BLOCKSIZE = 1048576
+    destFileName = destFileBase+'.txt'
+    # startTime = timezone.now()
+    with open(destFileName, 'wb') as destinationF:
+            while True:
+                contents = sourceFile.read(BLOCKSIZE)
+                if not contents:
+                    break
+                destinationF.write(contents)
+
+    num_lines = 0
+    with codecs.open(destFileName, "rb", "UTF-16LE") as sourceF:
+        with codecs.open(destFileName+'.csv', "wb", "UTF-8") as targetF:
+            while True:
+                contents = sourceF.read(BLOCKSIZE)
+                num_lines += contents.count('\n')
+                if not contents:
+                    break
+                targetF.write(contents.replace(';', ' ').replace('\t', ';'))
+    try:
+        os.remove(destFileName)
+    except OSError:
+        return -1, None
+
+    # print(timezone.now()-startTime)
+    return num_lines-1, destFileName+'.csv'
+
+def handleCsvFile(sourceFile, destFileBase):
+    BLOCKSIZE = 1048576
+    destFileName = destFileBase+'.csv'
+    num_lines = 0
+    with open(destFileName, 'wb') as destinationF:
+            while True:
+                contents = sourceFile.read(BLOCKSIZE)
+                num_lines += contents.count('\n')
+                if not contents:
+                    break
+                destinationF.write(contents.replace(';', ' '))
+
+    return num_lines-1, destFileName
+
+    # with open(source+'.csv', 'rb') as csvfile:
+    #     spamreader = csv.reader(csvfile, delimiter=';', quotechar='"')
+    #     for row in spamreader:
+    #         print [c.decode('utf-8') for c in row]
 
 
 @login_required
@@ -854,43 +896,49 @@ def upload_data(request):
         form.fields['year'].choices, form.fields['year'].initial = YEARS, getYear()
         form.fields['actual_date'].initial = getToday()
         if form.is_valid():
-            # fileName, fileExtension = os.path.splitext(request.FILES['filename'].name)
-            # if not fileExtension.lower() in ('dbf', 'txt', 'csv'):
-            #     messages.add_message(request, messages.ERROR, u"Файл {0} не в формате cvs, dbf, txt".format(form.cleaned_data.get('filename')))
-            #     return HttpResponseRedirect(reverse('upload_data'))
+            uploaded_file = request.FILES['filename']
+            fileExtension = os.path.splitext(uploaded_file.name)[1].lower()
 
             dbtable = form.cleaned_data.get('dbtable')
             department = form.cleaned_data.get('department')
-            charset = form.cleaned_data.get('charset')
+            fileCharset = 'UTF-8'
             day = 0
             month = form.cleaned_data.get('month')
             year = form.cleaned_data.get('year')
             actual_date = form.cleaned_data.get("actual_date")
-            dbfFileName = u"{0}_{1}_{2:0>2}{3:0>4}".format(dbtable, department.id, month, year) + ".dbf"
-            dbfnumrecs = handle_uploaded_file(request.FILES['filename'],
-                                              os.path.join(settings.UPLOAD_DATA_PATH, dbfFileName))
-            if dbfnumrecs >= 0:
-                messages.add_message(request, messages.SUCCESS,
-                                     u"Файл - {0} ({1}) за {2:0>2}/{3:0>4} загружен".format(dbtable, department, month,
-                                                                                            year))
+            dbFileBaza = u"{0}_{1}_{2:0>2}{3:0>4}".format(dbtable, department.id, month, year)
+            dbFileName = dbFileBaza + ".dbf"
+            NumberRecords = 0
+            if fileExtension.endswith('dbf'):
+                NumberRecords, dbFileName = handleDbfFile(uploaded_file, os.path.join(settings.UPLOAD_DATA_PATH, dbFileBaza))
+                fileCharset = form.cleaned_data.get('charset')
+            elif fileExtension.endswith('txt'):
+                NumberRecords, dbFileName = handleUnicodeTxtFile(uploaded_file, os.path.join(settings.UPLOAD_DATA_PATH, dbFileBaza))
+            elif fileExtension.endswith('csv'):
+                NumberRecords, dbFileName = handleCsvFile(uploaded_file, os.path.join(settings.UPLOAD_DATA_PATH, dbFileBaza))
 
+            if NumberRecords >= 0:
                 tabs = Tables.objects.filter(dbtable=dbtable, department=department, month=month, year=year)
                 if tabs.count():
-                    tabs[0].dbfnumrecs, tabs[0].charset, tabs[0].actual_date = dbfnumrecs, charset, actual_date
-                    tabs[0].save()
+                    tab = tabs[0]
+                    tab.dbfnumrecs = NumberRecords
+                    tab.charset = fileCharset
+                    tab.actual_date = actual_date
+                    tab.save()
                 else:
-                    Tables(dbtable=dbtable, department=department, filename=dbfFileName, dbfnumrecs=dbfnumrecs,
-                           charset=charset, day=day, month=month, year=year, actual_date=actual_date).save()
+                    Tables(dbtable=dbtable, department=department, filename=dbFileName, dbfnumrecs=NumberRecords,
+                           charset=fileCharset, day=day, month=month, year=year, actual_date=actual_date).save()
 
-                    #                datas = ActualDate.objects.filter(dbtable=dbtable, department=department)
-                    #                if datas:
-                    #                    datas[0].actual_date = actual_date
-                    #                    datas[0].save()
-                    #                else:
-                    #                    ActualDate(dbtable=dbtable, department=department, actual_date=actual_date).save()
+                datas = ActualDate.objects.filter(dbtable=dbtable, department=department)
+                if datas.count():
+                    datas[0].actual_date = actual_date
+                    datas[0].save(force_update=True)
+                else:
+                    ActualDate(dbtable=dbtable, department=department, actual_date=actual_date).save()
+                messages.add_message(request, messages.SUCCESS, u"Файл - {0} ({1}) за {2:0>2}/{3:0>4} загружен".format(dbtable, department, month, year))
             else:
                 messages.add_message(request, messages.ERROR,
-                                     u"Файл {0} не DBF или испорчен".format(form.cleaned_data.get('filename')))
+                                     u"Файл {0} не DBF, TXT, CSV или испорчен".format(form.cleaned_data.get('filename')))
             return HttpResponseRedirect(reverse('upload_data'))
     else:
         form = TablesForm()

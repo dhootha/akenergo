@@ -44,8 +44,8 @@ class Abonbaza(models.Model):
 
     department = models.ForeignKey(Department)
 
-    class Meta:
-        db_table = 'abonbaza'
+    # class Meta:
+    #     db_table = 'abonbaza'
 
     def __unicode__(self):
         return str(self.nls)
@@ -94,8 +94,8 @@ class Kvitbaza(models.Model):
 
     department = models.ForeignKey(Department)
 
-    class Meta:
-        db_table = 'kvitbaza'
+    # class Meta:
+    #     db_table = 'kvitbaza'
 
     def __unicode__(self):
         return str(self.nls)
@@ -108,8 +108,8 @@ class Oplbaza(models.Model):
     data = models.DateField(blank=True, null=True)
     department = models.ForeignKey(Department)
 
-    class Meta:
-        db_table = 'oplbaza'
+    # class Meta:
+    #     db_table = 'oplbaza'
 
     def __unicode__(self):
         return str(self.nls)
@@ -126,8 +126,8 @@ class Tables(models.Model):
     actual_date = models.DateField()
     department = models.ForeignKey(Department)
 
-    class Meta:
-        db_table = 'tables'
+    # class Meta:
+    #     db_table = 'tables'
 
 
 class Debtors(models.Model):
@@ -136,8 +136,8 @@ class Debtors(models.Model):
     dolg = models.DecimalField(max_digits=12, decimal_places=2)
     department = models.ForeignKey(Department)
 
-    class Meta:
-        db_table = 'debtors'
+    # class Meta:
+    #     db_table = 'debtors'
 
         #        permissions = (("view_debuch", "Can see available debtors"),)
 

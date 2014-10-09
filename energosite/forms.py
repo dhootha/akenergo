@@ -187,7 +187,7 @@ class TablesForm(forms.Form):
     dbtable = forms.ChoiceField(label="База", choices=DB_CHOICES, initial='oplbaza')
     #widget=forms.widgets.FileInput(attrs={'size': 40})
     filename = forms.FileField(label="Файл данных")
-    charset = forms.ChoiceField(label="Кодировка файла", choices=CHARSET_CHOICES, initial="cp866")
+    charset = forms.ChoiceField(label="Кодировка файла Dbf", choices=CHARSET_CHOICES, initial="cp866")
     #    day = forms.ChoiceField(label="День", choices=DAYS, initial=getDay)
     month = forms.ChoiceField(label="Месяц")
     year = forms.ChoiceField(label="Год")
