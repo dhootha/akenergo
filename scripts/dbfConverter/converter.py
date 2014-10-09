@@ -13,6 +13,7 @@ from dbfpy import dbf
 
 module_name = 'energosite_'
 
+
 def getConfigValue(option):
     return config.get('Base', option)
 
@@ -25,6 +26,14 @@ def connectDB(autocommit=True):
     else:
         dbConnection.set_isolation_level(ext.ISOLATION_LEVEL_SERIALIZABLE)
     return dbConnection
+
+
+def setAutocommit(conn, ac):
+    if ac:
+        conn.set_isolation_level(ext.ISOLATION_LEVEL_AUTOCOMMIT)
+    else:
+        conn.set_isolation_level(ext.ISOLATION_LEVEL_SERIALIZABLE)
+    return conn
 
 
 def fileExists(fileName):
@@ -51,7 +60,7 @@ def getValidFieldName(name):
         return name.lower()
 
 
-def deleteData(dbtable, day, month, year, department_id):
+def deleteData(conn, dbtable, day, month, year, department_id):
     formats = []
     if dbtable == "oplbaza":
         dateCondition = "to_number(to_char(data, '{0}'), '99') = {1} "
@@ -72,24 +81,24 @@ def deleteData(dbtable, day, month, year, department_id):
     formats.append("department_id={0}".format(department_id))
     if not formats:
         return
-    sql = "delete from {0} where {1}".format(module_name+dbtable, " and ".join(formats))
-    conn = connectDB(autocommit=True)
+    sql = "delete from {0} where {1}".format(module_name + dbtable, " and ".join(formats))
+    # conn = connectDB(autocommit=True)
+    setAutocommit(conn, True)
     cursor = conn.cursor()
     cursor.execute(sql)
     cursor.close()
-    conn.close()
 
 
-def clearDBTable(tabname, department_id=None):
+def clearDBTable(conn, tabname, department_id=None):
     if department_id:
-        sql = "delete from {0} where department_id={1}".format(module_name+tabname, department_id)
+        sql = "delete from {0} where department_id={1}".format(module_name + tabname, department_id)
     else:
-        sql = "delete from {0}".format(module_name+tabname)
-    conn = connectDB(autocommit=True)
+        sql = "delete from {0}".format(module_name + tabname)
+    # conn = connectDB(autocommit=True)
+    setAutocommit(conn, True)
     cursor = conn.cursor()
     cursor.execute(sql)
     cursor.close()
-    conn.close()
 
 
 def insertData(fileName, dbTable, charset, department_id):
@@ -109,7 +118,8 @@ def insertData(fileName, dbTable, charset, department_id):
     dbFieldNames.append('department_id')
     params = ['%s'] * len(dbFieldNames)
     for rec in DbfFile:
-        select = "insert into {0}({1}) values({2}) ".format(module_name+dbTable, ", ".join(dbFieldNames), ", ".join(params))
+        select = "insert into {0}({1}) values({2}) ".format(module_name + dbTable, ", ".join(dbFieldNames),
+                                                            ", ".join(params))
         values = [str(rec[name]).strip().decode(charset).encode('utf8') for name in DbfFile.fieldNames]
         values.append(str(department_id))
         try:
@@ -128,19 +138,20 @@ def insertData(fileName, dbTable, charset, department_id):
     sys.stdout.flush()
 
 
-def serviceDB():
-    conn = connectDB(autocommit=True)
+def serviceDB(conn):
+    # conn = connectDB(autocommit=True)
+    setAutocommit(conn, True)
     cursor = conn.cursor()
     cursor.execute('vacuum full freeze analyze')
     cursor.execute('reindex database {0}'.format(getConfigValue('database')))
     cursor.close()
-    conn.close()
 
 
-def setSeqVal(dbTable):
-    conn = connectDB(autocommit=True)
+def setSeqVal(conn, dbTable):
+    # connection = connectDB(autocommit=True)
+    setAutocommit(conn, True)
     cursor = conn.cursor()
-    cursor.execute("select id from {0} order by id desc limit 1;".format(dbTable))
+    cursor.execute("select id from {0} order by id desc limit 1;".format(module_name + dbTable))
     id_result = cursor.fetchone()
     if not id_result:
         rowId = 1
@@ -148,11 +159,10 @@ def setSeqVal(dbTable):
         rowId = id_result[0]
     cursor.execute("SELECT setval('{0}_id_seq', {1}, true);".format(dbTable, rowId))
     cursor.close()
-    conn.close()
 
 
-def updateActualDate(department_id, dbTable, actual_date):
-    conn = connectDB(autocommit=True)
+def updateActualDate(conn, department_id, dbTable, actual_date):
+    # connection = connectDB(autocommit=True)
     cursor = conn.cursor()
     select = "select * from energosite_actualdate where department_id={0} and dbtable='{1}' limit 1".format(
         department_id, dbTable)
@@ -167,46 +177,53 @@ def updateActualDate(department_id, dbTable, actual_date):
             actual_date, department_id, dbTable)
         cursor.execute(insert_select)
     cursor.close()
-    conn.close()
 
 
-def deleteDbfFiles():
+def deleteDBFiles():
     directory = os.path.join(PROJECT_PATH, "baza")
     for filename in os.listdir(directory):
         fullPath = os.path.join(directory, filename)
         if os.path.isfile(fullPath):
             tableName, extension = os.path.splitext(filename)
-            if extension.lower() == '.dbf':
+            if extension.lower() in ('.dbf', '.txt', '.csv'):
                 try:
                     os.remove(fullPath)
                 except OSError:
                     pass
 
 
-def walkTables():
+def walkTables(conn):
     processes = []
-    conn = connectDB()
+    # connection = connectDB()
     cursor = conn.cursor()
-    cursor.execute("select department_id, filename, dbtable, charset, day, month, year, actual_date from tables;")
+    cursor.execute(
+        "select department_id, filename, dbtable, charset, day, month, year, actual_date from energosite_tables;")
     results = cursor.fetchall()
     for result in results:
-        department_id, fileName, dbTable, charset, day, month, year, actual_date = result
+        department_id = result[0]
+        fileName = result[1]
+        dbTable = result[2]
+        charset = result[3]
+        day = result[4]
+        month = result[5]
+        year = result[6]
+        actual_date = result[7]
         intDay = int(day)
         intMonth = int(month)
         intYear = int(year)
         if dbTable == "oplbaza" or dbTable == "kvitbaza":
-            deleteData(dbTable, intDay, intMonth, intYear, department_id)
+            deleteData(conn, dbTable, intDay, intMonth, intYear, department_id)
         else:
-            clearDBTable(dbTable, department_id)
+            clearDBTable(conn, dbTable, department_id)
 
-        setSeqVal(dbTable)
-        updateActualDate(department_id, dbTable, actual_date)
+        setSeqVal(conn, dbTable)
+        updateActualDate(conn, department_id, dbTable, actual_date)
 
-        p = multiprocessing.Process(name=fileName, target=insertData, args=(fileName, dbTable, charset, department_id,))
+        p = multiprocessing.Process(name=fileName, target=insertData,
+                                    args=(fileName, dbTable, charset, department_id,))
         processes.append(p)
 
     cursor.close()
-    conn.close()
     for prcs in processes:
         prcs.start()
     for prcs in processes:
@@ -223,18 +240,19 @@ if __name__ == '__main__':
     # maintfile = getConfigValue("maintfile")
     # destination = open(maintfile, 'w')
     # destination.close()
-
-    walkTables()
-    deleteDbfFiles()
-    clearDBTable("tables")
+    c = connectDB()
+    walkTables(c)
+    deleteDBFiles()
+    clearDBTable(c, "tables")
 
     print (time.time() - seconds)
-    serviceDB()
+    serviceDB(c)
+    c.close()
 
     # try:
-    #     os.remove(maintfile)
+    # os.remove(maintfile)
     # except OSError:
-    #     pass
+    # pass
 
 
 

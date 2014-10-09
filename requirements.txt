@@ -1,7 +1,8 @@
 Django
 django-simple-captcha
 django-ckeditor
-registration
+#registration
+django-registration-redux
 django-mptt
 psycopg2
 

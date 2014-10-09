@@ -921,20 +921,19 @@ def upload_data(request):
                 tabs = Tables.objects.filter(dbtable=dbtable, department=department, month=month, year=year)
                 if tabs.count():
                     tab = tabs[0]
-                    tab.dbfnumrecs = NumberRecords
-                    tab.charset = fileCharset
-                    tab.actual_date = actual_date
+                    tab.dbfnumrecs, tab.charset, tab.actual_date = NumberRecords, fileCharset, actual_date
+                    tab.filename = dbFileName
                     tab.save()
                 else:
                     Tables(dbtable=dbtable, department=department, filename=dbFileName, dbfnumrecs=NumberRecords,
                            charset=fileCharset, day=day, month=month, year=year, actual_date=actual_date).save()
 
-                datas = ActualDate.objects.filter(dbtable=dbtable, department=department)
-                if datas.count():
-                    datas[0].actual_date = actual_date
-                    datas[0].save(force_update=True)
-                else:
-                    ActualDate(dbtable=dbtable, department=department, actual_date=actual_date).save()
+                # datas = ActualDate.objects.filter(dbtable=dbtable, department=department)
+                # if datas.count():
+                #     datas[0].actual_date = actual_date
+                #     datas[0].save(force_update=True)
+                # else:
+                #     ActualDate(dbtable=dbtable, department=department, actual_date=actual_date).save()
                 messages.add_message(request, messages.SUCCESS, u"Файл - {0} ({1}) за {2:0>2}/{3:0>4} загружен".format(dbtable, department, month, year))
             else:
                 messages.add_message(request, messages.ERROR,
