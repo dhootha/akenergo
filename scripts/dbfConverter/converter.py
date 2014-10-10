@@ -11,29 +11,30 @@ import psycopg2.extensions as ext
 from dbfpy import dbf
 import csv
 import datetime
+import re
 
 
 def getConfigValue(option):
     return config.get('Base', option)
 
 
-def parseDates(data):
+def parse_datas(data):
 
-    formats=('%d/%m/%Y', '%d/%m/%y', '%d.%m.%Y', '%d.%m.%y', '%Y-%m-%d',)
+    formats=('%d.%m.%Y', '%d.%m.%y',)
+    # formats=('%d/%m/%Y', '%d/%m/%y', '%d.%m.%Y', '%d.%m.%y', '%Y-%m-%d',)
 
-    d = None
     for frmt in formats:
         try:
             d = datetime.datetime.strptime(data, frmt)
-            break
+            return  d.strftime('%Y-%m-%d')
         except ValueError:
             pass
             # raise ValueError("Incorrect data format, should be YYYY-MM-DD")
+    if re.match(r'^[-+]?[0-9]*[\.,]?[0-9]+$', data):
+        return data.replace(',', '.', 1)
 
-    if d:
-        return  d.strftime('%Y-%m-%d')
-    else:
-        return data
+    return data
+
 
 
 def connectDB(autocommit=True):
@@ -185,7 +186,7 @@ def insertCsvData(db_file_name, dbTable, charset, department_id):
     with open(db_file_name) as items_file:
         for row in csv.DictReader(items_file, delimiter=';', quotechar='"'):
             select = "insert into {0}({1}) values({2}) ".format(dbTable, ", ".join(correctFieldNames), ", ".join(params))
-            values = [parseDates(str(row[name]).strip()) for name in fieldNames]
+            values = [parse_datas(str(row[name]).strip()) for name in fieldNames]
             values.append(str(department_id))
             try:
                 cursor.execute(select, values)

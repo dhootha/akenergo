@@ -869,7 +869,7 @@ def handleCsvFile(sourceFile, destFileBase):
                 num_lines += contents.count('\n')
                 if not contents:
                     break
-                destinationF.write(contents.replace(';', ' '))
+                destinationF.write(contents)
 
     return num_lines-1, destFileName
 
@@ -956,7 +956,6 @@ def delete_loaded(request, item_id):
         return render(request, 'load_data/data_error.html', {'error': error})
     tabs = Tables.objects.filter(pk=item_id)
     for tab in tabs:
-        print(tab.filename)
         try:
             os.remove(tab.filename)
         except OSError:
