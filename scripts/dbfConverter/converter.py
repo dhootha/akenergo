@@ -8,14 +8,32 @@ import ConfigParser
 import psycopg2
 import multiprocessing
 import psycopg2.extensions as ext
-
 from dbfpy import dbf
-
-module_name = 'energosite_'
+import csv
+import datetime
 
 
 def getConfigValue(option):
     return config.get('Base', option)
+
+
+def parseDates(data):
+
+    formats=('%d/%m/%Y', '%d/%m/%y', '%d.%m.%Y', '%d.%m.%y', '%Y-%m-%d',)
+
+    d = None
+    for frmt in formats:
+        try:
+            d = datetime.datetime.strptime(data, frmt)
+            break
+        except ValueError:
+            pass
+            # raise ValueError("Incorrect data format, should be YYYY-MM-DD")
+
+    if d:
+        return  d.strftime('%Y-%m-%d')
+    else:
+        return data
 
 
 def connectDB(autocommit=True):
@@ -44,25 +62,26 @@ def fileExists(fileName):
 
 
 def getValidFieldName(name):
-    if name.lower() == "saldok":
+    naim = name.lower().strip()
+    if naim == "saldok":
         return "saldo_k"
-    elif name.lower() == "saldo_ka":
+    elif naim == "saldo_ka":
         return "saldoka"
-    elif name.lower() == "fio1":
+    elif naim == "fio1":
         return "fio"
-    elif name.lower() == "summa":
+    elif naim == "summa":
         return "opl"
-    elif name.lower() == "dkw":
+    elif naim == "dkw":
         return "dat_kv"
-    elif name.lower() == "ostatok":
+    elif naim == "ostatok":
         return "dolg"
     else:
-        return name.lower()
+        return naim
 
 
 def deleteData(conn, dbtable, day, month, year, department_id):
     formats = []
-    if dbtable == "oplbaza":
+    if dbtable == "energosite_oplbaza":
         dateCondition = "to_number(to_char(data, '{0}'), '99') = {1} "
         if day:
             formats.append(dateCondition.format('DD', day))
@@ -70,7 +89,7 @@ def deleteData(conn, dbtable, day, month, year, department_id):
             formats.append(dateCondition.format('MM', month))
         if year:
             formats.append(dateCondition.format('YY', year % 100))
-    elif dbtable == 'kvitbaza':
+    elif dbtable == "energosite_kvitbaza":
         if month:
             formats.append('nmes = {0}'.format(month))
         if year:
@@ -81,7 +100,7 @@ def deleteData(conn, dbtable, day, month, year, department_id):
     formats.append("department_id={0}".format(department_id))
     if not formats:
         return
-    sql = "delete from {0} where {1}".format(module_name + dbtable, " and ".join(formats))
+    sql = "delete from {0} where {1}".format(dbtable, " and ".join(formats))
     # conn = connectDB(autocommit=True)
     setAutocommit(conn, True)
     cursor = conn.cursor()
@@ -91,9 +110,9 @@ def deleteData(conn, dbtable, day, month, year, department_id):
 
 def clearDBTable(conn, tabname, department_id=None):
     if department_id:
-        sql = "delete from {0} where department_id={1}".format(module_name + tabname, department_id)
+        sql = "delete from {0} where department_id={1}".format(tabname, department_id)
     else:
-        sql = "delete from {0}".format(module_name + tabname)
+        sql = "delete from {0}".format(tabname)
     # conn = connectDB(autocommit=True)
     setAutocommit(conn, True)
     cursor = conn.cursor()
@@ -101,12 +120,11 @@ def clearDBTable(conn, tabname, department_id=None):
     cursor.close()
 
 
-def insertData(fileName, dbTable, charset, department_id):
+def insertDbfData(dbfFName, dbTable, charset, department_id):
     current_proc = multiprocessing.current_process()
     print 'Starting:', current_proc.name, current_proc.pid
     sys.stdout.flush()
 
-    dbfFName = os.path.join(PROJECT_PATH, "baza", fileName)
     if not fileExists(dbfFName):
         return
 
@@ -117,17 +135,19 @@ def insertData(fileName, dbTable, charset, department_id):
     dbFieldNames = [getValidFieldName(name) for name in DbfFile.fieldNames]
     dbFieldNames.append('department_id')
     params = ['%s'] * len(dbFieldNames)
+    error_exists = False
     for rec in DbfFile:
-        select = "insert into {0}({1}) values({2}) ".format(module_name + dbTable, ", ".join(dbFieldNames),
+        select = "insert into {0}({1}) values({2}) ".format(dbTable, ", ".join(dbFieldNames),
                                                             ", ".join(params))
         values = [str(rec[name]).strip().decode(charset).encode('utf8') for name in DbfFile.fieldNames]
         values.append(str(department_id))
         try:
             cursor.execute(select, values)
-        except psycopg2.Error:
-            print("Error inserting to " + dbTable + " from " + fileName + " for department_id=" + str(department_id))
+        except psycopg2.Error as e:
+            print(e.pgerror)
             sys.stdout.flush()
-            continue
+            error_exists = True
+            break
 
     conn.commit()
     DbfFile.close()
@@ -135,6 +155,53 @@ def insertData(fileName, dbTable, charset, department_id):
     conn.close()
 
     print 'Exiting :', current_proc.name, current_proc.pid
+    if error_exists:
+        print("Error inserting to " + dbTable + " for department_id=" + str(department_id))
+    sys.stdout.flush()
+
+
+def insertCsvData(db_file_name, dbTable, charset, department_id):
+    current_proc = multiprocessing.current_process()
+    print 'Starting:', current_proc.name, current_proc.pid
+    sys.stdout.flush()
+
+    if not fileExists(db_file_name):
+        return
+
+    conn = connectDB(autocommit=False)
+    cursor = conn.cursor()
+
+    correctFieldNames = []
+    fieldNames = []
+    with open(db_file_name) as items_file:
+        for row in csv.DictReader(items_file, delimiter=';', quotechar='"'):
+            correctFieldNames = [getValidFieldName(name) for name in row.keys()]
+            fieldNames = row.keys()
+            break
+    correctFieldNames.append('department_id')
+    params = ['%s'] * len(correctFieldNames)
+    error_exists = False
+
+    with open(db_file_name) as items_file:
+        for row in csv.DictReader(items_file, delimiter=';', quotechar='"'):
+            select = "insert into {0}({1}) values({2}) ".format(dbTable, ", ".join(correctFieldNames), ", ".join(params))
+            values = [parseDates(str(row[name]).strip()) for name in fieldNames]
+            values.append(str(department_id))
+            try:
+                cursor.execute(select, values)
+            except psycopg2.Error as e:
+                print(e.pgerror)
+                sys.stdout.flush()
+                error_exists = True
+                break
+
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+    print 'Exiting :', current_proc.name, current_proc.pid
+    if error_exists:
+        print("Error inserting to " + dbTable + " for department_id=" + str(department_id))
     sys.stdout.flush()
 
 
@@ -151,7 +218,7 @@ def setSeqVal(conn, dbTable):
     # connection = connectDB(autocommit=True)
     setAutocommit(conn, True)
     cursor = conn.cursor()
-    cursor.execute("select id from {0} order by id desc limit 1;".format(module_name + dbTable))
+    cursor.execute("select id from {0} order by id desc limit 1;".format(dbTable))
     id_result = cursor.fetchone()
     if not id_result:
         rowId = 1
@@ -179,17 +246,30 @@ def updateActualDate(conn, department_id, dbTable, actual_date):
     cursor.close()
 
 
-def deleteDBFiles():
-    directory = os.path.join(PROJECT_PATH, "baza")
-    for filename in os.listdir(directory):
-        fullPath = os.path.join(directory, filename)
-        if os.path.isfile(fullPath):
-            tableName, extension = os.path.splitext(filename)
-            if extension.lower() in ('.dbf', '.txt', '.csv'):
-                try:
-                    os.remove(fullPath)
-                except OSError:
-                    pass
+def deleteDBFiles(conn):
+
+    cursor = conn.cursor()
+    cursor.execute("select filename from energosite_tables")
+    results = cursor.fetchall()
+    for result in results:
+        fileName = result[0]
+        if os.path.isfile(fileName):
+            try:
+                os.remove(fileName)
+            except OSError:
+                pass
+    cursor.close()
+
+    # directory = os.path.join(PROJECT_PATH, "baza")
+    # for filename in os.listdir(directory):
+    #     fullPath = os.path.join(directory, filename)
+    #     if os.path.isfile(fullPath):
+    #         tableName, extension = os.path.splitext(filename)
+    #         if extension.lower() in ('.dbf', '.txt', '.csv'):
+    #             try:
+    #                 os.remove(fullPath)
+    #             except OSError:
+    #                 pass
 
 
 def walkTables(conn):
@@ -211,7 +291,7 @@ def walkTables(conn):
         intDay = int(day)
         intMonth = int(month)
         intYear = int(year)
-        if dbTable == "oplbaza" or dbTable == "kvitbaza":
+        if dbTable == "energosite_oplbaza" or dbTable == "energosite_kvitbaza":
             deleteData(conn, dbTable, intDay, intMonth, intYear, department_id)
         else:
             clearDBTable(conn, dbTable, department_id)
@@ -219,8 +299,15 @@ def walkTables(conn):
         setSeqVal(conn, dbTable)
         updateActualDate(conn, department_id, dbTable, actual_date)
 
-        p = multiprocessing.Process(name=fileName, target=insertData,
-                                    args=(fileName, dbTable, charset, department_id,))
+        tableName, fileExtension = os.path.splitext(fileName)
+
+        if fileExtension.lower() in ('.txt', '.csv'):
+            insert_func = insertCsvData
+        elif fileExtension.lower() == '.dbf':
+            insert_func = insertDbfData
+        else:
+            continue
+        p = multiprocessing.Process(name=fileName, target=insert_func, args=(fileName, dbTable, charset, department_id,))
         processes.append(p)
 
     cursor.close()
@@ -242,11 +329,11 @@ if __name__ == '__main__':
     # destination.close()
     c = connectDB()
     walkTables(c)
-    deleteDBFiles()
-    clearDBTable(c, "tables")
+    deleteDBFiles(c)
+    clearDBTable(c, "energosite_tables")
 
     print (time.time() - seconds)
-    serviceDB(c)
+    # serviceDB(c)
     c.close()
 
     # try:

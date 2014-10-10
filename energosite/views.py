@@ -240,7 +240,7 @@ def view_debtors(request, kod):
                                       " ELSE '' "
                                       " END "
                                       " AS ADDRESS "
-                                      " FROM DEBTORS A "
+                                      " FROM ENERGOSITE_DEBTORS A "
                                       " JOIN ENERGOSITE_ABONBAZA B ON (A.NLS=B.NLS) "
                                       " WHERE A.DEPARTMENT_ID=%s ORDER BY " + order_by, [kod])
 
@@ -843,7 +843,7 @@ def handleUnicodeTxtFile(sourceFile, destFileBase):
                 destinationF.write(contents)
 
     num_lines = 0
-    with codecs.open(destFileName, "rb", "UTF-16LE") as sourceF:
+    with codecs.open(destFileName, "rb", "UTF-16") as sourceF:
         with codecs.open(destFileName+'.csv', "wb", "UTF-8") as targetF:
             while True:
                 contents = sourceF.read(BLOCKSIZE)
@@ -955,9 +955,14 @@ def delete_loaded(request, item_id):
         error = "У вас нет прав для удаления данных!"
         return render(request, 'load_data/data_error.html', {'error': error})
     tabs = Tables.objects.filter(pk=item_id)
-    if tabs.count():
-        messages.add_message(request, messages.INFO, u"Файл {0} удалён".format(tabs[0].filename))
-        tabs[0].delete()
+    for tab in tabs:
+        print(tab.filename)
+        try:
+            os.remove(tab.filename)
+        except OSError:
+            pass
+        tab.delete()
+        messages.add_message(request, messages.INFO, u"Файл {0} удалён".format(tab.filename))
     return HttpResponseRedirect(reverse('upload_data'))
 
 

@@ -27,7 +27,7 @@ class EditProfileForm(ModelForm):
 
     home_phone = forms.CharField(required=False, max_length=10, label=_('Home phone'))
     mobile_phone = forms.CharField(required=False, max_length=10, label=_('Mobile phone'))
-    #mailing = forms.BooleanField(required=False, initial=True, label=_('I agree to receive newsletter'))
+    # mailing = forms.BooleanField(required=False, initial=True, label=_('I agree to receive newsletter'))
 
     def clean_nls(self):
         return check_nls(self)
@@ -90,7 +90,7 @@ class MyRegistrationForm(RegistrationFormUniqueEmail):
 
 # Сигналы
 def create_user_profile(sender, user, request, **kwargs):
-#    print 'creating profile \n'
+    # print 'creating profile \n'
     try:
         UserProfile.objects.get(user=user)
     except UserProfile.DoesNotExist:
@@ -104,7 +104,7 @@ user_registered.connect(create_user_profile)
 
 
 def login_on_activation(sender, user, request, **kwargs):
-#    print 'login profile \n'
+    # print 'login profile \n'
     user.backend = 'django.contrib.auth.backends.ModelBackend'
     login(request, user)
 
@@ -115,7 +115,7 @@ user_activated.connect(login_on_activation)
 class MeterReadingForm(ModelForm):
     class Meta:
         model = MeterReading
-        #fields = ('nls', 'fio', 'address', 'pok1', 'pok2', 'pok3', 'date')
+        # fields = ('nls', 'fio', 'address', 'pok1', 'pok2', 'pok3', 'date')
         fields = ('nls', 'fio', 'address', 'pok1', 'pok2', 'date')
         widgets = {
             'date': forms.HiddenInput(),
@@ -163,7 +163,7 @@ class ContactForm(forms.Form):
     subject = forms.CharField(max_length=128, label=_('Subject'))
     message = forms.CharField(max_length=512, widget=forms.widgets.Textarea(attrs={'rows': '12'}), label=_('Message'))
     captcha = CaptchaField(label=_('Captcha'))
-    #attrs={'cols': '60', 'rows': '5'}
+    # attrs={'cols': '60', 'rows': '5'}
 
     def clean_subject(self):
         subject = self.cleaned_data['subject']
@@ -180,12 +180,13 @@ class ContactForm(forms.Form):
 
 
 class TablesForm(forms.Form):
-    DB_CHOICES = (('', '---------'), ('oplbaza', 'Оплата (oplbaza)'), ('abonbaza', 'Абоненты (abonbaza)'),
-                  ('kvitbaza', 'Квитанции (kvitbaza)'), ('debtors', 'Дебиторы (debtors)'),)
+    DB_CHOICES = (
+    ('', '---------'), ('energosite_oplbaza', 'Оплата (oplbaza)'), ('energosite_abonbaza', 'Абоненты (abonbaza)'),
+    ('energosite_kvitbaza', 'Квитанции (kvitbaza)'), ('energosite_debtors', 'Дебиторы (debtors)'),)
     CHARSET_CHOICES = (( 'cp866', 'DOS'), ('cp1251', 'ANSI' ))
     department = forms.ModelChoiceField(label="Отделение", queryset=Department.objects.order_by('name_ru'))
     dbtable = forms.ChoiceField(label="База", choices=DB_CHOICES, initial='oplbaza')
-    #widget=forms.widgets.FileInput(attrs={'size': 40})
+    # widget=forms.widgets.FileInput(attrs={'size': 40})
     filename = forms.FileField(label="Файл данных")
     charset = forms.ChoiceField(label="Кодировка файла Dbf", choices=CHARSET_CHOICES, initial="cp866")
     #    day = forms.ChoiceField(label="День", choices=DAYS, initial=getDay)
@@ -201,7 +202,8 @@ class TablesForm(forms.Form):
             raise forms.ValidationError(u"Файл " + os.path.basename(data.name) + u" - не в формате cvs, dbf, txt")
         return data
 
-#############################3
+
+# ############################3
 class ResendActivationEmailForm(forms.Form):
     email = forms.EmailField(widget=forms.TextInput(attrs=dict(maxlength=75)), label=_("E-mail"))
     captcha = CaptchaField(label=_('Captcha'))

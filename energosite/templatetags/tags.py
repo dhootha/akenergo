@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django import template
 from django.utils.translation import ugettext as _
 
@@ -204,3 +205,18 @@ def add_css(field, css):
             t, v = d.split(':')
             attrs[t] = v
     return field.as_widget(attrs=attrs)
+
+
+@register.filter
+def format_upload_table(table_name):
+    if table_name == 'energosite_oplbaza':
+        return 'оплата'
+    elif table_name == 'energosite_abonbaza':
+        return 'абоненты'
+    elif table_name == 'energosite_kvitbaza':
+        return 'квитанции'
+    elif table_name == 'energosite_debtors':
+        return 'дебеторы'
+    else:
+        return ''
+

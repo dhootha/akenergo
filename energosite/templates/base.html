@@ -47,14 +47,13 @@
     <script src="{% static "js/locales/bootstrap-datepicker.ru.js" %}" charset="UTF-8"></script>
     <script src="{% static "js/locales/bootstrap-datepicker.kk.js" %}" charset="UTF-8"></script>
     <script src="{% static 'js/my.js' %}"></script>
-{#    <script src="{% static 'js/jquery.validate.min.js' %}"></script>#}
-{#    <script src="{% static 'js/additional-methods.min.js' %}"></script>#}
-   {% ifequal LANGUAGE_CODE|slice:":2" 'ru' %}
-    <script src="{% static 'js/locales/messages_ru.js' %}" charset="UTF-8"></script>
-   {% endifequal %}
-   {% ifequal LANGUAGE_CODE|slice:":2" 'kk' %}
-    <script src="{% static 'js/locales/messages_kk.js' %}" charset="UTF-8"></script>
-   {% endifequal %}
+
+{#   {% ifequal LANGUAGE_CODE|slice:":2" 'ru' %}#}
+{#    <script src="{% static 'js/locales/messages_ru.js' %}" charset="UTF-8"></script>#}
+{#   {% endifequal %}#}
+{#   {% ifequal LANGUAGE_CODE|slice:":2" 'kk' %}#}
+{#    <script src="{% static 'js/locales/messages_kk.js' %}" charset="UTF-8"></script>#}
+{#   {% endifequal %}#}
 
 
     <script src="{% static 'js/scrollup_button.js' %}"></script>

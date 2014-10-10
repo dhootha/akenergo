@@ -87,7 +87,7 @@
                 <tr>
                     <td>{{ forloop.counter }}</td>
                     <td>{{ tab.department.name }}</td>
-                    <td>{{ tab.dbtable }}</td>
+                    <td>{{ tab.dbtable|format_upload_table }}</td>
                     <td>{{ tab.dbfnumrecs }}</td>
                     <td>{% if not tab.month %} - {% else %} {{ tab.month }} {% endif %}</td>
                     <td>{% if not tab.year %} - {% else %} {{ tab.year }} {% endif %}</td>
@@ -115,11 +115,10 @@
             var year = currentDate.getFullYear();
 
             var dbtable_selector = $("#id_dbtable");
-            var dbtable = dbtable_selector.val();
+            var dbtable_index = dbtable_selector[0].selectedIndex;
 
-            {#            $("#id_actual_date").val(day + "." + month + "/" + year);#}
 
-            if (dbtable == 'oplbaza' || dbtable == 'kvitbaza') {
+            if (dbtable_index == 1 || dbtable_index == 3) {
                 $("#controls_month").show();
                 $("#controls_year").show();
             }
@@ -130,8 +129,8 @@
                 $("#controls_year").hide();
             }
             dbtable_selector.change(function () {
-                dbtable = dbtable_selector.val();
-                if (dbtable == 'oplbaza' || dbtable == 'kvitbaza') {
+                dbtable_index = dbtable_selector[0].selectedIndex;
+                if (dbtable_index == 1 || dbtable_index == 3) {
                     $("#id_month").val(month);
                     $("#id_year").val(year);
                     $("#controls_month").animate({ opacity: 'show' }, "slow");
