@@ -827,51 +827,42 @@ def handleDbfFile(sourceFile, copyToFName):
         result = -1, None
     return result, copyToFName+'.dbf'
 
-import csv
 import codecs
 
-
-def handleUnicodeTxtFile(sourceFile, destFileBase):
+def handleCsvFile(sourceFile, destFileBase, type= 'csv'):
     BLOCKSIZE = 1048576
-    destFileName = destFileBase+'.txt'
-    # startTime = timezone.now()
-    with open(destFileName, 'wb') as destinationF:
+    if type == 'csv':
+        file_name = destFileBase+'.csv'
+    elif type == 'txt':
+        file_name = destFileBase+'.tmp'
+    else:
+        return
+
+    num_lines = 0
+    with open(file_name, 'wb') as destinationF:
             while True:
                 contents = sourceFile.read(BLOCKSIZE)
+                num_lines += contents.count('\n')
                 if not contents:
                     break
                 destinationF.write(contents)
+    if type == 'csv':
+        return num_lines-1, file_name
 
-    num_lines = 0
-    with codecs.open(destFileName, "rb", "UTF-16") as sourceF:
-        with codecs.open(destFileName+'.csv', "wb", "UTF-8") as targetF:
+    txt_file_name = destFileBase+'.csv'
+    with codecs.open(txt_file_name, "wb", "UTF-8") as targetF:
+        with codecs.open(file_name, "rb", "UTF-16") as sourceF:
             while True:
                 contents = sourceF.read(BLOCKSIZE)
-                num_lines += contents.count('\n')
                 if not contents:
                     break
-                targetF.write(contents.replace(';', ' ').replace('\t', ';'))
+                targetF.write(contents)
     try:
-        os.remove(destFileName)
+        os.remove(file_name)
     except OSError:
-        return -1, None
+        pass
 
-    # print(timezone.now()-startTime)
-    return num_lines-1, destFileName+'.csv'
-
-def handleCsvFile(sourceFile, destFileBase):
-    BLOCKSIZE = 1048576
-    destFileName = destFileBase+'.csv'
-    num_lines = 0
-    with open(destFileName, 'wb') as destinationF:
-            while True:
-                contents = sourceFile.read(BLOCKSIZE)
-                num_lines += contents.count('\n')
-                if not contents:
-                    break
-                destinationF.write(contents)
-
-    return num_lines-1, destFileName
+    return num_lines-1, txt_file_name
 
     # with open(source+'.csv', 'rb') as csvfile:
     #     spamreader = csv.reader(csvfile, delimiter=';', quotechar='"')
@@ -913,7 +904,7 @@ def upload_data(request):
                 NumberRecords, dbFileName = handleDbfFile(uploaded_file, os.path.join(settings.UPLOAD_DATA_PATH, dbFileBaza))
                 fileCharset = form.cleaned_data.get('charset')
             elif fileExtension.endswith('txt'):
-                NumberRecords, dbFileName = handleUnicodeTxtFile(uploaded_file, os.path.join(settings.UPLOAD_DATA_PATH, dbFileBaza))
+                NumberRecords, dbFileName = handleCsvFile(uploaded_file, os.path.join(settings.UPLOAD_DATA_PATH, dbFileBaza), 'txt')
             elif fileExtension.endswith('csv'):
                 NumberRecords, dbFileName = handleCsvFile(uploaded_file, os.path.join(settings.UPLOAD_DATA_PATH, dbFileBaza))
 

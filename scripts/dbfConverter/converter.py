@@ -175,7 +175,7 @@ def insertCsvData(db_file_name, dbTable, charset, department_id):
     correctFieldNames = []
     fieldNames = []
     with open(db_file_name) as items_file:
-        for row in csv.DictReader(items_file, delimiter=';', quotechar='"'):
+        for row in csv.DictReader(items_file, delimiter='\t', quotechar='"'):
             correctFieldNames = [getValidFieldName(name) for name in row.keys()]
             fieldNames = row.keys()
             break
@@ -184,7 +184,7 @@ def insertCsvData(db_file_name, dbTable, charset, department_id):
     error_exists = False
 
     with open(db_file_name) as items_file:
-        for row in csv.DictReader(items_file, delimiter=';', quotechar='"'):
+        for row in csv.DictReader(items_file, delimiter='\t', quotechar='"'):
             select = "insert into {0}({1}) values({2}) ".format(dbTable, ", ".join(correctFieldNames), ", ".join(params))
             values = [parse_datas(str(row[name]).strip()) for name in fieldNames]
             values.append(str(department_id))
