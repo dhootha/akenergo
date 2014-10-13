@@ -829,11 +829,11 @@ def handleDbfFile(sourceFile, copyToFName):
 
 import codecs
 
-def handleCsvFile(sourceFile, destFileBase, type= 'csv'):
+def handleCsvFile(sourceFile, destFileBase, file_type= 'csv'):
     BLOCKSIZE = 1048576
-    if type == 'csv':
+    if file_type == 'csv':
         file_name = destFileBase+'.csv'
-    elif type == 'txt':
+    elif file_type == 'txt':
         file_name = destFileBase+'.tmp'
     else:
         return
@@ -846,7 +846,7 @@ def handleCsvFile(sourceFile, destFileBase, type= 'csv'):
                 if not contents:
                     break
                 destinationF.write(contents)
-    if type == 'csv':
+    if file_type == 'csv':
         return num_lines-1, file_name
 
     txt_file_name = destFileBase+'.csv'
@@ -947,10 +947,12 @@ def delete_loaded(request, item_id):
         return render(request, 'load_data/data_error.html', {'error': error})
     tabs = Tables.objects.filter(pk=item_id)
     for tab in tabs:
-        try:
-            os.remove(tab.filename)
-        except OSError:
-            pass
+        fileBase = os.path.splitext(tab.filename)[0]
+        for file_name in (tab.filename, fileBase+'.csv', fileBase+'.dbf'):
+            try:
+                os.remove(file_name)
+            except OSError:
+                pass
         tab.delete()
         messages.add_message(request, messages.INFO, u"Файл {0} удалён".format(tab.filename))
     return HttpResponseRedirect(reverse('upload_data'))
